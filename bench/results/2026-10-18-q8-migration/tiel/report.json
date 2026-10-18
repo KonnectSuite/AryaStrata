@@ -1,0 +1,26 @@
+{
+  "family": "tiel",
+  "config": "C:\\AryaStrata\\strata-tiel-q8_0.json",
+  "model": "tiel-coder-35b-a3b-ud-q8-k-xl",
+  "suites": {
+    "speed-q4": {
+      "skipped": "config uninstalled"
+    },
+    "speed-q8": {
+      "exit": 0,
+      "seconds": 288.0
+    },
+    "agent": {
+      "exit": 0,
+      "seconds": 56.0
+    },
+    "vision": {
+      "exit": 1,
+      "seconds": 27.4
+    },
+    "context": {
+      "exit": 0,
+      "seconds": 985.1
+    }
+  }
+}

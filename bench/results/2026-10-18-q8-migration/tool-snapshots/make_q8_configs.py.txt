@@ -1,0 +1,115 @@
+"""Build Q8 run configs (and their packs) from the tuned Q4 configs.
+
+For each family: make a pack folder that holds its own copy of the tokenizer and
+expert-use profile (the profile is use counts, so it carries over), copy the
+vision projector and any draft/MTP file that is not the model itself, then write
+a config that is the Q4 one with --model / --expert-profile / --draft-model and
+the tokenizer paths pointed at the 8-bit files. Everything else, args order
+included, is left as the Q4 run had it.
+
+Usage:  python make_q8_configs.py [family ...]
+"""
+import json
+import shutil
+import sys
+from pathlib import Path
+
+ROOT = Path(r"C:\AryaStrata")
+DATA = Path(r"C:\AI\Strata-data")
+MODELS = DATA / "models"
+PACKS = DATA / "packs"
+
+# family key -> (source config, model folder, pack folder, Q8 file name, tag, model_name)
+FAMILIES = {
+    "ornith": ("strata-ornith-apex-i-quality.json", "ornith-Q8_0",
+               "ornith-q8_0", "Ornith-1.5-35B-Q8_0.gguf",
+               "Ornith 1.5 35B-A3B Q8_0", "ornith-1.5-35b-a3b-q8-0"),
+    "tiel": ("strata-tiel-ud-q4_k_xl.json", "tiel-UD-Q8_K_XL",
+             "tiel-q8_k_xl", "Tiel-Coder-35B-A3B-UD-Q8_K_XL.gguf",
+             "Tiel Coder 35B-A3B UD-Q8_K_XL", "tiel-coder-35b-a3b-ud-q8-k-xl"),
+    "minicpmv": ("strata-minicpmv-q4_k_m.json", "minicpmv-Q8_0",
+                 "minicpmv-q8_0", "MiniCPM-V-4_7-35B-A3B-Q8_0.gguf",
+                 "MiniCPM-V 4.7 35B-A3B Q8_0", "minicpmv-4.7-35b-a3b-q8-0"),
+    "gemma4": ("strata-gemma4-ud-q4_k_m.json", "gemma4-Q8_0",
+               "gemma4-q8_0", "gemma-4-26B-A4B-it-Q8_0.gguf",
+               "Gemma 4 26B-A4B-it Q8_0", "gemma-4-26b-a4b-it-q8-0"),
+    "lfm25": ("strata-lfm25-ud-q4_k_xl.json", "lfm25-Q8_0",
+              "lfm25-q8_0", "LFM2.5-24B-A2B-Q8_0.gguf",
+              "LFM2.5 24B-A2B Q8_0", "lfm2.5-24b-a2b-q8-0"),
+}
+
+
+def build(key: str) -> Path:
+    src_name, model_dir, pack_dir, q8_file, tag, model_name = FAMILIES[key]
+    src = ROOT / src_name
+    cfg = json.loads(src.read_text(encoding="utf-8-sig"))
+    old_model = Path(cfg["args"][cfg["args"].index("--model") + 1])
+    old_pack = Path(cfg["tokenizer"]).parent
+    new_model_dir = MODELS / model_dir
+    new_pack = PACKS / pack_dir
+    q8 = new_model_dir / q8_file
+    if not q8.exists():
+        raise SystemExit(f"{key}: {q8} is not downloaded yet")
+
+    # pack: tokenizer as its own copy, profile as its own file to write back into
+    tok_src = old_pack / "tokenizer"
+    tok_dst = new_pack / "tokenizer"
+    if not tok_dst.exists():
+        shutil.copytree(tok_src, tok_dst)
+    prof_src = old_pack / "expert-profile.txt"
+    prof_dst = new_pack / "expert-profile.txt"
+    if prof_src.exists() and not prof_dst.exists():
+        shutil.copy2(prof_src, prof_dst)
+
+    # every other file the old run leaned on, beside the model as it expects
+    want_files = []
+    if "--draft-model" in cfg["args"]:
+        want_files.append(Path(cfg["args"][cfg["args"].index("--draft-model") + 1]))
+    if cfg.get("vision"):
+        want_files.append(Path(cfg["vision"]["mmproj"]))
+    for f in want_files:
+        if f.parent.name == old_model.parent.name and f.exists():
+            dst = new_model_dir / f.name
+            if not dst.exists():
+                shutil.copy2(f, dst)
+
+    # args: repoint the three paths the family owns
+    args = list(cfg["args"])
+    args[args.index("--model") + 1] = str(q8)
+    if "--expert-profile" in args:
+        if prof_dst.exists():
+            args[args.index("--expert-profile") + 1] = str(prof_dst)
+        else:                                   # family shipped no profile
+            i = args.index("--expert-profile")
+            del args[i:i + 2]
+    if "--draft-model" in args:
+        args[args.index("--draft-model") + 1] = str(
+            new_model_dir / Path(args[args.index("--draft-model") + 1]).name)
+
+    cfg["args"] = args
+    cfg["tokenizer"] = str(tok_dst)
+    if cfg.get("vision"):
+        cfg["vision"]["mmproj"] = str(new_model_dir / Path(cfg["vision"]["mmproj"]).name)
+        cfg["vision"]["model"] = str(q8)
+    cfg["model_name"] = model_name
+    cfg["display_name"] = f"AryaStrata {tag} - 256K Vision"
+    logdir = ROOT / "local-data" / "model-roster" / f"{key}-q8"
+    logdir.mkdir(parents=True, exist_ok=True)
+    cfg["log"] = str(logdir / "installed-engine.log")
+    out = ROOT / f"strata-{key}-q8_0.json"
+    out.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
+    return out
+
+
+def main() -> int:
+    keys = sys.argv[1:] or list(FAMILIES)
+    for k in keys:
+        try:
+            print("wrote", build(k), flush=True)
+        except SystemExit as e:
+            print("skip:", e, flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

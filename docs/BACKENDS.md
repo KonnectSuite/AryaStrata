@@ -12,6 +12,9 @@ with GPU vision on our Windows host. See each report for actual input counts,
 coding checks, failures and limits.
 The [additional-model host report](MODEL_ROSTER_HOST_RESULTS.md) also records
 completed Ornith APEX-I-QUALITY, Gemma 4 Q4, Tiel Coder Q4 and text-only LFM2.5 Q4 measurements, including their failures and output-budget limits.
+The [8-bit model set report](Q8_HOST_RESULTS.md) records the 8-bit files that replaced those 4-bit installs on our
+host: one family (Ornith 1.5) measured on both quants, and the other four measured at 8 bits only, with their
+speed, coding, image and recall results.
 
 One model is in memory at a time. The measurements below are from one machine: an RTX 5090 (32 GB), 24 threads of
 a Xeon Platinum 8470Q, 120 GiB of RAM, Linux, CUDA 12.8. On that card the three new models fit in VRAM whole.

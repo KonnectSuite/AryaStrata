@@ -1,0 +1,25 @@
+{
+  "family": "lfm25",
+  "config": "C:\\AryaStrata\\strata-lfm25-q8_0.json",
+  "model": "lfm2.5-24b-a2b-q8-0",
+  "suites": {
+    "speed-q4": {
+      "skipped": "config uninstalled"
+    },
+    "speed-q8": {
+      "exit": 0,
+      "seconds": 84.6
+    },
+    "agent": {
+      "exit": 1,
+      "seconds": 37.5
+    },
+    "vision": {
+      "skipped": "no vision"
+    },
+    "context": {
+      "exit": 1,
+      "seconds": 71.3
+    }
+  }
+}

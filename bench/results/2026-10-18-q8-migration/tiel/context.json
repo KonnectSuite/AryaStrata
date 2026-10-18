@@ -1,0 +1,152 @@
+{
+  "corpus_sha256": "28ba2f42abf56c7c879b4aa1497ad9cac88c917d552f6c15e6d820ff287bad67",
+  "sources": [
+    "serve/frontend.py",
+    "serve/runconfig.py",
+    "tools/agent_turns_bench.py",
+    "tools/strata_tokenizer.py"
+  ],
+  "tokenizer": "C:\\AI\\Strata-data\\packs\\tiel-q8_k_xl\\tokenizer",
+  "results": [
+    {
+      "target_tokens": 65536,
+      "run": 0,
+      "nonce": 1792358690241239500,
+      "local_content_tokens": 65159,
+      "prompt_sha256": "796b5b760d495ba157fd6e57319b963e59826f048925fcabf9e2993ecd2f107a",
+      "expected": {
+        "ALPHA": "alpha-878749",
+        "BETA": "beta-376966",
+        "GAMMA": "gamma-519723"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 152.685,
+      "total_s": 153.608,
+      "prompt_tokens": 65523,
+      "reused_tokens": 0,
+      "read_tokens": 65523,
+      "generated_tokens": 44,
+      "prompt_tps": 429.4,
+      "prompt_tps_source": "engine",
+      "decode_tps": 47.6,
+      "decode_tps_source": "engine",
+      "prompt_ms": 152604.4,
+      "decode_ms": 924.8,
+      "drafts_offered": 11,
+      "drafts_accepted": 9,
+      "answer": "{\"ALPHA\": \"alpha-878749\", \"BETA\": \"beta-376966\", \"GAMMA\": \"gamma-519723\"}",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    },
+    {
+      "target_tokens": 65536,
+      "run": 1,
+      "nonce": 1792358843871342500,
+      "local_content_tokens": 65159,
+      "prompt_sha256": "217adf0ef638ca96ffa7ffb8312d2ac79e22aa4c55d71f30a6aeeb540944eff5",
+      "expected": {
+        "ALPHA": "alpha-331470",
+        "BETA": "beta-574262",
+        "GAMMA": "gamma-261374"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 149.878,
+      "total_s": 150.785,
+      "prompt_tokens": 65523,
+      "reused_tokens": 0,
+      "read_tokens": 65523,
+      "generated_tokens": 44,
+      "prompt_tps": 437.3,
+      "prompt_tps_source": "engine",
+      "decode_tps": 48.3,
+      "decode_tps_source": "engine",
+      "prompt_ms": 149829.8,
+      "decode_ms": 911.8,
+      "drafts_offered": 13,
+      "drafts_accepted": 7,
+      "answer": "{\"ALPHA\": \"alpha-331470\", \"BETA\": \"beta-574262\", \"GAMMA\": \"gamma-261374\"}",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    },
+    {
+      "target_tokens": 131072,
+      "run": 0,
+      "nonce": 1792358994691418100,
+      "local_content_tokens": 130697,
+      "prompt_sha256": "a5793bb6c2ef2c79d4bfd0f2eb2ff5bc1990078a4ce18c5b0c1afdf3d7ce638f",
+      "expected": {
+        "ALPHA": "alpha-560642",
+        "BETA": "beta-320501",
+        "GAMMA": "gamma-653280"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 333.375,
+      "total_s": 334.846,
+      "prompt_tokens": 131209,
+      "reused_tokens": 0,
+      "read_tokens": 131209,
+      "generated_tokens": 58,
+      "prompt_tps": 393.7,
+      "prompt_tps_source": "engine",
+      "decode_tps": 39.3,
+      "decode_tps_source": "engine",
+      "prompt_ms": 333263.5,
+      "decode_ms": 1476.1,
+      "drafts_offered": 18,
+      "drafts_accepted": 8,
+      "answer": "```json\n{\n  \"ALPHA\": \"alpha-560642\",\n  \"BETA\": \"beta-320501\",\n  \"GAMMA\": \"gamma-653280\"\n}\n```",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    },
+    {
+      "target_tokens": 131072,
+      "run": 1,
+      "nonce": 1792359329581252700,
+      "local_content_tokens": 130697,
+      "prompt_sha256": "368119b40967c37ed74f2d0ec2512fcc933f95a499057568fbfd25f7ad3a195d",
+      "expected": {
+        "ALPHA": "alpha-378131",
+        "BETA": "beta-451960",
+        "GAMMA": "gamma-307311"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 343.941,
+      "total_s": 345.289,
+      "prompt_tokens": 131209,
+      "reused_tokens": 0,
+      "read_tokens": 131209,
+      "generated_tokens": 58,
+      "prompt_tps": 381.6,
+      "prompt_tps_source": "engine",
+      "decode_tps": 42.9,
+      "decode_tps_source": "engine",
+      "prompt_ms": 343844.4,
+      "decode_ms": 1353.3,
+      "drafts_offered": 15,
+      "drafts_accepted": 10,
+      "answer": "```json\n{\n  \"ALPHA\": \"alpha-378131\",\n  \"BETA\": \"beta-451960\",\n  \"GAMMA\": \"gamma-307311\"\n}\n```",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    }
+  ]
+}

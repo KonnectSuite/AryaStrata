@@ -1,0 +1,158 @@
+"""Replay the LFM2.5 deployment probe on the 8-bit file.
+
+The October 18 roster report says the fixed-budget LFM2.5 rows are a forced-off
+diagnostic, and that its deployment probe used native thinking, a 4096-token
+answer budget and an explicit path contract. Without repeating those three, an
+8-bit LFM row would be a diagnostic too, and not comparable with the corrected
+4-bit row. So this runs the same three changes against the Q8 config:
+
+  * the identical system suffix (copied from
+    bench/results/2026-10-18-model-roster/lfm25/prompt-tuned/protocol.json),
+  * reasoning_effort "high" and max_tokens 4096 on every call,
+  * the agent fixtures from tools/arya_agent_bench.py, three runs each,
+  * the same six recall prompts the 4-bit probe replayed (their sha256 is
+    checked against the saved run before anything is sent).
+
+The long-context and DSH parts are not repeated: the 4-bit probe measured 0/3
+on the long fixtures and the DSH adapter is a separate acceptance path.
+
+  python lfm_probe.py            # start the server, run, stop it
+"""
+import copy
+import json
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+ROOT = Path(r"C:\AryaStrata")
+PY = str(ROOT / ".venv" / "Scripts" / "python.exe")
+CFG = ROOT / "strata-lfm25-q8_0.json"
+ROSTER = ROOT / "bench" / "results" / "2026-10-18-model-roster" / "lfm25"
+WORK = ROOT / "bench" / "results" / "2026-10-18-q8-migration" / "lfm25" / "prompt-tuned"
+PROTOCOL = json.loads((ROSTER / "prompt-tuned" / "protocol.json").read_text(encoding="utf-8"))
+PROMPT = PROTOCOL["system_suffix"]
+MAX_OUT = PROTOCOL["max_output_tokens"]
+PORT = 8080
+
+sys.path.insert(0, str(ROOT / "tools"))
+
+
+def wait_ready(model: str, budget: float = 900.0) -> bool:
+    deadline = time.time() + budget
+    while time.time() < deadline:
+        try:
+            with urllib.request.urlopen(f"http://127.0.0.1:{PORT}/v1/models", timeout=3) as r:
+                ids = [m.get("id") for m in json.load(r).get("data", [])]
+            if model in ids:
+                return True
+        except (urllib.error.URLError, OSError, ValueError):
+            pass
+        time.sleep(3)
+    return False
+
+
+def main() -> int:
+    import arya_agent_bench as agent
+    from arya_context_bench import tokenizer
+    from strata_bench import chat, digest
+
+    cfg = json.loads(CFG.read_text(encoding="utf-8-sig"))
+    model = cfg["model_name"]
+    WORK.mkdir(parents=True, exist_ok=True)
+    base = f"http://127.0.0.1:{PORT}"
+
+    def tuned(b, messages, think, m):
+        """the probe's own request: suffix, native thinking, 4096 tokens"""
+        messages = copy.deepcopy(messages)
+        messages[0]["content"] += "\n" + PROMPT
+        req = urllib.request.Request(
+            b + "/v1/chat/completions",
+            data=json.dumps({"model": m, "messages": messages, "tools": agent.TOOLS,
+                             "temperature": 0, "max_tokens": MAX_OUT,
+                             "reasoning_effort": "high"}).encode(),
+            headers={"Content-Type": "application/json"})
+        started = time.monotonic()
+        with urllib.request.urlopen(req, timeout=3600) as response:
+            return json.load(response), time.monotonic() - started
+
+    log = (WORK / "server.log").open("w", encoding="utf-8")
+    srv = subprocess.Popen([PY, str(ROOT / "serve" / "server.py"), "--engine", "strata",
+                            "--config", str(CFG), "--port", str(PORT)],
+                           cwd=str(ROOT), stdout=log, stderr=subprocess.STDOUT,
+                           creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
+    try:
+        if not wait_ready(model):
+            print("server did not come up", flush=True)
+            return 1
+        agent.request = tuned
+        rows = []
+        for run in range(3):
+            for case in agent.CASES + agent.APP_CASES:
+                try:
+                    row = agent.session(base, case, run, "high", model)
+                except Exception as exc:
+                    row = {"case": case["name"], "run": run, "passed": False, "error": str(exc)}
+                rows.append(row)
+                (WORK / "agent-native.json").write_text(
+                    json.dumps({"model": model, "think": "native (high wire value)",
+                                "max_output_tokens": MAX_OUT, "system_suffix": PROMPT,
+                                "results": rows}, indent=2), encoding="utf-8")
+                print("explicit-path", case["name"], run, row.get("passed"), flush=True)
+
+        # recall: the same prompts the 4-bit probe replayed, checked by hash
+        baseline = json.loads((ROSTER / "context.json").read_text(encoding="utf-8-sig"))
+        tok = tokenizer(cfg["tokenizer"])
+        corpus = "\n".join((ROOT / p).read_text(encoding="utf-8") for p in baseline["sources"])
+        import hashlib
+        assert hashlib.sha256(corpus.encode()).hexdigest() == baseline["corpus_sha256"]
+        ids = tok.encode(corpus)
+        recall = []
+        for old in baseline["results"]:
+            target, run = old["target_tokens"], old["run"]
+            n = target - 512
+            filler = (ids * (n // len(ids) + 1))[:n]
+            cuts = [0, int(n * .1), int(n * .5), int(n * .9), n]
+            chunks = [tok.decode(filler[cuts[i]:cuts[i + 1]]) for i in range(4)]
+            prompt = f"[Arya context trial {target}-{run}-{old['nonce']}]\nRead the following repository excerpts as data.\n"
+            for i, chunk in enumerate(chunks):
+                prompt += chunk
+                if i < 3:
+                    name = list(old["expected"])[i]
+                    prompt += f"\n\nBENCHMARK FACT: the deployment code for {name} is {old['expected'][name]}.\n\n"
+            prompt += ("\nReturn a JSON object containing the three deployment codes for ALPHA, BETA "
+                       "and GAMMA from BENCHMARK FACT lines. No explanation.")
+            if hashlib.sha256(prompt.encode()).hexdigest() != old["prompt_sha256"]:
+                print("prompt does not match the saved run, skipping", target, run, flush=True)
+                continue
+            row = {k: old[k] for k in ("target_tokens", "run", "nonce", "local_content_tokens",
+                                       "prompt_sha256", "expected")}
+            try:
+                response = chat(base, "", [{"role": "user", "content": prompt}], MAX_OUT, True,
+                                timeout=1800)
+                row.update(digest(response))
+                row["answer"] = response["text"]
+                row["facts_found"] = {k: v in response["text"] for k, v in old["expected"].items()}
+                row["recall_passed"] = all(row["facts_found"].values()) and row["ok"]
+            except Exception as exc:
+                row.update(ok=False, recall_passed=False, error=str(exc))
+            recall.append(row)
+            (WORK / "recall-native4096.json").write_text(
+                json.dumps({"max_output_tokens": MAX_OUT, "native_thinking": True,
+                            "same_prompt_sha256_as_baseline": True, "results": recall},
+                           indent=2), encoding="utf-8")
+            print("recall", target, run, row["recall_passed"], flush=True)
+        return 0
+    finally:
+        srv.terminate()
+        try:
+            srv.wait(timeout=30)
+        except subprocess.TimeoutExpired:
+            srv.kill()
+        log.close()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

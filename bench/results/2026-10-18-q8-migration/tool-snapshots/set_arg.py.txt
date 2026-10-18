@@ -1,0 +1,33 @@
+"""Set one argument in an installed run config, in place.
+
+    python set_arg.py strata-tiel-q8_0.json --tail-skip 6
+
+The config is the installed one under the repo root; the change is written back
+with the same formatting setup.py writes (2-space indent). Nothing else moves.
+"""
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(r"C:\AryaStrata")
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) != 3 or not argv[1].startswith("--"):
+        print(__doc__)
+        return 2
+    path, flag, value = ROOT / argv[0], argv[1], argv[2]
+    cfg = json.loads(path.read_text(encoding="utf-8-sig"))
+    args = list(cfg.get("args") or [])
+    if flag in args:
+        args[args.index(flag) + 1] = value
+    else:
+        args += [flag, value]
+    cfg["args"] = args
+    path.write_text(json.dumps(cfg, indent=2), encoding="utf-8")
+    print(f"{path.name}: {flag} {value}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

@@ -1,0 +1,49 @@
+"""Fetch the Q8_0 / UD-Q8_K_XL files for the families we want in 8-bit.
+
+Resumable: huggingface_hub skips a file that is already complete. Prints one
+line a file with the size it landed at, so a log tells what finished.
+"""
+import os
+import sys
+from pathlib import Path
+
+from huggingface_hub import hf_hub_download
+
+DEST = Path(r"C:\AI\Strata-data\models")
+
+# (repo, revision-or-None, file, destination folder)
+WANT = [
+    ("ornith-ai/Ornith-1.5-35B-A3B-GGUF", None,
+     "Ornith-1.5-35B-Q8_0.gguf", "ornith-Q8_0"),
+    ("peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF", None,
+     "Tiel-Coder-35B-A3B-UD-Q8_K_XL.gguf", "tiel-UD-Q8_K_XL"),
+    ("openbmb/MiniCPM-V-4.7-35B-A3B-gguf", None,
+     "MiniCPM-V-4_7-35B-A3B-Q8_0.gguf", "minicpmv-Q8_0"),
+    ("unsloth/gemma-4-26B-A4B-it-GGUF", None,
+     "gemma-4-26B-A4B-it-Q8_0.gguf", "gemma4-Q8_0"),
+    ("unsloth/gemma-4-26B-A4B-it-GGUF", None,
+     "MTP/mtp-gemma-4-26B-A4B-it-Q8_0.gguf", "gemma4-Q8_0"),
+    ("unsloth/LFM2.5-24B-A2B-GGUF", None,
+     "LFM2.5-24B-A2B-Q8_0.gguf", "lfm25-Q8_0"),
+]
+
+
+def main() -> int:
+    for repo, rev, name, sub in WANT:
+        out = DEST / sub
+        out.mkdir(parents=True, exist_ok=True)
+        print(f"== {repo} :: {name}", flush=True)
+        path = hf_hub_download(
+            repo_id=repo,
+            filename=name,
+            revision=rev,
+            local_dir=str(out),
+        )
+        size = os.path.getsize(path)
+        print(f"   done {size/1e9:.2f} GB -> {path}", flush=True)
+    print("ALL FILES DONE", flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

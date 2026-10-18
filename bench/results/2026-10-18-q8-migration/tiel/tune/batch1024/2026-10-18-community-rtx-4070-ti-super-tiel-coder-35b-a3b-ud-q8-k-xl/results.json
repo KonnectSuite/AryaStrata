@@ -1,0 +1,460 @@
+{
+ "schema": 1,
+ "tool": "tools/strata_bench.py",
+ "date": "2026-10-18",
+ "params": {
+  "runs": 1,
+  "think": false,
+  "clients": 0,
+  "long": false,
+  "started_server": true,
+  "command": "python tools/strata_bench.py --runs 1"
+ },
+ "elapsed_s": 95.26864695549011,
+ "machine": {
+  "gpu": [
+   "NVIDIA GeForce RTX 4070 Ti SUPER"
+  ],
+  "gpu_vram_mib": 16376,
+  "gpu_driver": "610.88",
+  "cuda": null,
+  "cpu": "Intel(R) Core(TM) i9-14900KF",
+  "cpu_cores": 24,
+  "cpu_threads": 32,
+  "ram_gib": 63.8,
+  "os": "Windows 11 (10.0.26200)",
+  "python": "3.13.15",
+  "strata_version": "0.1.45",
+  "strata_commit": "4820a00e",
+  "engine_version": "0.1.45",
+  "model": "tiel-coder-35b-a3b-ud-q8-k-xl",
+  "quant": "UD-Q8_K_XL",
+  "context": 262144,
+  "parallel_slots": 1,
+  "config": {
+   "exe": "strata-poly.exe",
+   "args": [
+    "--model",
+    "Tiel-Coder-35B-A3B-UD-Q8_K_XL.gguf",
+    "--max-context",
+    "262144",
+    "--expert-profile",
+    "expert-profile.txt",
+    "--conversation-cache-mib",
+    "8192",
+    "--threads",
+    "15",
+    "--prompt-batch",
+    "1024",
+    "--vram-reserve-mib",
+    "768",
+    "--tail-skip",
+    "0",
+    "--window",
+    "8",
+    "--kv",
+    "q8_0",
+    "--kv-whole"
+   ],
+   "model_name": "tiel-coder-35b-a3b-ud-q8-k-xl",
+   "display_name": "AryaStrata Tiel Coder 35B-A3B UD-Q8_K_XL - 256K Vision [tune batch1024]",
+   "lib_dirs": [
+    "<strata>\\.venv\\Lib\\site-packages\\nvidia\\cu13\\bin\\x86_64"
+   ],
+   "port": 8080,
+   "gpu": 0,
+   "gpus_asked": true,
+   "vision": {
+    "exe": "<strata>\\engine-poly\\strata-vision.exe",
+    "mmproj": "C:\\AI\\Strata-data\\models\\tiel-UD-Q8_K_XL\\mmproj-BF16.gguf",
+    "model": "C:\\AI\\Strata-data\\models\\tiel-UD-Q8_K_XL\\Tiel-Coder-35B-A3B-UD-Q8_K_XL.gguf",
+    "gpu": true,
+    "max_tokens": 1024
+   },
+   "host": "127.0.0.1",
+   "parallel": 1,
+   "open_browser": false,
+   "switch_on_request": true
+  },
+  "launch": "strata-poly.exe --model Tiel-Coder-35B-A3B-UD-Q8_K_XL.gguf --max-context 262144 --expert-profile expert-profile.txt --conversation-cache-mib 8192 --threads 15 --prompt-batch 1024 --vram-reserve-mib 768 --tail-skip 0 --window 8 --kv q8_0 --kv-whole",
+  "engine_info": {
+   "model": "tiel-coder-35b-a3b-ud-q8-k-xl",
+   "max_context": 262144,
+   "images": true,
+   "version": "0.1.45",
+   "context": 262144,
+   "expert_slots": 2259,
+   "expert_cache_mib": 7201,
+   "pool_workers": 15,
+   "conversation_cache_mib": 8192,
+   "conversation_cache_slots": 4,
+   "conversation_cache_min_free_mib": 2560,
+   "vram_free_mib": 0,
+   "vram_elastic": 1,
+   "batch_slots": 0,
+   "engine": "0.1.45"
+  },
+  "vram_after": {
+   "elastic": true
+  }
+ },
+ "results": {
+  "chat": {
+   "requests": [
+    {
+     "ok": true,
+     "err": null,
+     "ttft_s": 0.796,
+     "total_s": 2.184,
+     "prompt_tokens": 229,
+     "reused_tokens": 0,
+     "read_tokens": 229,
+     "generated_tokens": 100,
+     "prompt_tps": 289.3,
+     "prompt_tps_source": "engine",
+     "decode_tps": 72.0,
+     "decode_tps_source": "engine",
+     "prompt_ms": 791.5,
+     "decode_ms": 1389.6,
+     "drafts_offered": 21,
+     "drafts_accepted": 10,
+     "run": 0,
+     "prompt": 0
+    },
+    {
+     "ok": true,
+     "err": null,
+     "ttft_s": 0.786,
+     "total_s": 2.288,
+     "prompt_tokens": 221,
+     "reused_tokens": 0,
+     "read_tokens": 221,
+     "generated_tokens": 100,
+     "prompt_tps": 282.8,
+     "prompt_tps_source": "engine",
+     "decode_tps": 66.5,
+     "decode_tps_source": "engine",
+     "prompt_ms": 781.4,
+     "decode_ms": 1503.8,
+     "drafts_offered": 0,
+     "drafts_accepted": 0,
+     "run": 0,
+     "prompt": 1
+    },
+    {
+     "ok": true,
+     "err": null,
+     "ttft_s": 0.816,
+     "total_s": 2.387,
+     "prompt_tokens": 224,
+     "reused_tokens": 0,
+     "read_tokens": 224,
+     "generated_tokens": 100,
+     "prompt_tps": 276.4,
+     "prompt_tps_source": "engine",
+     "decode_tps": 63.6,
+     "decode_tps_source": "engine",
+     "prompt_ms": 810.5,
+     "decode_ms": 1573.2,
+     "drafts_offered": 0,
+     "drafts_accepted": 0,
+     "run": 0,
+     "prompt": 2
+    }
+   ],
+   "decode_tps": {
+    "median": 66.5,
+    "min": 63.6,
+    "max": 72.0,
+    "n": 3
+   },
+   "ttft_s": {
+    "median": 0.796,
+    "min": 0.786,
+    "max": 0.816,
+    "n": 3
+   },
+   "generated_tokens": {
+    "median": 100,
+    "min": 100,
+    "max": 100,
+    "n": 3
+   },
+   "prompt_tokens": {
+    "median": 224,
+    "min": 221,
+    "max": 229,
+    "n": 3
+   }
+  },
+  "prompts": {
+   "4K": {
+    "target_tokens": 4096,
+    "requests": [
+     {
+      "ok": true,
+      "err": null,
+      "ttft_s": 7.84,
+      "total_s": 8.217,
+      "prompt_tokens": 4025,
+      "reused_tokens": 0,
+      "read_tokens": 4025,
+      "generated_tokens": 24,
+      "prompt_tps": 513.8,
+      "prompt_tps_source": "engine",
+      "decode_tps": 63.4,
+      "decode_tps_source": "engine",
+      "prompt_ms": 7833.6,
+      "decode_ms": 378.6,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "run": 0
+     }
+    ],
+    "prompt_tps": {
+     "median": 513.8,
+     "min": 513.8,
+     "max": 513.8,
+     "n": 1
+    },
+    "ttft_s": {
+     "median": 7.84,
+     "min": 7.84,
+     "max": 7.84,
+     "n": 1
+    },
+    "prompt_tokens": {
+     "median": 4025,
+     "min": 4025,
+     "max": 4025,
+     "n": 1
+    },
+    "reused_tokens": {
+     "median": 0,
+     "min": 0,
+     "max": 0,
+     "n": 1
+    }
+   },
+   "16K": {
+    "target_tokens": 16384,
+    "requests": [
+     {
+      "ok": true,
+      "err": null,
+      "ttft_s": 26.652,
+      "total_s": 27.13,
+      "prompt_tokens": 16058,
+      "reused_tokens": 0,
+      "read_tokens": 16058,
+      "generated_tokens": 24,
+      "prompt_tps": 602.8,
+      "prompt_tps_source": "engine",
+      "decode_tps": 50.1,
+      "decode_tps_source": "engine",
+      "prompt_ms": 26639.9,
+      "decode_ms": 479.5,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "run": 0
+     }
+    ],
+    "prompt_tps": {
+     "median": 602.8,
+     "min": 602.8,
+     "max": 602.8,
+     "n": 1
+    },
+    "ttft_s": {
+     "median": 26.652,
+     "min": 26.652,
+     "max": 26.652,
+     "n": 1
+    },
+    "prompt_tokens": {
+     "median": 16058,
+     "min": 16058,
+     "max": 16058,
+     "n": 1
+    },
+    "reused_tokens": {
+     "median": 0,
+     "min": 0,
+     "max": 0,
+     "n": 1
+    }
+   }
+  },
+  "agent": {
+   "sessions": [
+    [
+     {
+      "ok": true,
+      "err": null,
+      "ttft_s": 2.435,
+      "total_s": 2.589,
+      "prompt_tokens": 835,
+      "reused_tokens": 0,
+      "read_tokens": 835,
+      "generated_tokens": 10,
+      "prompt_tps": 345.2,
+      "prompt_tps_source": "engine",
+      "decode_tps": 64.2,
+      "decode_tps_source": "engine",
+      "prompt_ms": 2419.0,
+      "decode_ms": 155.8,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "run": 0,
+      "turn": 0
+     },
+     {
+      "ok": true,
+      "err": null,
+      "ttft_s": 7.752,
+      "total_s": 8.753,
+      "prompt_tokens": 4106,
+      "reused_tokens": 844,
+      "read_tokens": 3262,
+      "generated_tokens": 52,
+      "prompt_tps": 421.3,
+      "prompt_tps_source": "engine",
+      "decode_tps": 51.9,
+      "decode_tps_source": "engine",
+      "prompt_ms": 7742.2,
+      "decode_ms": 1002.7,
+      "drafts_offered": 14,
+      "drafts_accepted": 4,
+      "run": 0,
+      "turn": 1
+     },
+     {
+      "ok": true,
+      "err": null,
+      "ttft_s": 4.767,
+      "total_s": 5.483,
+      "prompt_tokens": 5883,
+      "reused_tokens": 4157,
+      "read_tokens": 1726,
+      "generated_tokens": 48,
+      "prompt_tps": 362.7,
+      "prompt_tps_source": "engine",
+      "decode_tps": 66.9,
+      "decode_tps_source": "engine",
+      "prompt_ms": 4759.0,
+      "decode_ms": 717.3,
+      "drafts_offered": 9,
+      "drafts_accepted": 3,
+      "run": 0,
+      "turn": 2
+     },
+     {
+      "ok": true,
+      "err": null,
+      "ttft_s": 8.389,
+      "total_s": 9.086,
+      "prompt_tokens": 9442,
+      "reused_tokens": 5930,
+      "read_tokens": 3512,
+      "generated_tokens": 42,
+      "prompt_tps": 419.1,
+      "prompt_tps_source": "engine",
+      "decode_tps": 60.2,
+      "decode_tps_source": "engine",
+      "prompt_ms": 8379.7,
+      "decode_ms": 698.2,
+      "drafts_offered": 13,
+      "drafts_accepted": 3,
+      "run": 0,
+      "turn": 3
+     },
+     {
+      "ok": true,
+      "err": null,
+      "ttft_s": 7.289,
+      "total_s": 8.003,
+      "prompt_tokens": 12449,
+      "reused_tokens": 9483,
+      "read_tokens": 2966,
+      "generated_tokens": 43,
+      "prompt_tps": 407.4,
+      "prompt_tps_source": "engine",
+      "decode_tps": 60.1,
+      "decode_tps_source": "engine",
+      "prompt_ms": 7279.5,
+      "decode_ms": 715.6,
+      "drafts_offered": 9,
+      "drafts_accepted": 3,
+      "run": 0,
+      "turn": 4
+     },
+     {
+      "ok": true,
+      "err": null,
+      "ttft_s": 7.488,
+      "total_s": 8.386,
+      "prompt_tokens": 15503,
+      "reused_tokens": 12491,
+      "read_tokens": 3012,
+      "generated_tokens": 52,
+      "prompt_tps": 402.7,
+      "prompt_tps_source": "engine",
+      "decode_tps": 57.8,
+      "decode_tps_source": "engine",
+      "prompt_ms": 7478.7,
+      "decode_ms": 900.1,
+      "drafts_offered": 18,
+      "drafts_accepted": 8,
+      "run": 0,
+      "turn": 5
+     }
+    ]
+   ],
+   "hit_pct": {
+    "median": 69.445,
+    "min": 69.445,
+    "max": 69.445,
+    "n": 1
+   },
+   "reread_tokens": {
+    "median": 5,
+    "min": 5,
+    "max": 5,
+    "n": 1
+   },
+   "new_tokens": {
+    "median": 14473,
+    "min": 14473,
+    "max": 14473,
+    "n": 1
+   },
+   "turn_ttft_s": {
+    "median": 7.488,
+    "min": 4.767,
+    "max": 8.389,
+    "n": 5
+   },
+   "last_turn_prompt_tokens": {
+    "median": 15503,
+    "min": 15503,
+    "max": 15503,
+    "n": 1
+   },
+   "turn_decode_tps": {
+    "median": 60.1,
+    "min": 51.9,
+    "max": 66.9,
+    "n": 5
+   },
+   "first_turn_ttft_s": {
+    "median": 2.435,
+    "min": 2.435,
+    "max": 2.435,
+    "n": 1
+   }
+  },
+  "clients": {},
+  "skipped": {},
+  "failures": []
+ }
+}

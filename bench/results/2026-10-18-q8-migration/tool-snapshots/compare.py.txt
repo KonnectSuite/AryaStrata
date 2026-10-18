@@ -1,0 +1,169 @@
+"""Collect the Q4 -> Q8 comparison into one markdown table.
+
+Reads what run_suite.py left under bench/results/2026-10-18-q8-migration/<family>/
+and writes SUMMARY.md there. Only reports what was measured; a suite that did
+not run is shown as "-" and a suite that failed says how many cases failed.
+
+  python compare.py            # every family that has results
+  python compare.py ornith     # one
+"""
+import json
+import statistics as st
+import sys
+from pathlib import Path
+
+ROOT = Path(r"C:\AryaStrata")
+OUT = ROOT / "bench" / "results" / "2026-10-18-q8-migration"
+
+
+def load(path: Path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8-sig"))
+    except Exception:
+        return None
+
+
+def med(v):
+    """the suite stores medians as {'median': x, 'min': ..} or a bare number"""
+    if isinstance(v, dict):
+        return v.get("median")
+    return v
+
+
+def speed(folder: Path):
+    """the speed suite's own medians"""
+    f = next(folder.rglob("results.json"), None) if folder and folder.exists() else None
+    d = load(f) if f else None
+    if not d:
+        return None
+    r = d.get("results") or {}
+    chat = r.get("chat") or {}
+    prompts = r.get("prompts") or {}
+
+    def prompt_med(k):
+        rows = (prompts.get(k) or {}).get("requests") or []
+        vals = [x.get("prompt_tps") for x in rows if isinstance(x.get("prompt_tps"), (int, float))]
+        return st.median(vals) if vals else None
+
+    row = {
+        "decode": med(chat.get("decode_tps")),
+        "ttft": med(chat.get("ttft_s")),
+        "4k": prompt_med("4K"),
+        "16k": prompt_med("16K"),
+        "agent_decode": med((r.get("agent") or {}).get("turn_decode_tps")),
+        "hit": med((r.get("agent") or {}).get("hit_pct")),
+        "quant": (d.get("machine") or {}).get("quant"),
+        "elapsed": d.get("elapsed_s"),
+    }
+    return row
+
+
+def counts(path: Path, key="results"):
+    d = load(path)
+    if not d:
+        return None
+    rows = d.get(key) or []
+    ok = sum(1 for x in rows if x.get("passed") or x.get("recall_passed"))
+    return ok, len(rows)
+
+
+def context(path: Path):
+    d = load(path)
+    if not d:
+        return None
+    # each length is run twice; one row per (length, run)
+    rows = d.get("results") or []
+    return [(x.get("target_tokens") or x.get("length"), bool(x.get("ok")), x.get("ttft_s"))
+            for x in rows if x.get("ok") is not None]
+
+
+def fmt(v, nd=1):
+    if v is None:
+        return "-"
+    if isinstance(v, float):
+        return f"{v:,.{nd}f}"
+    return f"{v:,}"
+
+
+def family(name: str) -> list[str]:
+    base = OUT / name
+    q4 = speed(base / "q4-speed")
+    q8 = speed(base / "q8-speed")
+    lines = [f"## {name}", ""]
+
+    # speed
+    lines += ["| measure | Q4 (as installed) | Q8 | change |", "| --- | ---: | ---: | ---: |"]
+    for label, k in (("decode tok/s, short chat", "decode"),
+                     ("first token, short chat (s)", "ttft"),
+                     ("4K prompt tok/s", "4k"),
+                     ("16K prompt tok/s", "16k"),
+                     ("agent turn decode tok/s", "agent_decode"),
+                     ("agent cache hit %", "hit")):
+        a = (q4 or {}).get(k)
+        b = (q8 or {}).get(k)
+        ch = "-"
+        if a and b:
+            pct = (b - a) / a * 100.0
+            # a lower first-token time is better
+            good = pct > 0 if k != "ttft" else pct < 0
+            ch = f"{pct:+.1f} % {'better' if good else 'worse'}"
+        lines.append(f"| {label} | {fmt(a)} | {fmt(b)} | {ch} |")
+    lines.append("")
+    lines.append(f"speed suite wall time: Q4 {(q4 or {}).get('elapsed') and round((q4 or {})['elapsed']) } s, "
+                 f"Q8 {(q8 or {}).get('elapsed') and round((q8 or {})['elapsed']) } s. "
+                 f"Both runs report quant={(q8 or {}).get('quant') or '-'} (the tool reads it from the file name, "
+                 "which these files do not carry); the model_name field is the reliable label.")
+    lines.append("")
+
+    # agent / vision / long: pass counts
+    a = counts(base / "agent-core.json")
+    v = counts(base / "vision" / "results.json")
+    lg = counts(base / "long-agent.json" / "long-context-coding-vision.json")
+    lines += ["| suite | result |", "| --- | --- |"]
+    for label, c in (("agent core (tools, file edits, tests)", a),
+                     ("vision (OCR, chart, shapes, two images)", v),
+                     ("long-context agent (229,376-token repo)", lg)):
+        lines.append(f"| {label} | " + (f"{c[0]} of {c[1]} passed" if c else "not run") + " |")
+    lines.append("")
+
+    ctx = context(base / "context.json")
+    if ctx:
+        by_len: dict = {}
+        for length, ok, ttft in ctx:
+            slot = by_len.setdefault(length, {"ok": True, "ttft": []})
+            slot["ok"] = slot["ok"] and ok
+            if isinstance(ttft, (int, float)):
+                slot["ttft"].append(ttft)
+        lines.append("| context length | recall | first token (s) |")
+        lines.append("| ---: | :---: | ---: |")
+        for length in sorted(by_len):
+            slot = by_len[length]
+            med_ttft = st.median(slot["ttft"]) if slot["ttft"] else None
+            lines.append(f"| {fmt(length, 0)} | {'PASS' if slot['ok'] else 'FAIL'} | {fmt(med_ttft, 2)} |")
+        lines.append("")
+
+    rep = load(base / "report.json") or {}
+    fails = [s for s, r in (rep.get("suites") or {}).items() if r.get("code")]
+    if fails:
+        lines.append(f"Suites that exited non-zero: {', '.join(fails)} (each logs to `<suite>.log`).")
+        lines.append("")
+    return lines
+
+
+def main(argv) -> int:
+    names = argv[1:] or sorted(p.name for p in OUT.iterdir() if p.is_dir())
+    lines = ["# Q4 -> Q8 on this host", "",
+             "RTX 4070 Ti SUPER 16 GiB, i9-14900KF, 63.8 GiB RAM, Windows 11 (10.0.26200),",
+             "AryaStrata 0.1.45 / commit 4820a00e, engine-poly prebuilt.",
+             "Same run config on both sides except the model file (and the pack that holds",
+             "the expert profile, which is routing statistics and so identical in kind).",
+             "Medians with ranges are in each suite's own README/results.json.", ""]
+    for n in names:
+        lines += family(n)
+    (OUT / "SUMMARY.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print("\n".join(lines))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

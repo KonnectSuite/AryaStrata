@@ -1,0 +1,26 @@
+{
+  "family": "minicpmv",
+  "config": "C:\\AryaStrata\\strata-minicpmv-q8_0.json",
+  "model": "minicpmv-4.7-35b-a3b-q8-0",
+  "suites": {
+    "speed-q4": {
+      "skipped": "config uninstalled"
+    },
+    "speed-q8": {
+      "exit": 0,
+      "seconds": 140.7
+    },
+    "agent": {
+      "exit": 0,
+      "seconds": 41.8
+    },
+    "vision": {
+      "exit": 0,
+      "seconds": 12.4
+    },
+    "context": {
+      "exit": 0,
+      "seconds": 245.8
+    }
+  }
+}

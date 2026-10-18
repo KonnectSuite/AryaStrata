@@ -1,0 +1,31 @@
+{
+  "family": "ornith",
+  "config": "C:\\AryaStrata\\strata-ornith-q8_0.json",
+  "model": "ornith-1.5-35b-a3b-q8-0",
+  "suites": {
+    "speed-q4": {
+      "exit": 0,
+      "seconds": 108.6
+    },
+    "speed-q8": {
+      "exit": 0,
+      "seconds": 102.6
+    },
+    "agent": {
+      "exit": 0,
+      "seconds": 58.4
+    },
+    "vision": {
+      "exit": 0,
+      "seconds": 17.8
+    },
+    "context": {
+      "exit": 0,
+      "seconds": 262.5
+    },
+    "long": {
+      "exit": 1,
+      "seconds": 771.6
+    }
+  }
+}

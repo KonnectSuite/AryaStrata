@@ -1,0 +1,17 @@
+"""Draft-block acceptance and engine-generated speed per family, from the Q8 suites."""
+import json
+import pathlib
+
+root = pathlib.Path(r"C:\AryaStrata\bench\results\2026-10-18-q8-migration")
+for fam in ("ornith", "lfm25", "minicpmv", "gemma4", "tiel"):
+    f = next(root.joinpath(fam, "q8-speed").rglob("results.json"), None)
+    if not f:
+        print(f"{fam:9} no speed results")
+        continue
+    agent = json.loads(f.read_text(encoding="utf-8-sig"))["results"]["agent"]
+    off = acc = 0
+    for session in agent["sessions"]:
+        for turn in session:
+            off += turn.get("drafts_offered") or 0
+            acc += turn.get("drafts_accepted") or 0
+    print(f"{fam:9} drafts {acc}/{off} = {100 * acc / off:5.1f} %" if off else f"{fam:9} no drafts offered")

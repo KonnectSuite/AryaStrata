@@ -1,0 +1,152 @@
+"""One knob at a time against an 8-bit run config, measured with strata_bench.
+
+Writes a copy of the family's Q8 config per candidate into
+local-data/q8-migration/tune/, runs tools/strata_bench.py --config <copy>
+--runs N for each, and prints a table of the numbers strata_bench reports.
+
+Nothing in the repo or the installed config changes: the run config is copied
+and edited in place, and both sides of every comparison are measured the same
+way on the same host on the same day.
+
+  python tune.py ornith                 # every candidate below
+  python tune.py ornith --only threads
+  python tune.py ornith --runs 2
+"""
+import argparse
+import json
+import re
+import statistics as st
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(r"C:\AryaStrata")
+PY = str(ROOT / ".venv" / "Scripts" / "python.exe")
+TUNE = ROOT / "local-data" / "q8-migration" / "tune"
+OUT = ROOT / "bench" / "results" / "2026-10-18-q8-migration"
+
+BASE = {
+    "ornith": ROOT / "strata-ornith-q8_0.json",
+    "tiel": ROOT / "strata-tiel-q8_0.json",
+    "minicpmv": ROOT / "strata-minicpmv-q8_0.json",
+    "gemma4": ROOT / "strata-gemma4-q8_0.json",
+    "lfm25": ROOT / "strata-lfm25-q8_0.json",
+}
+
+# candidate -> {arg: value} to set; None means "remove the argument"
+CANDIDATES = {
+    "base": {},
+    "threads24": {"--threads": "24"},
+    "window4": {"--window": "4"},
+    # --window takes 1..8, or 0 for the model's own guess width
+    "window0": {"--window": "0"},
+    "batch1024": {"--prompt-batch": "1024"},
+    "reserve512": {"--vram-reserve-mib": "512"},
+    "tailskip6": {"--tail-skip": "6"},
+    # the expert pipeline knobs the engine's usage text documents
+    "stage4096": {"--stage-mib": "4096"},
+    "stageahead2k": {"--stage-ahead": "2048"},
+    "cpushare0": {"--cpu-share": "0"},
+    "swaps128": {"--expert-swaps": "128"},
+    "draftvocab0": {"--draft-vocab": "0"},
+}
+
+
+def set_args(args: list[str], changes: dict) -> list[str]:
+    """replace or append each --flag value, keeping every other argument in place"""
+    out = list(args)
+    for flag, val in changes.items():
+        if flag in out:
+            i = out.index(flag)
+            if i + 1 < len(out):
+                out[i + 1] = val
+            else:
+                out.append(val)
+        else:
+            out += [flag, val]
+    return out
+
+
+def make_config(family: str, name: str, changes: dict) -> Path:
+    src = json.loads(BASE[family].read_text(encoding="utf-8-sig"))
+    src["args"] = set_args(src.get("args") or [], changes)
+    # a copy of the config must not collide with the installed one in the GUI
+    src["display_name"] = f"{src.get('display_name', family)} [tune {name}]"
+    src["log"] = str(TUNE / f"{family}-{name}.log")
+    p = TUNE / f"strata-{family}-{name}.json"
+    p.write_text(json.dumps(src, indent=2), encoding="utf-8")
+    return p
+
+
+def med(v):
+    return v.get("median") if isinstance(v, dict) else v
+
+
+def summarise(folder: Path):
+    f = next(folder.rglob("results.json"), None)
+    if not f:
+        return None
+    d = json.loads(f.read_text(encoding="utf-8-sig"))
+    r = d.get("results") or {}
+    chat = r.get("chat") or {}
+    prompts = r.get("prompts") or {}
+
+    def prompt_med(k):
+        rows = (prompts.get(k) or {}).get("requests") or []
+        vals = [x.get("prompt_tps") for x in rows if isinstance(x.get("prompt_tps"), (int, float))]
+        return st.median(vals) if vals else None
+
+    return {
+        "decode": med(chat.get("decode_tps")),
+        "ttft": med(chat.get("ttft_s")),
+        "4k": prompt_med("4K"),
+        "16k": prompt_med("16K"),
+        "agent_decode": med((r.get("agent") or {}).get("turn_decode_tps")),
+        "seconds": d.get("elapsed_s"),
+    }
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("family", choices=sorted(BASE))
+    ap.add_argument("--only", help="comma-separated candidate names")
+    ap.add_argument("--runs", type=int, default=1, help="runs per test in strata_bench")
+    a = ap.parse_args(argv)
+
+    TUNE.mkdir(parents=True, exist_ok=True)
+    names = list(CANDIDATES)
+    if a.only:
+        want = {s.strip() for s in a.only.split(",")}
+        names = [n for n in names if n in want or not want]
+
+    rows = {}
+    for name in names:
+        cfg = make_config(a.family, name, CANDIDATES[name])
+        out = OUT / a.family / "tune" / name
+        log = TUNE / f"{a.family}-{name}.bench.log"
+        print(f"[{a.family}] {name} ...", flush=True)
+        with open(log, "w", encoding="utf-8", errors="replace") as fh:
+            code = subprocess.run([PY, "tools/strata_bench.py", "--config", str(cfg),
+                                   "--runs", str(a.runs), "--out", str(out)],
+                                  cwd=str(ROOT), stdout=fh, stderr=subprocess.STDOUT).returncode
+        rows[name] = summarise(out)
+        print(f"  exit={code} {rows[name]}", flush=True)
+
+    print()
+    hdr = f"| {'candidate':11} | {'decode':>7} | {'ttft s':>6} | {'4K':>7} | {'16K':>7} | {'agent':>7} |"
+    print(hdr)
+    print("|" + "-" * 13 + "|" + "-" * 9 + "|" + "-" * 8 + "|" + "-" * 9 + "|" + "-" * 9 + "|" + "-" * 9 + "|")
+    for name, r in rows.items():
+        if not r:
+            print(f"| {name:11} | {'failed':>7} |")
+            continue
+        def f(v, nd=1):
+            return f"{v:,.{nd}f}" if isinstance(v, (int, float)) else "-"
+        print(f"| {name:11} | {f(r['decode']):>7} | {f(r['ttft'],2):>6} | {f(r['4k'],0):>7} | "
+              f"{f(r['16k'],0):>7} | {f(r['agent_decode']):>7} |")
+    (TUNE / f"{a.family}-tune.json").write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

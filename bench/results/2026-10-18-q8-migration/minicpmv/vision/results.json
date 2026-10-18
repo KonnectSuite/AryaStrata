@@ -1,0 +1,675 @@
+{
+  "model": "minicpmv-4.7-35b-a3b-q8-0",
+  "scope": "synthetic OCR, chart, shape and multiple-image smoke checks; first use versus repeated images not separated",
+  "results": [
+    {
+      "case": "shapes",
+      "run": 0,
+      "prompt": "Describe the shapes on the left and right, including their colors. Transcribe the text at the bottom.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-80f2418750a54e3690371929",
+        "object": "chat.completion",
+        "created": 1792359864,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "On the left, there is a red square. On the right, there is a blue circle.\n\nThe text at the bottom reads: ARYA VISION 8462"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 251,
+          "completion_tokens": 38,
+          "total_tokens": 289,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 251,
+          "prompt_ms": 600.9,
+          "prompt_per_token_ms": 2.394,
+          "prompt_per_second": 417.7,
+          "predicted_n": 38,
+          "predicted_ms": 589.8,
+          "predicted_per_token_ms": 15.521,
+          "predicted_per_second": 64.4,
+          "draft_n": 2,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 1.396710000000894,
+      "checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "chart",
+      "run": 0,
+      "prompt": "Which module has the highest number of completed tests? State its name and exact value.",
+      "images": [
+        {
+          "file": "chart.png",
+          "sha256": "cb1dcfd8b1d490d2182a459493b83b059133c9e7d252650d96f691aab27249c9"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-24ad0ea4ac444b69a4ffd6fb",
+        "object": "chat.completion",
+        "created": 1792359865,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The module with the highest number of completed tests is the Router, with an exact value of 12."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 247,
+          "completion_tokens": 23,
+          "total_tokens": 270,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 247,
+          "prompt_ms": 510.5,
+          "prompt_per_token_ms": 2.067,
+          "prompt_per_second": 483.8,
+          "predicted_n": 23,
+          "predicted_ms": 330.5,
+          "predicted_per_token_ms": 14.37,
+          "predicted_per_second": 69.6,
+          "draft_n": 2,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 0.9547554999953718,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "build-screen",
+      "run": 0,
+      "prompt": "Read this build screen. Report the file name, line number, expected token and build ID.",
+      "images": [
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-36efb67d616742099943608b",
+        "object": "chat.completion",
+        "created": 1792359866,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the build screen provided:\n\n*   **File name:** parser.py\n*   **Line number:** 27\n*   **Expected token:** COLON\n*   **Build ID:** ARYA-5907"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 250,
+          "completion_tokens": 50,
+          "total_tokens": 300,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 250,
+          "prompt_ms": 464.2,
+          "prompt_per_token_ms": 1.857,
+          "prompt_per_second": 538.6,
+          "predicted_n": 50,
+          "predicted_ms": 646.2,
+          "predicted_per_token_ms": 12.924,
+          "predicted_per_second": 77.4,
+          "draft_n": 3,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 1.2089433000001009,
+      "checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "two-images",
+      "run": 0,
+      "prompt": "Read both images. Report the numeric code in the shapes image and the build ID in the build screen.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        },
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-602383f14ba14bd29ebb5086",
+        "object": "chat.completion",
+        "created": 1792359867,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The numeric code in the shapes image is **8462**.\nThe build ID in the build screen is **ARYA-5907**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 443,
+          "completion_tokens": 33,
+          "total_tokens": 476,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 443,
+          "prompt_ms": 625.7,
+          "prompt_per_token_ms": 1.412,
+          "prompt_per_second": 708.0,
+          "predicted_n": 33,
+          "predicted_ms": 406.5,
+          "predicted_per_token_ms": 12.318,
+          "predicted_per_second": 81.2,
+          "draft_n": 4,
+          "draft_n_accepted": 4
+        }
+      },
+      "seconds": 1.050317900000664,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "shapes",
+      "run": 1,
+      "prompt": "Describe the shapes on the left and right, including their colors. Transcribe the text at the bottom.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-97457aeffb514d59a1e0c77a",
+        "object": "chat.completion",
+        "created": 1792359868,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "On the left, there is a red square. On the right, there is a blue circle.\n\nThe text at the bottom reads: ARYA VISION 8462"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 251,
+          "completion_tokens": 38,
+          "total_tokens": 289,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 251,
+          "prompt_ms": 510.5,
+          "prompt_per_token_ms": 2.034,
+          "prompt_per_second": 491.7,
+          "predicted_n": 38,
+          "predicted_ms": 519.6,
+          "predicted_per_token_ms": 13.674,
+          "predicted_per_second": 73.1,
+          "draft_n": 2,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 1.0434955999953672,
+      "checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "chart",
+      "run": 1,
+      "prompt": "Which module has the highest number of completed tests? State its name and exact value.",
+      "images": [
+        {
+          "file": "chart.png",
+          "sha256": "cb1dcfd8b1d490d2182a459493b83b059133c9e7d252650d96f691aab27249c9"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-a23966ea72ca4cd5802434c0",
+        "object": "chat.completion",
+        "created": 1792359869,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The module with the highest number of completed tests is the **Router**, with an exact value of **12**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 247,
+          "completion_tokens": 24,
+          "total_tokens": 271,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 247,
+          "prompt_ms": 485.9,
+          "prompt_per_token_ms": 1.967,
+          "prompt_per_second": 508.3,
+          "predicted_n": 24,
+          "predicted_ms": 297.1,
+          "predicted_per_token_ms": 12.379,
+          "predicted_per_second": 80.8,
+          "draft_n": 2,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 0.8198724999965634,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "build-screen",
+      "run": 1,
+      "prompt": "Read this build screen. Report the file name, line number, expected token and build ID.",
+      "images": [
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-7b52b0034c55468f91cca23b",
+        "object": "chat.completion",
+        "created": 1792359870,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the build screen provided:\n\n*   **File name:** parser.py\n*   **Line number:** 27\n*   **Expected token:** COLON\n*   **Build ID:** ARYA-5907"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 250,
+          "completion_tokens": 50,
+          "total_tokens": 300,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 250,
+          "prompt_ms": 444.2,
+          "prompt_per_token_ms": 1.777,
+          "prompt_per_second": 562.8,
+          "predicted_n": 50,
+          "predicted_ms": 587.9,
+          "predicted_per_token_ms": 11.758,
+          "predicted_per_second": 85.0,
+          "draft_n": 3,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 1.0451786999983597,
+      "checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "two-images",
+      "run": 1,
+      "prompt": "Read both images. Report the numeric code in the shapes image and the build ID in the build screen.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        },
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-f9ea1c22f5dc4a7b979210fa",
+        "object": "chat.completion",
+        "created": 1792359871,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The numeric code in the shapes image is **8462**.\nThe build ID in the build screen is **ARYA-5907**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 443,
+          "completion_tokens": 33,
+          "total_tokens": 476,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 443,
+          "prompt_ms": 614.7,
+          "prompt_per_token_ms": 1.388,
+          "prompt_per_second": 720.7,
+          "predicted_n": 33,
+          "predicted_ms": 362.7,
+          "predicted_per_token_ms": 10.991,
+          "predicted_per_second": 91.0,
+          "draft_n": 4,
+          "draft_n_accepted": 4
+        }
+      },
+      "seconds": 0.9943596000011894,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "shapes",
+      "run": 2,
+      "prompt": "Describe the shapes on the left and right, including their colors. Transcribe the text at the bottom.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-fd2c9c8fe0f244508d914b17",
+        "object": "chat.completion",
+        "created": 1792359872,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "On the left, there is a red square. On the right, there is a blue circle.\n\nThe text at the bottom reads: ARYA VISION 8462"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 251,
+          "completion_tokens": 38,
+          "total_tokens": 289,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 251,
+          "prompt_ms": 490.2,
+          "prompt_per_token_ms": 1.953,
+          "prompt_per_second": 512.0,
+          "predicted_n": 38,
+          "predicted_ms": 462.8,
+          "predicted_per_token_ms": 12.179,
+          "predicted_per_second": 82.1,
+          "draft_n": 2,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 0.9673197000010987,
+      "checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "chart",
+      "run": 2,
+      "prompt": "Which module has the highest number of completed tests? State its name and exact value.",
+      "images": [
+        {
+          "file": "chart.png",
+          "sha256": "cb1dcfd8b1d490d2182a459493b83b059133c9e7d252650d96f691aab27249c9"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-5014aef73afc44f0a268ce43",
+        "object": "chat.completion",
+        "created": 1792359873,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The module with the highest number of completed tests is the **Router**, with an exact value of **12**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 247,
+          "completion_tokens": 24,
+          "total_tokens": 271,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 247,
+          "prompt_ms": 468.8,
+          "prompt_per_token_ms": 1.898,
+          "prompt_per_second": 526.9,
+          "predicted_n": 24,
+          "predicted_ms": 277.3,
+          "predicted_per_token_ms": 11.554,
+          "predicted_per_second": 86.5,
+          "draft_n": 2,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 0.759766999995918,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "build-screen",
+      "run": 2,
+      "prompt": "Read this build screen. Report the file name, line number, expected token and build ID.",
+      "images": [
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-4212a4bb0bf843b087ae235d",
+        "object": "chat.completion",
+        "created": 1792359874,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the build screen provided:\n\n*   **File name:** parser.py\n*   **Line number:** 27\n*   **Expected token:** COLON\n*   **Build ID:** ARYA-5907"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 250,
+          "completion_tokens": 50,
+          "total_tokens": 300,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 250,
+          "prompt_ms": 440.9,
+          "prompt_per_token_ms": 1.764,
+          "prompt_per_second": 567.0,
+          "predicted_n": 50,
+          "predicted_ms": 551.6,
+          "predicted_per_token_ms": 11.032,
+          "predicted_per_second": 90.6,
+          "draft_n": 3,
+          "draft_n_accepted": 2
+        }
+      },
+      "seconds": 1.0074291999990237,
+      "checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "two-images",
+      "run": 2,
+      "prompt": "Read both images. Report the numeric code in the shapes image and the build ID in the build screen.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        },
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-496732a3a96749d0b6deca1d",
+        "object": "chat.completion",
+        "created": 1792359875,
+        "model": "minicpmv-4.7-35b-a3b-q8-0",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The numeric code in the shapes image is **8462**.\nThe build ID in the build screen is **ARYA-5907**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 443,
+          "completion_tokens": 33,
+          "total_tokens": 476,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 443,
+          "prompt_ms": 596.1,
+          "prompt_per_token_ms": 1.346,
+          "prompt_per_second": 743.2,
+          "predicted_n": 33,
+          "predicted_ms": 343.8,
+          "predicted_per_token_ms": 10.418,
+          "predicted_per_second": 96.0,
+          "draft_n": 4,
+          "draft_n_accepted": 4
+        }
+      },
+      "seconds": 0.9722418999954243,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    }
+  ]
+}

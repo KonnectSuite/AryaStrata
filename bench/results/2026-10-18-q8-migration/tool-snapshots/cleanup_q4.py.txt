@@ -1,0 +1,96 @@
+"""Remove the 4-bit model files and their packs, once the 8-bit ones have been
+benchmarked. Dry run by default: prints what it would delete and the space it
+would give back.
+
+Kept on purpose: the Qwen3.6 UD-Q4_K_XL files (for further testing), the
+Qwen3.8 IQ3_XXS native files, every 8-bit file, every pack that an 8-bit
+config now points at, and the repo itself.
+
+  python cleanup_q4.py            # show
+  python cleanup_q4.py --apply    # delete
+"""
+import argparse
+import json
+import shutil
+import sys
+from pathlib import Path
+
+ROOT = Path(r"C:\AryaStrata")
+DATA = Path(r"C:\AI\Strata-data")
+
+# what to go: model folder, run config, pack folder
+GONE = [
+    ("ornith-APEX-I-QUALITY", "strata-ornith-apex-i-quality.json", "ornith-apex-i-quality"),
+    ("tiel-UD-Q4_K_XL", "strata-tiel-ud-q4_k_xl.json", "tiel-ud-q4_k_xl"),
+    ("minicpmv-Q4_K_M", "strata-minicpmv-q4_k_m.json", "minicpmv-q4_k_m"),
+    ("gemma4-UD-Q4_K_M", "strata-gemma4-ud-q4_k_m.json", "gemma4-ud-q4_k_m"),
+    ("lfm25-UD-Q4_K_XL", "strata-lfm25-ud-q4_k_xl.json", "lfm25-ud-q4_k_xl"),
+]
+
+
+def size_of(path: Path) -> int:
+    if path.is_file():
+        return path.stat().st_size
+    total = 0
+    for f in path.rglob("*"):
+        if f.is_file():
+            total += f.stat().st_size
+    return total
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--apply", action="store_true")
+    a = ap.parse_args()
+
+    # never delete a folder a surviving config still points at; the configs
+    # being deleted here do not count as surviving
+    doomed_cfgs = {(ROOT / cfg).resolve() for _, cfg, _ in GONE}
+    keep = set()
+    for cfg in ROOT.glob("strata-*.json"):
+        if cfg.resolve() in doomed_cfgs:
+            continue
+        try:
+            c = json.loads(cfg.read_text(encoding="utf-8-sig"))
+        except Exception:
+            continue
+        for arg in c.get("args", []):
+            pass
+        if c.get("tokenizer"):
+            keep.add(str(Path(c["tokenizer"]).parent).lower())
+        for k in ("--model", "--pack"):
+            args = c.get("args") or []
+            if k in args:
+                v = Path(args[args.index(k) + 1])
+                keep.add(str(v.parent).lower() if v.suffix else str(v).lower())
+        for arg in c.get("args") or []:
+            if isinstance(arg, str) and ("\\models\\" in arg or "\\packs\\" in arg):
+                p = Path(arg)
+                keep.add(str(p.parent if p.is_file() or p.suffix else p).lower())
+
+    total = 0
+    for model_dir, cfg_name, pack_dir in GONE:
+        for label, path in (("model", DATA / "models" / model_dir),
+                            ("pack", DATA / "packs" / pack_dir),
+                            ("config", ROOT / cfg_name)):
+            if not path.exists():
+                print(f"  absent  {label:7} {path}")
+                continue
+            sized = size_of(path)
+            held = str(path).lower() in keep
+            note = "KEPT: a surviving config points here" if held else ""
+            print(f"  delete  {label:7} {path}  ({sized/1e9:.2f} GB) {note}")
+            if held:
+                continue
+            total += sized
+            if a.apply:
+                if path.is_dir():
+                    shutil.rmtree(path)
+                else:
+                    path.unlink()
+    print(f"\n{'deleted' if a.apply else 'would free'} {total/1e9:.2f} GB")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

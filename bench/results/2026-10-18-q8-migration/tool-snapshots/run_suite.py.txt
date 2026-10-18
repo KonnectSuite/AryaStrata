@@ -1,0 +1,172 @@
+"""Run one Q8 model end to end on this host: start its server, run the suites,
+save the reports, stop it.
+
+One model at a time, because the card is one. Suites are independent: a failing
+one is recorded and the rest still run.
+
+  python run_suite.py ornith --suites speed,agent,vision,context,long
+"""
+import argparse
+import json
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+ROOT = Path(r"C:\AryaStrata")
+OUT = ROOT / "bench" / "results" / "2026-10-18-q8-migration"
+PY = str(ROOT / ".venv" / "Scripts" / "python.exe")
+
+# the tuned 4-bit config each family had installed, for the same-session A/B
+Q4_CFG = {
+    "ornith": "strata-ornith-apex-i-quality.json",
+    "tiel": "strata-tiel-ud-q4_k_xl.json",
+    "minicpmv": "strata-minicpmv-q4_k_m.json",
+    "gemma4": "strata-gemma4-ud-q4_k_m.json",
+    "lfm25": "strata-lfm25-ud-q4_k_xl.json",
+}
+
+
+def get(url: str, timeout: float = 3.0):
+    with urllib.request.urlopen(url, timeout=timeout) as r:
+        return r.status, r.read()
+
+
+def wait_ready(port: int, model: str, budget: float = 900.0) -> bool:
+    deadline = time.time() + budget
+    url = f"http://127.0.0.1:{port}/v1/models"
+    while time.time() < deadline:
+        try:
+            code, body = get(url)
+            if code == 200:
+                ids = [m.get("id") for m in json.loads(body).get("data", [])]
+                if model in ids:
+                    return True
+        except (urllib.error.URLError, OSError, ValueError):
+            pass
+        time.sleep(3.0)
+    return False
+
+
+def run(cmd, log: Path):
+    started = time.time()
+    with log.open("w", encoding="utf-8") as fh:
+        p = subprocess.run(cmd, cwd=str(ROOT), stdout=fh, stderr=subprocess.STDOUT)
+    return p.returncode, round(time.time() - started, 1)
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("family")
+    ap.add_argument("--suites", default="speed,agent,vision,context,long")
+    # 8080: arya_long_agent_bench.py talks to http://127.0.0.1:8080 itself and
+    # takes no --url, so the suite server has to be on the default port
+    ap.add_argument("--port", type=int, default=8080)
+    ap.add_argument("--runs", type=int, default=3)
+    ap.add_argument("--config", help="run config to test (default: the installed strata-<family>-q8_0.json)")
+    ap.add_argument("--suffix", default="", help="subfolder for a tuned validation, so it does not overwrite the untuned results")
+    a = ap.parse_args()
+
+    cfg_path = (ROOT / a.config) if a.config else (ROOT / f"strata-{a.family}-q8_0.json")
+    cfg = json.loads(cfg_path.read_text(encoding="utf-8-sig"))
+    model = cfg["model_name"]
+    tok = Path(cfg["tokenizer"])
+    out = (OUT / a.family / a.suffix) if a.suffix else (OUT / a.family)
+    out.mkdir(parents=True, exist_ok=True)
+    url = f"http://127.0.0.1:{a.port}"
+    report = {"family": a.family, "config": str(cfg_path), "model": model,
+              "suites": {}}
+    # a re-run of one suite keeps what the earlier suites already recorded
+    old = out / "report.json"
+    if old.exists():
+        try:
+            kept = json.loads(old.read_text(encoding="utf-8-sig"))
+            report["suites"] = kept.get("suites") or {}
+        except Exception:
+            pass
+
+    log = out / "server.log"
+    wanted = [s.strip() for s in a.suites.split(",") if s.strip()]
+
+    # speed: the same bench run against the installed 4-bit config and the new
+    # 8-bit one, back to back, so the pair is one session's work. strata_bench
+    # starts and stops each server itself.
+    if "speed" in wanted:
+        wanted.remove("speed")
+        for tag, cfg_name in (("q4", ROOT / Q4_CFG[a.family]), ("q8", cfg_path)):
+            if not cfg_name.exists():
+                # the 4-bit set is uninstalled; that side of the comparison is
+                # measured once (ornith) and is history from here on
+                report["suites"][f"speed-{tag}"] = {"skipped": "config uninstalled"}
+                continue
+            print(f"[{a.family}] speed {tag} ({cfg_name.name}) ...", flush=True)
+            code, secs = run([PY, "tools/strata_bench.py",
+                              "--config", str(cfg_name), "--runs", str(a.runs),
+                              "--out", str(out / f"{tag}-speed")],
+                             out / f"speed-{tag}.log")
+            report["suites"][f"speed-{tag}"] = {"exit": code, "seconds": secs}
+            print(f"[{a.family}] speed {tag} exit={code} {secs}s", flush=True)
+
+    if not wanted:
+        (out / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+        print(json.dumps(report["suites"], indent=2), flush=True)
+        return 0
+
+    with log.open("w", encoding="utf-8") as fh:
+        srv = subprocess.Popen(
+            [PY, str(ROOT / "serve" / "server.py"), "--engine", "strata",
+             "--config", str(cfg_path), "--port", str(a.port)],
+            cwd=str(ROOT), stdout=fh, stderr=subprocess.STDOUT,
+            creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
+    try:
+        if not wait_ready(a.port, model):
+            report["error"] = "server did not come up"
+            tail = log.read_text(encoding="utf-8", errors="replace")[-4000:]
+            report["log_tail"] = tail
+            (out / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+            print(json.dumps(report, indent=2)[:2000])
+            return 1
+
+        for suite in wanted:
+            cmd, dest = None, out / suite
+            if suite == "agent":
+                cmd = [PY, "tools/arya_agent_bench.py", "--url", url, "--model", model,
+                       "--runs", str(a.runs), "--suite", "core",
+                       "--out", str(out / "agent-core.json")]
+            elif suite == "vision":
+                if not cfg.get("vision"):
+                    report["suites"][suite] = {"skipped": "no vision"}
+                    continue
+                cmd = [PY, "tools/arya_vision_bench.py", "--url", url, "--model", model,
+                       "--runs", str(a.runs), "--out", str(dest)]
+            elif suite == "context":
+                cmd = [PY, "tools/arya_context_bench.py", "--url", url,
+                       "--tokenizer", str(tok), "--lengths", "65536,131072",
+                       "--runs", str(min(a.runs, 2)), "--out", str(out / "context.json")]
+            elif suite == "long":
+                cmd = [PY, "tools/arya_long_agent_bench.py", "--model", model,
+                       "--tokenizer", str(tok), "--tokens", "229376", "--runs", "1",
+                       "--context", "262144", "--out", str(out / "long-agent.json")]
+            if cmd is None:
+                report["suites"][suite] = {"error": f"unknown suite {suite}"}
+                continue
+            print(f"[{a.family}] {suite} ...", flush=True)
+            code, secs = run(cmd, out / f"{suite}.log")
+            report["suites"][suite] = {"exit": code, "seconds": secs}
+            print(f"[{a.family}] {suite} exit={code} {secs}s", flush=True)
+    finally:
+        srv.terminate()
+        try:
+            srv.wait(timeout=30)
+        except subprocess.TimeoutExpired:
+            srv.kill()
+
+    (out / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(json.dumps(report["suites"], indent=2), flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

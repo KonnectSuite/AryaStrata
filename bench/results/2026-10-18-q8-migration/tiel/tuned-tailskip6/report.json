@@ -1,0 +1,26 @@
+{
+  "family": "tiel",
+  "config": "C:\\AryaStrata\\local-data\\q8-migration\\tune\\strata-tiel-tailskip6.json",
+  "model": "tiel-coder-35b-a3b-ud-q8-k-xl",
+  "suites": {
+    "speed-q4": {
+      "skipped": "config uninstalled"
+    },
+    "speed-q8": {
+      "exit": 0,
+      "seconds": 247.8
+    },
+    "agent": {
+      "exit": 0,
+      "seconds": 48.8
+    },
+    "vision": {
+      "exit": 1,
+      "seconds": 23.5
+    },
+    "context": {
+      "exit": 0,
+      "seconds": 839.6
+    }
+  }
+}

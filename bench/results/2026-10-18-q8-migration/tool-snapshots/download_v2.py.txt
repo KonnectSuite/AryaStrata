@@ -1,0 +1,102 @@
+"""Resumable direct download from the Hugging Face CDN.
+
+hf_hub_download stalled here and the process kept sitting on a dead socket, so
+this does its own Range requests: append to the file that is there, notice a
+stalled socket (120 s without a byte), and start again where it stopped.
+
+  python download_v2.py [file-key ...]
+"""
+import os
+import sys
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+DEST = Path(r"C:\AI\Strata-data\models")
+CHUNK = 8 << 20
+IDLE = 120.0          # a socket that sends nothing for this long is dead
+TRIES = 40
+
+WANT = {
+    "ornith": ("ornith-ai/Ornith-1.5-35B-A3B-GGUF", "Ornith-1.5-35B-Q8_0.gguf", "ornith-Q8_0"),
+    "tiel": ("peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF", "Tiel-Coder-35B-A3B-UD-Q8_K_XL.gguf", "tiel-UD-Q8_K_XL"),
+    "minicpmv": ("openbmb/MiniCPM-V-4.7-35B-A3B-gguf", "MiniCPM-V-4_7-35B-A3B-Q8_0.gguf", "minicpmv-Q8_0"),
+    "gemma4": ("unsloth/gemma-4-26B-A4B-it-GGUF", "gemma-4-26B-A4B-it-Q8_0.gguf", "gemma4-Q8_0"),
+    "gemma4mtp": ("unsloth/gemma-4-26B-A4B-it-GGUF", "MTP/mtp-gemma-4-26B-A4B-it-Q8_0.gguf", "gemma4-Q8_0"),
+    "lfm25": ("unsloth/LFM2.5-24B-A2B-GGUF", "LFM2.5-24B-A2B-Q8_0.gguf", "lfm25-Q8_0"),
+}
+ORDER = ["ornith", "tiel", "minicpmv", "gemma4", "gemma4mtp", "lfm25"]
+
+
+def total_size(url: str) -> int:
+    req = urllib.request.Request(url, method="HEAD")
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return int(r.headers.get("Content-Length") or 0)
+
+
+def fetch(url: str, dest: Path) -> None:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    total = total_size(url)
+    for attempt in range(1, TRIES + 1):
+        have = dest.stat().st_size if dest.exists() else 0
+        if total and have >= total:
+            print(f"   complete {have/1e9:.2f} GB", flush=True)
+            return
+        req = urllib.request.Request(url)
+        if have:
+            req.add_header("Range", f"bytes={have}-")
+        try:
+            with urllib.request.urlopen(req, timeout=IDLE) as r:
+                code = r.status
+                if code == 416 and total and have >= total:
+                    return
+                if code == 200:
+                    have = 0                      # server sent the whole file
+                    mode = "wb"
+                else:
+                    mode = "ab"
+                print(f"   attempt {attempt}: from {have/1e9:.2f} GB of {total/1e9:.2f} GB", flush=True)
+                t0, got = time.time(), 0
+                with dest.open(mode) as fh:
+                    while True:
+                        block = r.read(CHUNK)
+                        if not block:
+                            break
+                        fh.write(block)
+                        got += len(block)
+                        if got >= (2 << 30):
+                            mb = got / (time.time() - t0) / 1e6
+                            print(f"   +{got/1e9:.2f} GB at {mb:.0f} MB/s", flush=True)
+                            got = 0
+                            t0 = time.time()
+            if total and dest.stat().st_size >= total:
+                print(f"   complete {dest.stat().st_size/1e9:.2f} GB", flush=True)
+                return
+            print("   stream ended short, resuming", flush=True)
+        except (urllib.error.URLError, OSError, TimeoutError) as e:
+            print(f"   attempt {attempt}: {type(e).__name__} {e}", flush=True)
+            time.sleep(min(30, 2 * attempt))
+    raise SystemExit(f"gave up on {dest}")
+
+
+def main() -> int:
+    keys = sys.argv[1:] or ORDER
+    for k in keys:
+        repo, name, sub = WANT[k]
+        url = f"https://huggingface.co/{repo}/resolve/main/{name}"
+        dest = DEST / sub / Path(name).name
+        print(f"== {k}: {repo} :: {name}", flush=True)
+        if dest.exists():
+            sz = dest.stat().st_size
+            tot = total_size(url)
+            if tot and sz >= tot:
+                print(f"   already here {sz/1e9:.2f} GB", flush=True)
+                continue
+        fetch(url, dest)
+    print("ALL FILES DONE", flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

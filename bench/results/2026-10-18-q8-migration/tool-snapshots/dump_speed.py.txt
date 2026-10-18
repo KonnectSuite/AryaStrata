@@ -1,0 +1,16 @@
+import json
+import pathlib
+
+root = pathlib.Path(r"C:\AryaStrata\bench\results\2026-10-18-q8-migration")
+for fam in ("ornith", "lfm25", "minicpmv", "gemma4", "tiel"):
+    p = next(root.joinpath(fam, "q8-speed").rglob("results.json"))
+    r = json.loads(p.read_text(encoding="utf-8-sig"))["results"]
+    c, a, prompts = r["chat"], r["agent"], r["prompts"]
+    print(
+        f"{fam:9} decode {c['decode_tps']['median']:6.1f}"
+        f" ttft {c['ttft_s']['median']:.3f}"
+        f" 4k {prompts['4K']['prompt_tps']['median']:7.1f}"
+        f" 16k {prompts['16K']['prompt_tps']['median']:7.1f}"
+        f" agent {a['turn_decode_tps']['median']:6.1f}"
+        f" hit {a['hit_pct']['median']:.2f}"
+    )

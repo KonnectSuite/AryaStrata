@@ -1,0 +1,22 @@
+{
+  "family": "ornith",
+  "config": "C:\\AryaStrata\\local-data\\q8-migration\\tune\\strata-ornith-tailskip6.json",
+  "model": "ornith-1.5-35b-a3b-q8-0",
+  "suites": {
+    "speed-q4": {
+      "skipped": "config uninstalled"
+    },
+    "speed-q8": {
+      "exit": 0,
+      "seconds": 142.6
+    },
+    "agent": {
+      "exit": 0,
+      "seconds": 39.8
+    },
+    "vision": {
+      "exit": 1,
+      "seconds": 14.7
+    }
+  }
+}

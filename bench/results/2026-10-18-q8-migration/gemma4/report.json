@@ -1,0 +1,26 @@
+{
+  "family": "gemma4",
+  "config": "C:\\AryaStrata\\strata-gemma4-q8_0.json",
+  "model": "gemma-4-26b-a4b-it-q8-0",
+  "suites": {
+    "speed-q4": {
+      "skipped": "config uninstalled"
+    },
+    "speed-q8": {
+      "exit": 0,
+      "seconds": 114.4
+    },
+    "agent": {
+      "exit": 0,
+      "seconds": 45.6
+    },
+    "vision": {
+      "exit": 0,
+      "seconds": 14.7
+    },
+    "context": {
+      "exit": 0,
+      "seconds": 153.4
+    }
+  }
+}
