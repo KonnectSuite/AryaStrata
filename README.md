@@ -35,11 +35,11 @@ The linked guides retain upstream measurements, hardware requirements and limita
 | **Qwen3.8-Flash-Next** | Strata; NVIDIA/AMD, Windows/Linux with platform-specific limits | Yes | **IQ3_XXS running and tuned; text/coding benchmarked; GPU vision smoke-tested** | [Models and variants](docs/MODELS.md) |
 | **GLM 5.3 Flash** | `strata-poly`; NVIDIA/Linux | No | Not validated here; substantial RAM requirements | [GLM](docs/GLM.md) |
 | **DeepSeek V4 Flash** | `strata-poly`; NVIDIA/Linux primary path | No | Not validated here; substantial RAM requirements | [DeepSeek](docs/DEEPSEEK.md) |
-| **LFM2.5-24B-A2B** | `strata-poly`; NVIDIA/Windows/Linux | No | Not validated here | [LFM](docs/LFM.md) |
+| **LFM2.5-24B-A2B** | `strata-poly`; NVIDIA/Windows/Linux | No | **UD-Q4_K_XL: 128K text; short native-thinking coding (4K output) 18/18**; long coding 0/3, recall 2/6: not recommended for large-context agents | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **Qwen3.6-35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux; Strata path for selected sizes | Yes | **Q4 and Q8: 262K context with GPU vision; coding, image and recall checks passed** | [Measured host results](docs/QWEN36_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **Ornith 1.5** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **APEX-I-QUALITY: 262K GPU vision; low reasoning passed 18/18 bounded coding and 3/3 long coding/image sessions** | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
-| **Gemma 4 26B-A4B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
-| **Tiel Coder 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
+| **Gemma 4 26B-A4B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **UD-Q4_K_M: 256K GPU vision; short coding low at 4K output 18/18**; long coding/image 2/3, recall 6/6 | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
+| **Tiel Coder 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **UD-Q4_K_XL: 256K GPU vision; bounded coding off 16/18, low 18/18**; image checks 8/12 | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **MiniCPM-V 4.7 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **Q4: 262K GPU vision; low reasoning passed 18/18 bounded coding sessions and 3/3 long coding/image sessions** | [Measured host results](docs/MINICPMV_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 
 Qwen3.8 variants include **Coder, Swift 1.5, and Unsloth quantizations**. These are
@@ -103,7 +103,7 @@ and [MiniCPM-V 4.7 Q4 with vision](docs/MINICPMV_HOST_RESULTS.md). The MiniCPM
 report uses corrected coding-validator results and retains the original records
 for audit; its speed, image and recall results are separate measurements.
 The [additional-model comparison](docs/MODEL_ROSTER_HOST_RESULTS.md) now includes
-Ornith APEX-I-QUALITY, with exact model IDs, cold/cached agent timings and resource observations.
+Ornith APEX-I-QUALITY, Gemma 4 Q4, Tiel Coder Q4 and text-only LFM2.5 Q4, with exact model IDs, cold/cached agent timings, failures and resource observations.
 
 ### Current vision and agent configuration
 

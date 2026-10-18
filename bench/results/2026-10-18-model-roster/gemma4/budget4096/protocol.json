@@ -1,0 +1,9 @@
+{
+  "model": "gemma-4-26b-a4b-ud-q4_k_m",
+  "max_output_tokens": 4096,
+  "source_sha256": "75599ba3e33c526b7e84ca6aa321ab435e743bd0335be03b864d47ca1ae8e3d6",
+  "agent_tool_sha256": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+  "baseline_records": "../agent-none.json and ../agent-low.json retained",
+  "reason": "Low reasoning hit the standard 1400-token output budget before tool calls; test a separate 4096-token budget without changing engine or weights",
+  "source_archive": "../../tool-snapshots/gemma_budget4096_probe.py.txt"
+}

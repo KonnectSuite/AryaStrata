@@ -1,6 +1,28 @@
-> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221â€™s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
 
 # LFM2.5-24B-A2B (`strata-poly`)
+
+## AryaStrata host findings
+
+UD-Q4_K_XL was installed and measured on our i9-14900KF / RTX 4070 Ti SUPER /
+64 GB Windows host at its native 131,072-token capacity, with FP16 KV and text
+input only. Native-thinking bounded coding at 4,096 output tokens passed 18/18, long-input recall 2/6,
+long coding 0/3, and development DSH adapter checks 3/3.
+[Liquid AI identifies this as an always-reasoning model](https://huggingface.co/LiquidAI/LFM2.5-24B-A2B).
+The initial forced-off tests and incorrect non-reasoning SDK metadata failed;
+they remain archived. The deployment probe combines native thinking, a larger
+output allowance and explicit path instructions, so it does not isolate which
+change caused any improvement.
+See the [host report](MODEL_ROSTER_HOST_RESULTS.md) for actual input lengths,
+latencies, tuning confirmations and limitations. The upstream numbers below
+remain attributed to their original hardware.
+
+**This profile is not recommended for large-context coding agents:** native
+capacity loads and executes, but the measured long-task and recall failures
+remain. Short-fixture success does not establish reliable long-context use.
+
+## Upstream model and setup
+
 
 `strata-poly`, the engine of GLM 5.3 Flash and the smaller models, also runs Liquid AI's LFM2.5-24B-A2B: llama.cpp's
 architecture `lfm2moe`, read from the GGUF files of Unsloth and Liquid AI. The server, the web app and the API are the

@@ -1,0 +1,51 @@
+[strata] 2026-10-18 04:07:13 engine started: C:\AryaStrata\engine-poly\strata-poly.exe --serve --model C:\AI\Strata-data\models\lfm25-UD-Q4_K_XL\LFM2.5-24B-A2B-UD-Q4_K_XL.gguf --max-context 131072 --expert-profile C:\AI\Strata-data\packs\lfm25-ud-q4_k_xl\expert-profile.txt --conversation-cache-mib 8192 --prompt-batch 2048 --threads 15 --vram-reserve-mib 768 --tail-skip 0 --window 1 --kv-whole
+strata-poly: loaded in 2.9 s; 1751 of 2432 routed experts in VRAM (9.4 GiB), 15 CPU threads
+strata-poly: the expert cache 1751 -> 1672 experts (9.00 GiB) for the VRAM free now, 815 MiB left
+strata-poly: the expert cache 1672 -> 1685 experts (9.07 GiB) for the VRAM free now, 767 MiB left
+strata-poly: conversation cache: parked 1286 tokens in 5.0 ms; parked=1 bytes=28794880 evictions=0
+strata-poly: conversation cache: parked 1326 tokens in 0.4 ms; parked=2 bytes=30679040 evictions=0
+strata-poly: conversation cache: parked 1366 tokens in 0.4 ms; parked=3 bytes=32563200 evictions=0
+strata-poly: conversation cache: parked 1406 tokens in 0.4 ms; parked=4 bytes=34447360 evictions=0
+strata-poly: conversation cache: parked 1446 tokens in 0.4 ms; parked=4 bytes=35840000 evictions=1
+strata-poly: conversation cache: parked 1486 tokens in 0.4 ms; parked=4 bytes=36741120 evictions=2
+strata-poly: conversation cache: parked 1028 tokens in 4.9 ms; parked=4 bytes=59760640 evictions=3
+strata-poly: conversation cache: parked 1068 tokens in 0.4 ms; parked=4 bytes=60661760 evictions=4
+strata-poly: conversation cache: parked 1108 tokens in 0.4 ms; parked=4 bytes=61562880 evictions=5
+strata-poly: conversation cache: parked 1148 tokens in 1.6 ms; parked=4 bytes=29655040 evictions=6
+strata-poly: conversation cache: parked 1028 tokens in 4.3 ms; parked=4 bytes=52674560 evictions=7
+strata-poly: conversation cache: parked 1068 tokens in 0.3 ms; parked=4 bytes=53575680 evictions=8
+strata-poly: conversation cache: parked 1108 tokens in 0.4 ms; parked=4 bytes=54476800 evictions=9
+strata-poly: conversation cache: parked 1148 tokens in 1.6 ms; parked=4 bytes=29655040 evictions=10
+strata-poly: conversation cache: parked 1061 tokens in 5.0 ms; parked=4 bytes=53350400 evictions=11
+strata-poly: conversation cache: parked 65228 tokens in 238.6 ms; parked=4 bytes=1391185920 evictions=12
+strata-poly: conversation cache: parked 65228 tokens in 237.3 ms; parked=4 bytes=2729021440 evictions=13
+strata-poly: conversation cache: parked 65228 tokens in 246.3 ms; parked=4 bytes=4041134080 evictions=14
+strata-poly: conversation cache: parked 122618 tokens in 482.9 ms; parked=4 bytes=6530621440 evictions=15
+strata-poly: conversation cache: parked 122618 tokens in 636.2 ms; parked=4 bytes=7705968640 evictions=16
+strata-poly: conversation cache: parked 122618 tokens in 730.1 ms; parked=3 bytes=7542497280 evictions=18
+strata-poly: conversation cache: parked 106954 tokens in 675.1 ms; parked=3 bytes=7221698560 evictions=19
+strata-poly: conversation cache: parked 107414 tokens in 2.4 ms; parked=4 bytes=7232184320 evictions=19
+strata-poly: conversation cache: parked 107502 tokens in 139.1 ms; parked=4 bytes=4720885760 evictions=20
+strata-poly: conversation cache: parked 107559 tokens in 129.4 ms; parked=4 bytes=2208952320 evictions=21
+strata-poly: conversation cache: parked 107607 tokens in 0.7 ms; parked=4 bytes=2210017280 evictions=22
+strata-poly: conversation cache: parked 107682 tokens in 0.5 ms; parked=4 bytes=2211635200 evictions=23
+strata-poly: conversation cache: parked 107728 tokens in 0.4 ms; parked=4 bytes=2212659200 evictions=24
+strata-poly: conversation cache: parked 107770 tokens in 0.4 ms; parked=4 bytes=2213601280 evictions=25
+strata-poly: conversation cache: parked 107815 tokens in 0.5 ms; parked=4 bytes=2214604800 evictions=26
+strata-poly: conversation cache: parked 106972 tokens in 85.8 ms; parked=4 bytes=2895441920 evictions=27
+strata-poly: conversation cache: parked 107065 tokens in 0.6 ms; parked=4 bytes=2897428480 evictions=28
+strata-poly: conversation cache: parked 107627 tokens in 2.2 ms; parked=4 bytes=2909020160 evictions=29
+strata-poly: conversation cache: parked 108189 tokens in 2.5 ms; parked=4 bytes=2902323200 evictions=30
+strata-poly: conversation cache: parked 108751 tokens in 2.0 ms; parked=4 bytes=2913914880 evictions=31
+strata-poly: conversation cache: parked 109313 tokens in 2.1 ms; parked=4 bytes=2925506560 evictions=32
+strata-poly: conversation cache: parked 109875 tokens in 2.1 ms; parked=4 bytes=2937098240 evictions=33
+strata-poly: conversation cache: parked 110437 tokens in 2.2 ms; parked=4 bytes=2948689920 evictions=34
+strata-poly: conversation cache: parked 110999 tokens in 2.4 ms; parked=4 bytes=2960281600 evictions=35
+strata-poly: conversation cache: parked 106952 tokens in 84.2 ms; parked=4 bytes=3641200640 evictions=36
+strata-poly: conversation cache: parked 107084 tokens in 0.7 ms; parked=4 bytes=3643985920 evictions=37
+strata-poly: conversation cache: parked 107211 tokens in 0.7 ms; parked=4 bytes=3646668800 evictions=38
+strata-poly: conversation cache: parked 107624 tokens in 17.5 ms; parked=4 bytes=2890752000 evictions=39
+strata-poly: conversation cache: parked 107939 tokens in 1.6 ms; parked=4 bytes=2897285120 evictions=40
+strata-poly: conversation cache: parked 107997 tokens in 0.5 ms; parked=4 bytes=2898554880 evictions=41
+strata-poly: conversation cache: parked 108060 tokens in 0.5 ms; parked=4 bytes=2899927040 evictions=42
+strata-poly: conversation cache: parked 108105 tokens in 0.4 ms; parked=4 bytes=2900930560 evictions=43

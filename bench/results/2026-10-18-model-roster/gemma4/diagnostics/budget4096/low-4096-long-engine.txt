@@ -1,0 +1,17 @@
+load: control-looking token:      1 '<eos>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: '</s>' is a normal token here, removing it from EOG list
+strata-vision: model files loaded in 1.1 s
+strata-vision: warmed up at 1024 image tokens in 1.2 s
+[strata] 2026-10-18 04:37:05 engine started: C:\AryaStrata\engine-poly\strata-poly.exe --serve --model C:\AI\Strata-data\models\gemma4-UD-Q4_K_M\gemma-4-26B-A4B-it-UD-Q4_K_M.gguf --max-context 262144 --expert-profile C:\AI\Strata-data\packs\gemma4-ud-q4_k_m\expert-profile.txt --draft-model C:\AI\Strata-data\models\gemma4-UD-Q4_K_M\mtp-gemma-4-26B-A4B-it-Q8_0.gguf --conversation-cache-mib 8192 --threads 15 --prompt-batch 1024 --vram-reserve-mib 768 --tail-skip 0 --window 8 --kv-whole
+strata-poly: loaded in 2.6 s; 1371 of 3840 routed experts in VRAM (4.8 GiB), 15 CPU threads
+strata-poly: the expert cache 1371 -> 1155 experts (4.00 GiB) for the VRAM free now, 0 MiB left
+strata-poly: conversation cache: parked 229843 tokens in 709.9 ms; parked=1 bytes=5965543424 evictions=0
+strata-poly: the expert cache 1155 -> 938 experts (3.25 GiB) for the VRAM free now, 0 MiB left
+strata-poly: the expert cache 938 -> 722 experts (2.50 GiB) for the VRAM free now, 368 MiB left
+strata-poly: conversation cache: parked 229917 tokens in 72.9 ms; parked=2 bytes=6815506432 evictions=0
+strata-poly: the expert cache 722 -> 595 experts (2.06 GiB) for the VRAM free now, 798 MiB left
+strata-poly: conversation cache: parked 230175 tokens in 83.6 ms; parked=3 bytes=7670753280 evictions=0
+strata-poly: conversation cache: parked 230203 tokens in 80.0 ms; parked=4 bytes=8526573568 evictions=0
+strata-poly: conversation cache: parked 229901 tokens in 86.6 ms; parked=3 bytes=8106792960 evictions=2

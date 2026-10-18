@@ -1,0 +1,351 @@
+[
+  {
+    "phase": "installing",
+    "time": 1792310448.882612,
+    "family": "lfm25",
+    "quant": "UD-Q4_K_XL",
+    "context": 131072
+  },
+  {
+    "phase": "setup-running",
+    "time": 1792310448.8836384
+  },
+  {
+    "phase": "setup-finished",
+    "time": 1792310628.9475582,
+    "exit": 0
+  },
+  {
+    "phase": "full-context-gpu-loading",
+    "time": 1792310635.735926
+  },
+  {
+    "phase": "full-context-gpu-ready",
+    "time": 1792310641.7923398,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-loading",
+    "time": 1792310641.7927113
+  },
+  {
+    "phase": "threads-8-ready",
+    "time": 1792310648.9899228,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-measured",
+    "time": 1792310662.0505648,
+    "median": 189.25
+  },
+  {
+    "phase": "threads-15-loading",
+    "time": 1792310662.0508764
+  },
+  {
+    "phase": "threads-15-ready",
+    "time": 1792310668.1569405,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-15-measured",
+    "time": 1792310680.572795,
+    "median": 197.45
+  },
+  {
+    "phase": "threads-20-loading",
+    "time": 1792310680.5730908
+  },
+  {
+    "phase": "threads-20-ready",
+    "time": 1792310687.7684557,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-20-measured",
+    "time": 1792310700.2826288,
+    "median": 195.10000000000002
+  },
+  {
+    "phase": "window-1-loading",
+    "time": 1792310700.2829225
+  },
+  {
+    "phase": "window-1-ready",
+    "time": 1792310706.349049,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-1-measured",
+    "time": 1792310718.7432792,
+    "median": 200.05
+  },
+  {
+    "phase": "window-4-loading",
+    "time": 1792310718.7435892
+  },
+  {
+    "phase": "window-4-ready",
+    "time": 1792310724.8948176,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-4-measured",
+    "time": 1792310737.4674602,
+    "median": 196.45
+  },
+  {
+    "phase": "window-8-loading",
+    "time": 1792310737.467764
+  },
+  {
+    "phase": "window-8-ready",
+    "time": 1792310743.5537088,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-8-measured",
+    "time": 1792310756.2442527,
+    "median": 194.95
+  },
+  {
+    "phase": "baseline-a-loading",
+    "time": 1792310756.2445521
+  },
+  {
+    "phase": "baseline-a-ready",
+    "time": 1792310762.3183744,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-a-measured",
+    "time": 1792310774.7132123,
+    "median": 196.14999999999998
+  },
+  {
+    "phase": "candidate-a-loading",
+    "time": 1792310774.7135334
+  },
+  {
+    "phase": "candidate-a-ready",
+    "time": 1792310780.8875468,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-a-measured",
+    "time": 1792310793.1493464,
+    "median": 201.65
+  },
+  {
+    "phase": "candidate-b-loading",
+    "time": 1792310793.149664
+  },
+  {
+    "phase": "candidate-b-ready",
+    "time": 1792310800.3581667,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-b-measured",
+    "time": 1792310812.4669647,
+    "median": 202.2
+  },
+  {
+    "phase": "baseline-b-loading",
+    "time": 1792310812.4672635
+  },
+  {
+    "phase": "baseline-b-ready",
+    "time": 1792310818.5640726,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-b-measured",
+    "time": 1792310831.218847,
+    "median": 193.6
+  },
+  {
+    "phase": "quality-loading",
+    "time": 1792310831.2207258
+  },
+  {
+    "phase": "quality-ready",
+    "time": 1792310837.3233664,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "agent-none-running",
+    "time": 1792310837.3238516
+  },
+  {
+    "phase": "agent-none-finished",
+    "time": 1792310875.1457286,
+    "exit": 1
+  },
+  {
+    "phase": "context-running",
+    "time": 1792310875.1526716
+  },
+  {
+    "phase": "context-finished",
+    "time": 1792310976.86672,
+    "exit": 1
+  },
+  {
+    "phase": "long-agent-running",
+    "time": 1792310976.8672423
+  },
+  {
+    "phase": "long-agent-finished",
+    "time": 1792311072.777137,
+    "exit": 1
+  },
+  {
+    "phase": "dsh-adapter-running",
+    "time": 1792311072.7775722
+  },
+  {
+    "phase": "dsh-adapter-finished",
+    "time": 1792311072.9813132,
+    "exit": 1
+  },
+  {
+    "phase": "complete",
+    "time": 1792311072.982924,
+    "summary": {
+      "family": "lfm25",
+      "quant": "UD-Q4_K_XL",
+      "context": 131072,
+      "checks": [
+        {
+          "label": "agent-none",
+          "exit": 1
+        },
+        {
+          "label": "context",
+          "exit": 1
+        },
+        {
+          "label": "long-agent",
+          "exit": 1
+        },
+        {
+          "label": "dsh-adapter",
+          "exit": 1
+        }
+      ],
+      "profile": "strata-lfm25-ud-q4_k_xl.json",
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "selected_candidate": true,
+      "recommended_think": "none"
+    }
+  }
+]

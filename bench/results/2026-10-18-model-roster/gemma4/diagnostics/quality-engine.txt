@@ -1,0 +1,43 @@
+load: control-looking token:      1 '<eos>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: '</s>' is a normal token here, removing it from EOG list
+strata-vision: model files loaded in 1.1 s
+strata-vision: warmed up at 1024 image tokens in 1.2 s
+[strata] 2026-10-18 03:11:29 engine started: C:\AryaStrata\engine-poly\strata-poly.exe --serve --model C:\AI\Strata-data\models\gemma4-UD-Q4_K_M\gemma-4-26B-A4B-it-UD-Q4_K_M.gguf --max-context 262144 --expert-profile C:\AI\Strata-data\packs\gemma4-ud-q4_k_m\expert-profile.txt --draft-model C:\AI\Strata-data\models\gemma4-UD-Q4_K_M\mtp-gemma-4-26B-A4B-it-Q8_0.gguf --conversation-cache-mib 8192 --threads 15 --prompt-batch 1024 --vram-reserve-mib 768 --tail-skip 0 --window 8 --kv-whole
+strata-poly: loaded in 2.6 s; 1371 of 3840 routed experts in VRAM (4.8 GiB), 15 CPU threads
+strata-poly: the expert cache 1371 -> 1155 experts (4.00 GiB) for the VRAM free now, 0 MiB left
+strata-poly: the expert cache 1155 -> 938 experts (3.25 GiB) for the VRAM free now, 0 MiB left
+strata-poly: the expert cache 938 -> 722 experts (2.50 GiB) for the VRAM free now, 567 MiB left
+strata-poly: conversation cache: parked 1629 tokens in 7.1 ms; parked=1 bytes=1291720704 evictions=0
+strata-poly: conversation cache: parked 3109 tokens in 12.3 ms; parked=2 bytes=2613751808 evictions=0
+strata-poly: conversation cache: parked 4800 tokens in 18.0 ms; parked=3 bytes=3970414592 evictions=0
+strata-poly: conversation cache: parked 2157 tokens in 8.9 ms; parked=4 bytes=5272948736 evictions=0
+strata-poly: the expert cache 722 -> 595 experts (2.06 GiB) for the VRAM free now, 828 MiB left
+strata-poly: the expert cache 595 -> 615 experts (2.13 GiB) for the VRAM free now, 757 MiB left
+strata-poly: the expert cache 615 -> 632 experts (2.20 GiB) for the VRAM free now, 768 MiB left
+strata-poly: conversation cache: parked 2993 tokens in 46.1 ms; parked=4 bytes=5300883456 evictions=1
+strata-poly: conversation cache: parked 4413 tokens in 79.3 ms; parked=4 bytes=5327589376 evictions=2
+strata-poly: conversation cache: parked 2056 tokens in 68.5 ms; parked=4 bytes=5271392256 evictions=3
+strata-poly: conversation cache: parked 3962 tokens in 70.9 ms; parked=4 bytes=5308358656 evictions=4
+strata-poly: conversation cache: parked 2621 tokens in 45.8 ms; parked=4 bytes=5300740096 evictions=5
+strata-poly: conversation cache: parked 1811 tokens in 41.2 ms; parked=4 bytes=5247451136 evictions=6
+strata-poly: conversation cache: parked 1520 tokens in 38.0 ms; parked=4 bytes=5236473856 evictions=7
+strata-poly: conversation cache: parked 1497 tokens in 33.4 ms; parked=4 bytes=4976264192 evictions=8
+strata-poly: conversation cache: parked 1564 tokens in 35.5 ms; parked=4 bytes=4744890368 evictions=9
+strata-poly: conversation cache: parked 1221 tokens in 32.4 ms; parked=4 bytes=4103627776 evictions=10
+strata-poly: conversation cache: parked 3457 tokens in 39.0 ms; parked=4 bytes=3927201792 evictions=11
+strata-poly: conversation cache: parked 1630 tokens in 27.4 ms; parked=4 bytes=3929925632 evictions=12
+strata-poly: conversation cache: parked 1303 tokens in 26.8 ms; parked=4 bytes=4134306816 evictions=13
+strata-poly: conversation cache: parked 1947 tokens in 14.7 ms; parked=4 bytes=5013087232 evictions=14
+strata-poly: conversation cache: parked 2513 tokens in 35.1 ms; parked=4 bytes=4975117312 evictions=15
+strata-poly: conversation cache: parked 2141 tokens in 29.1 ms; parked=4 bytes=5195309056 evictions=16
+strata-poly: conversation cache: parked 2079 tokens in 35.5 ms; parked=4 bytes=5001475072 evictions=17
+strata-poly: conversation cache: parked 3286 tokens in 31.0 ms; parked=4 bytes=4357140480 evictions=18
+strata-poly: conversation cache: parked 1598 tokens in 32.3 ms; parked=4 bytes=4128674816 evictions=19
+strata-poly: conversation cache: parked 3738 tokens in 42.0 ms; parked=4 bytes=4161381376 evictions=20
+strata-poly: conversation cache: parked 1973 tokens in 15.4 ms; parked=4 bytes=5040694272 evictions=21
+strata-poly: conversation cache: parked 1355 tokens in 37.0 ms; parked=4 bytes=4581694464 evictions=22
+strata-poly: conversation cache: parked 2132 tokens in 31.5 ms; parked=4 bytes=4802357248 evictions=23
+strata-poly: conversation cache: parked 4509 tokens in 41.0 ms; parked=4 bytes=4818147328 evictions=24
+strata-poly: conversation cache: parked 4154 tokens in 39.1 ms; parked=4 bytes=4862814208 evictions=25

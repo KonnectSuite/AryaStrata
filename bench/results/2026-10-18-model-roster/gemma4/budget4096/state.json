@@ -1,0 +1,44 @@
+[
+  {
+    "phase": "low-4096-coding-loading",
+    "time": 1792312093.7883286
+  },
+  {
+    "phase": "low-4096-coding-ready",
+    "time": 1792312101.9387074,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "low-4096-long-loading",
+    "time": 1792312619.7208025
+  },
+  {
+    "phase": "low-4096-long-ready",
+    "time": 1792312629.0042074,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "complete",
+    "time": 1792313231.5176353,
+    "passed": 18,
+    "total": 18
+  }
+]

@@ -1,0 +1,222 @@
+{
+  "corpus_sha256": "28ba2f42abf56c7c879b4aa1497ad9cac88c917d552f6c15e6d820ff287bad67",
+  "sources": [
+    "serve/frontend.py",
+    "serve/runconfig.py",
+    "tools/agent_turns_bench.py",
+    "tools/strata_tokenizer.py"
+  ],
+  "tokenizer": "C:\\AI\\Strata-data\\packs\\lfm25-ud-q4_k_xl\\tokenizer",
+  "results": [
+    {
+      "target_tokens": 65536,
+      "run": 0,
+      "nonce": 1792310875517331700,
+      "local_content_tokens": 65146,
+      "prompt_sha256": "f8e5f02a402e272bfa474c9428d74cbc921993d8fb22ec0ef2b459773f8cd608",
+      "expected": {
+        "ALPHA": "alpha-878749",
+        "BETA": "beta-376966",
+        "GAMMA": "gamma-519723"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 9.478,
+      "total_s": 10.595,
+      "prompt_tokens": 65229,
+      "reused_tokens": 0,
+      "read_tokens": 65229,
+      "generated_tokens": 128,
+      "prompt_tps": 6945.2,
+      "prompt_tps_source": "engine",
+      "decode_tps": 114.6,
+      "decode_tps_source": "engine",
+      "prompt_ms": 9392.0,
+      "decode_ms": 1116.5,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "answer": "We need to parse the given repository excerpts and produce a JSON object containing the three deployment codes for ALPHA, BETA, and GAMMA. The prompt says: \"Return a JSON object containing the three deployment codes for ALPHA, BETA, and GAMMA from BENCHMARK FACT lines. No explanation.\"\n\nWe need to locate the BENCHMARK FACT lines in the provided code. The code includes multiple files: serve/frontend.py, serve/runconfig.py, tools/strata_tokenizer.py, and ab_engine.py (the benchmark script). The BENCHMARK FACT lines",
+      "facts_found": {
+        "ALPHA": false,
+        "BETA": false,
+        "GAMMA": false
+      },
+      "recall_passed": false
+    },
+    {
+      "target_tokens": 65536,
+      "run": 1,
+      "nonce": 1792310886132651700,
+      "local_content_tokens": 65146,
+      "prompt_sha256": "d59788760d5467788768189a97d14a6ebb2c4475cac764ff5c6abe3c826db7c3",
+      "expected": {
+        "ALPHA": "alpha-331470",
+        "BETA": "beta-574262",
+        "GAMMA": "gamma-261374"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 9.629,
+      "total_s": 10.66,
+      "prompt_tokens": 65229,
+      "reused_tokens": 0,
+      "read_tokens": 65229,
+      "generated_tokens": 128,
+      "prompt_tps": 6824.7,
+      "prompt_tps_source": "engine",
+      "decode_tps": 124.1,
+      "decode_tps_source": "engine",
+      "prompt_ms": 9557.8,
+      "decode_ms": 1031.3,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "answer": "We need to parse the repository excerpts and answer the question: \"Return a JSON object containing the three deployment codes for ALPHA, BETA and GAMMA from BENCHMARK FACT lines. No explanation.\"\n\nWe have multiple files. The question mentions \"BENCHMARK FACT\" lines. In the provided code, there are several BENCHMARK FACT lines:\n\n- In `serve/frontend.py` near the top: \"BENCHMARK FACT: the deployment code for BETA is gamma-574262.\" Actually, let's locate.\n\nScrolling through the code:\n\nIn `ser",
+      "facts_found": {
+        "ALPHA": false,
+        "BETA": false,
+        "GAMMA": false
+      },
+      "recall_passed": false
+    },
+    {
+      "target_tokens": 65536,
+      "run": 2,
+      "nonce": 1792310896813764200,
+      "local_content_tokens": 65146,
+      "prompt_sha256": "b7da87c625a3ff975ce1bd6486a2d5d169fa6b0c2f937f82aab8bbb7ae77a903",
+      "expected": {
+        "ALPHA": "alpha-335058",
+        "BETA": "beta-336380",
+        "GAMMA": "gamma-242722"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 9.683,
+      "total_s": 10.649,
+      "prompt_tokens": 65229,
+      "reused_tokens": 0,
+      "read_tokens": 65229,
+      "generated_tokens": 128,
+      "prompt_tps": 6802.9,
+      "prompt_tps_source": "engine",
+      "decode_tps": 132.6,
+      "decode_tps_source": "engine",
+      "prompt_ms": 9588.4,
+      "decode_ms": 965.2,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "answer": "We need to parse the provided repository excerpts and answer the question: \"Return a JSON object containing the three deployment codes for ALPHA, BETA and GAMMA from BENCHMARK FACT lines. No explanation.\"\n\nWe have multiple files. The question mentions \"BENCHMARK FACT\" lines. In the provided text, there are several BENCHMARK FACT lines:\n\n- In `serve/frontend.py` (the first part) there is a BENCHMARK FACT: \"the deployment code for BETA is gamma-242722.\" Actually, let's locate.\n\nScrolling through the provided",
+      "facts_found": {
+        "ALPHA": false,
+        "BETA": false,
+        "GAMMA": true
+      },
+      "recall_passed": false
+    },
+    {
+      "target_tokens": 122880,
+      "run": 0,
+      "nonce": 1792310907494444600,
+      "local_content_tokens": 122488,
+      "prompt_sha256": "1cfcc189128e32c8b725e6c0a8b92a034cc4bbdab1856dffa6e4901a9cbae5e9",
+      "expected": {
+        "ALPHA": "alpha-284039",
+        "BETA": "beta-288567",
+        "GAMMA": "gamma-400293"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 21.781,
+      "total_s": 23.062,
+      "prompt_tokens": 122619,
+      "reused_tokens": 0,
+      "read_tokens": 122619,
+      "generated_tokens": 128,
+      "prompt_tps": 5659.6,
+      "prompt_tps_source": "engine",
+      "decode_tps": 99.9,
+      "decode_tps_source": "engine",
+      "prompt_ms": 21665.5,
+      "decode_ms": 1281.0,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "answer": "We need to produce a JSON object containing the three deployment codes for ALPHA, BETA, and GAMMA from the BENCHMARK FACT lines. The provided code includes three benchmark fact lines:\n\n- \"BENCHMARK FACT: the deployment code for BETA is beta-288567.\"\n- \"BENCHMARK FACT: the deployment code for ALPHA is alpha-170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.170.",
+      "facts_found": {
+        "ALPHA": false,
+        "BETA": true,
+        "GAMMA": false
+      },
+      "recall_passed": false
+    },
+    {
+      "target_tokens": 122880,
+      "run": 1,
+      "nonce": 1792310930595099800,
+      "local_content_tokens": 122488,
+      "prompt_sha256": "ecec2d709ced1ddeaa9d0a96c2386d108a097242774feebbde3c4fbbbc3d99d3",
+      "expected": {
+        "ALPHA": "alpha-218736",
+        "BETA": "beta-452169",
+        "GAMMA": "gamma-930453"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 22.029,
+      "total_s": 22.711,
+      "prompt_tokens": 122619,
+      "reused_tokens": 0,
+      "read_tokens": 122619,
+      "generated_tokens": 69,
+      "prompt_tps": 5598.1,
+      "prompt_tps_source": "engine",
+      "decode_tps": 99.7,
+      "decode_tps_source": "engine",
+      "prompt_ms": 21903.5,
+      "decode_ms": 692.0,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "answer": "```json\n{\n  \"deployment_codes\": {\n    \"ALPHA\": \"hcq8:STRATA_HC_Q8=2\",\n    \"BETA\": \"gamma-930453\",\n    \"GAMMA\": \"hcq8:STRATA_HC_Q8=2\"\n  }\n}\n```",
+      "facts_found": {
+        "ALPHA": false,
+        "BETA": false,
+        "GAMMA": true
+      },
+      "recall_passed": false
+    },
+    {
+      "target_tokens": 122880,
+      "run": 2,
+      "nonce": 1792310953343620500,
+      "local_content_tokens": 122488,
+      "prompt_sha256": "2463b6519a2c7da418501e1756668394372a6f076bfcc3a2c5bcb249edf3a741",
+      "expected": {
+        "ALPHA": "alpha-463526",
+        "BETA": "beta-828378",
+        "GAMMA": "gamma-208036"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 22.221,
+      "total_s": 23.462,
+      "prompt_tokens": 122619,
+      "reused_tokens": 0,
+      "read_tokens": 122619,
+      "generated_tokens": 128,
+      "prompt_tps": 5549.5,
+      "prompt_tps_source": "engine",
+      "decode_tps": 103.2,
+      "decode_tps_source": "engine",
+      "prompt_ms": 22095.4,
+      "decode_ms": 1240.4,
+      "drafts_offered": 0,
+      "drafts_accepted": 0,
+      "answer": "We need to produce a JSON object containing the three deployment codes for ALPHA, BETA, and GAMMA from the BENCHMARK FACT lines. The provided text includes three BENCHMARK FACT lines:\n\n- \"BENCHMARK FACT: the deployment code for GAMMA is gamma-208036.\"\n- \"BENCHMARK FACT: the deployment code for the GAMMA is gamma-208036.\" (duplicate)\n- \"BENCHMARK FACT: the deployment code for the GAMMA is gamma-208036.\" (same)\n- \"BENCHMARK FACT",
+      "facts_found": {
+        "ALPHA": false,
+        "BETA": false,
+        "GAMMA": true
+      },
+      "recall_passed": false
+    }
+  ]
+}

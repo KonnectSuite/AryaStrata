@@ -1,0 +1,11 @@
+load: control-looking token:      1 '<eos>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: '</s>' is a normal token here, removing it from EOG list
+strata-vision: model files loaded in 1.1 s
+strata-vision: warmed up at 1024 image tokens in 1.2 s
+[strata] 2026-10-18 03:08:19 engine started: C:\AryaStrata\engine-poly\strata-poly.exe --serve --model C:\AI\Strata-data\models\gemma4-UD-Q4_K_M\gemma-4-26B-A4B-it-UD-Q4_K_M.gguf --max-context 262144 --expert-profile C:\AI\Strata-data\packs\gemma4-ud-q4_k_m\expert-profile.txt --draft-model C:\AI\Strata-data\models\gemma4-UD-Q4_K_M\mtp-gemma-4-26B-A4B-it-Q8_0.gguf --conversation-cache-mib 8192 --threads 15 --prompt-batch 1024 --vram-reserve-mib 768 --tail-skip 0 --window 1 --kv-whole
+strata-poly: loaded in 2.5 s; 1472 of 3840 routed experts in VRAM (5.1 GiB), 15 CPU threads
+strata-poly: the expert cache 1472 -> 1263 experts (4.37 GiB) for the VRAM free now, 0 MiB left
+strata-poly: the expert cache 1263 -> 1047 experts (3.62 GiB) for the VRAM free now, 0 MiB left
+strata-poly: the expert cache 1047 -> 830 experts (2.87 GiB) for the VRAM free now, 675 MiB left

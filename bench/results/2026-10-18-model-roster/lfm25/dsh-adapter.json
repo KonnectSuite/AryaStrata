@@ -1,0 +1,83 @@
+{
+  "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+  "contextWindow": 131072,
+  "adapterVersion": "0.2.0-rc.2",
+  "scope": "DSH pi-ai adapter, streaming assembly and tool-result replay",
+  "results": [
+    {
+      "run": 0,
+      "passed": false,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl"
+          },
+          "id": "0c0d6777-d43d-480a-ac81-e3bfeb369f0d"
+        },
+        "finish": {
+          "kind": "error",
+          "failure": {
+            "message": "provider \"strata\" model \"lfm2.5-24b-a2b-ud-q4_k_xl\" does not support reasoning effort \"off\"",
+            "code": "UNSUPPORTED_REASONING_EFFORT"
+          }
+        },
+        "seconds": 0.0007888999999999982
+      },
+      "error": "Expected structured read_file call"
+    },
+    {
+      "run": 1,
+      "passed": false,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl"
+          },
+          "id": "d13f7080-36a3-42a1-8dec-f5281fd131d4"
+        },
+        "finish": {
+          "kind": "error",
+          "failure": {
+            "message": "provider \"strata\" model \"lfm2.5-24b-a2b-ud-q4_k_xl\" does not support reasoning effort \"off\"",
+            "code": "UNSUPPORTED_REASONING_EFFORT"
+          }
+        },
+        "seconds": 0.00012680000000000292
+      },
+      "error": "Expected structured read_file call"
+    },
+    {
+      "run": 2,
+      "passed": false,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl"
+          },
+          "id": "91db1e4d-939b-4cea-b24b-393f53585735"
+        },
+        "finish": {
+          "kind": "error",
+          "failure": {
+            "message": "provider \"strata\" model \"lfm2.5-24b-a2b-ud-q4_k_xl\" does not support reasoning effort \"off\"",
+            "code": "UNSUPPORTED_REASONING_EFFORT"
+          }
+        },
+        "seconds": 0.0001285000000000025
+      },
+      "error": "Expected structured read_file call"
+    }
+  ]
+}

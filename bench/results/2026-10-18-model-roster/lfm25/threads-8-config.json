@@ -1,0 +1,40 @@
+{
+  "exe": "C:\\AryaStrata\\engine-poly\\strata-poly.exe",
+  "args": [
+    "--model",
+    "C:\\AI\\Strata-data\\models\\lfm25-UD-Q4_K_XL\\LFM2.5-24B-A2B-UD-Q4_K_XL.gguf",
+    "--max-context",
+    "131072",
+    "--expert-profile",
+    "C:\\AI\\Strata-data\\packs\\lfm25-ud-q4_k_xl\\expert-profile.txt",
+    "--conversation-cache-mib",
+    "8192",
+    "--prompt-batch",
+    "2048",
+    "--threads",
+    "8",
+    "--vram-reserve-mib",
+    "768",
+    "--tail-skip",
+    "0",
+    "--window",
+    "8",
+    "--kv-whole"
+  ],
+  "cwd": "C:\\AryaStrata",
+  "tokenizer": "C:\\AI\\Strata-data\\packs\\lfm25-ud-q4_k_xl\\tokenizer",
+  "model_name": "lfm2.5-24b-a2b-ud-q4_k_xl",
+  "display_name": "LFM2.5-24B-A2B UD-Q4_K_XL",
+  "log": "C:\\AryaStrata\\local-data\\model-roster\\lfm25\\threads-8-engine.log",
+  "lib_dirs": [
+    "C:\\AryaStrata\\.venv\\Lib\\site-packages\\nvidia\\cu13\\bin\\x86_64"
+  ],
+  "port": 8080,
+  "gpu": 0,
+  "gpus_asked": true,
+  "host": "127.0.0.1",
+  "parallel": 1,
+  "open_browser": false,
+  "switch_on_request": false,
+  "fit_max_tokens": true
+}

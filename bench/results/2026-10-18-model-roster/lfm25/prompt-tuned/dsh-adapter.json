@@ -1,0 +1,331 @@
+{
+  "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+  "contextWindow": 131072,
+  "adapterVersion": "0.2.0-rc.2",
+  "maxTokens": 4096,
+  "nativeLfm": true,
+  "scope": "DSH pi-ai adapter, streaming assembly and tool-result replay",
+  "results": [
+    {
+      "run": 0,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "We need to read build-info.txt using read_file. The path must be exactly \"build-info.txt\". Let's do that.\n"
+            },
+            {
+              "type": "tool-call",
+              "id": "call_e59dc2cb04eb459cb8592763",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+                "responseId": "chatcmpl-45a4edecb7fe4052b5e5cf19",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "thinkingSignature": "reasoning_content"
+                },
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "677ef9c2-2937-4b4d-b40c-2bca33946333"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 114,
+          "outputTokens": 40,
+          "totalTokens": 154
+        },
+        "seconds": 1.0575194
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "The file contains \"Build label: ARYA-QWEN-131072-0\". The exact build label returned by the tool is \"ARYA-QWEN-131072-0\". The user says \"report the exact build label returned by the tool\". So I should report that.\n"
+            },
+            {
+              "type": "text",
+              "text": "The exact build label returned by the tool is:\n\n**ARYA-QWEN-131072-0**"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+                "responseId": "chatcmpl-39b52d8f8e70460bb072083d",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "thinkingSignature": "reasoning_content"
+                },
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "3ce679be-49fe-4981-bf5d-d343dbc85a7d"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 25,
+          "outputTokens": 84,
+          "totalTokens": 262,
+          "cacheReadTokens": 153
+        },
+        "seconds": 0.5438682000000001
+      }
+    },
+    {
+      "run": 1,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "We need to read build-info.txt using read_file. The path must be exactly \"build-info.txt\". Let's do that.\n"
+            },
+            {
+              "type": "tool-call",
+              "id": "call_b4793b7b0c3247709ffcb6c3",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+                "responseId": "chatcmpl-9728a92efea44375addc333c",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "thinkingSignature": "reasoning_content"
+                },
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "321582e1-f16b-4523-9224-d8bcaa0f3bc5"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 114,
+          "outputTokens": 40,
+          "totalTokens": 154
+        },
+        "seconds": 0.3634377999999997
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "The file contains \"Build label: ARYA-QWEN-131072-1\". The exact build label returned by the tool is \"ARYA-QWEN-131072-1\". The user says \"report the exact build label returned by the tool\". So I should report that.\n"
+            },
+            {
+              "type": "text",
+              "text": "The build label returned by the tool is:\n\n**ARYA-QWEN-131072-1**"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+                "responseId": "chatcmpl-639934e095da42fbb0827174",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "thinkingSignature": "reasoning_content"
+                },
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "6505dd72-6abb-4dac-86bb-04d245e4e6d0"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 25,
+          "outputTokens": 83,
+          "totalTokens": 261,
+          "cacheReadTokens": 153
+        },
+        "seconds": 0.4892975999999999
+      }
+    },
+    {
+      "run": 2,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "We need to read build-info.txt using read_file. The path must be exactly \"build-info.txt\". Let's do that.\n"
+            },
+            {
+              "type": "tool-call",
+              "id": "call_230cb3e45a4c409687302ee6",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+                "responseId": "chatcmpl-6505b7a5c6774684b7ac6f7a",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "thinkingSignature": "reasoning_content"
+                },
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "57799b36-2168-4188-809f-e6142a4b6821"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 114,
+          "outputTokens": 40,
+          "totalTokens": 154
+        },
+        "seconds": 0.34158590000000005
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "reasoning",
+              "text": "The file contains \"Build label: ARYA-QWEN-131072-2\". The exact build label returned by the tool is \"ARYA-QWEN-131072-2\". The user says \"report the exact build label returned by the tool\". So I should report that label. The label is \"ARYA-QWEN-131072-2\". I should not guess. The exact build label is ARYA-QWEN-131072-2.\n"
+            },
+            {
+              "type": "text",
+              "text": "The exact build label returned by the tool is:\n\n**ARYA-QWEN-131072-2**"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+                "responseId": "chatcmpl-d13b176515aa492d9b4d3dd7",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "reasoning",
+                  "thinkingSignature": "reasoning_content"
+                },
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "5a534864-7ca7-4079-9f0f-722ebbdfb935"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 25,
+          "outputTokens": 122,
+          "totalTokens": 300,
+          "cacheReadTokens": 153
+        },
+        "seconds": 0.6681555999999996
+      }
+    }
+  ]
+}

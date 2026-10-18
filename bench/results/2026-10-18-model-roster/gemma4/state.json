@@ -1,0 +1,377 @@
+[
+  {
+    "phase": "installing",
+    "time": 1792306992.28501,
+    "family": "gemma4",
+    "quant": "UD-Q4_K_M",
+    "context": 262144
+  },
+  {
+    "phase": "setup-running",
+    "time": 1792306992.285675
+  },
+  {
+    "phase": "setup-finished",
+    "time": 1792307191.9766324,
+    "exit": 0
+  },
+  {
+    "phase": "full-context-gpu-loading",
+    "time": 1792307200.5253088
+  },
+  {
+    "phase": "full-context-gpu-ready",
+    "time": 1792307207.5885296,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-loading",
+    "time": 1792307207.5889487
+  },
+  {
+    "phase": "threads-8-ready",
+    "time": 1792307217.7982562,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-measured",
+    "time": 1792307239.4580607,
+    "median": 124.95
+  },
+  {
+    "phase": "threads-15-loading",
+    "time": 1792307239.4583306
+  },
+  {
+    "phase": "threads-15-ready",
+    "time": 1792307247.6326144,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-15-measured",
+    "time": 1792307266.927485,
+    "median": 139.05
+  },
+  {
+    "phase": "threads-20-loading",
+    "time": 1792307266.9277806
+  },
+  {
+    "phase": "threads-20-ready",
+    "time": 1792307275.1920564,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-20-measured",
+    "time": 1792307294.4073148,
+    "median": 135.3
+  },
+  {
+    "phase": "window-1-loading",
+    "time": 1792307294.4077232
+  },
+  {
+    "phase": "window-1-ready",
+    "time": 1792307302.1647034,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-1-measured",
+    "time": 1792307326.804907,
+    "median": 102.7
+  },
+  {
+    "phase": "window-4-loading",
+    "time": 1792307326.8052387
+  },
+  {
+    "phase": "window-4-ready",
+    "time": 1792307334.500826,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-4-measured",
+    "time": 1792307352.6481972,
+    "median": 148.4
+  },
+  {
+    "phase": "window-8-loading",
+    "time": 1792307352.6485107
+  },
+  {
+    "phase": "window-8-ready",
+    "time": 1792307360.863872,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-8-measured",
+    "time": 1792307378.840579,
+    "median": 144.05
+  },
+  {
+    "phase": "baseline-a-loading",
+    "time": 1792307378.8408747
+  },
+  {
+    "phase": "baseline-a-ready",
+    "time": 1792307387.0227044,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-a-measured",
+    "time": 1792307404.9006958,
+    "median": 151.2
+  },
+  {
+    "phase": "candidate-a-loading",
+    "time": 1792307404.9009964
+  },
+  {
+    "phase": "candidate-a-ready",
+    "time": 1792307413.6106265,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-a-measured",
+    "time": 1792307432.1466262,
+    "median": 144.15
+  },
+  {
+    "phase": "candidate-b-loading",
+    "time": 1792307432.146977
+  },
+  {
+    "phase": "candidate-b-ready",
+    "time": 1792307440.3211923,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-b-measured",
+    "time": 1792307458.4477932,
+    "median": 144.2
+  },
+  {
+    "phase": "baseline-b-loading",
+    "time": 1792307458.4481094
+  },
+  {
+    "phase": "baseline-b-ready",
+    "time": 1792307466.6424718,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-b-measured",
+    "time": 1792307484.785435,
+    "median": 144.8
+  },
+  {
+    "phase": "quality-loading",
+    "time": 1792307484.7872121
+  },
+  {
+    "phase": "quality-ready",
+    "time": 1792307492.9037743,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "agent-none-running",
+    "time": 1792307492.9042437
+  },
+  {
+    "phase": "agent-none-finished",
+    "time": 1792307694.111692,
+    "exit": 1
+  },
+  {
+    "phase": "agent-low-running",
+    "time": 1792307694.1120985
+  },
+  {
+    "phase": "agent-low-finished",
+    "time": 1792308016.7849705,
+    "exit": 1
+  },
+  {
+    "phase": "vision-running",
+    "time": 1792308016.8406966
+  },
+  {
+    "phase": "vision-finished",
+    "time": 1792308026.8805711,
+    "exit": 0
+  },
+  {
+    "phase": "context-running",
+    "time": 1792308026.8809867
+  },
+  {
+    "phase": "context-finished",
+    "time": 1792308027.117499,
+    "exit": 1
+  },
+  {
+    "phase": "long-agent-running",
+    "time": 1792308027.118048
+  },
+  {
+    "phase": "long-agent-finished",
+    "time": 1792308027.3505027,
+    "exit": 1
+  },
+  {
+    "phase": "dsh-adapter-running",
+    "time": 1792308027.3509746
+  },
+  {
+    "phase": "dsh-adapter-finished",
+    "time": 1792308029.99117,
+    "exit": 0
+  },
+  {
+    "phase": "complete",
+    "time": 1792308029.9926991,
+    "summary": {
+      "family": "gemma4",
+      "quant": "UD-Q4_K_M",
+      "context": 262144,
+      "checks": [
+        {
+          "label": "agent-none",
+          "exit": 1
+        },
+        {
+          "label": "agent-low",
+          "exit": 1
+        },
+        {
+          "label": "vision",
+          "exit": 0
+        },
+        {
+          "label": "context",
+          "exit": 1
+        },
+        {
+          "label": "long-agent",
+          "exit": 1
+        },
+        {
+          "label": "dsh-adapter",
+          "exit": 0
+        }
+      ],
+      "profile": "strata-gemma4-ud-q4_k_m.json",
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "selected_candidate": false,
+      "recommended_think": "none"
+    }
+  }
+]

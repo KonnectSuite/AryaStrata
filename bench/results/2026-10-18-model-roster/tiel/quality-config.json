@@ -1,0 +1,49 @@
+{
+  "exe": "C:\\AryaStrata\\engine-poly\\strata-poly.exe",
+  "args": [
+    "--model",
+    "C:\\AI\\Strata-data\\models\\tiel-UD-Q4_K_XL\\Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf",
+    "--max-context",
+    "262144",
+    "--expert-profile",
+    "C:\\AI\\Strata-data\\packs\\tiel-ud-q4_k_xl\\expert-profile.txt",
+    "--conversation-cache-mib",
+    "8192",
+    "--threads",
+    "15",
+    "--prompt-batch",
+    "512",
+    "--vram-reserve-mib",
+    "768",
+    "--tail-skip",
+    "0",
+    "--window",
+    "8",
+    "--kv",
+    "q8_0",
+    "--kv-whole"
+  ],
+  "cwd": "C:\\AryaStrata",
+  "tokenizer": "C:\\AI\\Strata-data\\packs\\tiel-ud-q4_k_xl\\tokenizer",
+  "model_name": "tiel-coder-35b-a3b-ud-q4_k_xl",
+  "display_name": "Tiel Coder 35B-A3B UD-Q4_K_XL",
+  "log": "C:\\AryaStrata\\local-data\\model-roster\\tiel\\quality-engine.log",
+  "lib_dirs": [
+    "C:\\AryaStrata\\.venv\\Lib\\site-packages\\nvidia\\cu13\\bin\\x86_64"
+  ],
+  "port": 8080,
+  "gpu": 0,
+  "gpus_asked": true,
+  "vision": {
+    "exe": "C:\\AryaStrata\\engine-poly\\strata-vision.exe",
+    "mmproj": "C:\\AI\\Strata-data\\models\\tiel-UD-Q4_K_XL\\mmproj-BF16.gguf",
+    "model": "C:\\AI\\Strata-data\\models\\tiel-UD-Q4_K_XL\\Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf",
+    "gpu": true,
+    "max_tokens": 1024
+  },
+  "host": "127.0.0.1",
+  "parallel": 1,
+  "open_browser": false,
+  "switch_on_request": false,
+  "fit_max_tokens": true
+}

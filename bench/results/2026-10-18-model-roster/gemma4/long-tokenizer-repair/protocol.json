@@ -1,0 +1,6 @@
+{
+  "reason": "Initial benchmark loader assumed merges.txt; Gemma uses JSON merges and a distinct pre-tokenizer. Rerun with the same Tokenizer.from_dir loader used by the server. Initial loader errors occurred before inference and are retained.",
+  "context_exit": 0,
+  "long_agent_exit": 1,
+  "inference_settings_changed": false
+}

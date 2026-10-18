@@ -60,6 +60,16 @@ Near-full text recall took a median 246.4 seconds to first token. The first
 cold coding/image fixture took 528.1 seconds for its complete tool loop;
 later fixtures reused the source prefix. These are different workloads.
 
+**Gemma 4 26B-A4B UD-Q4_K_M** was measured at 262,144-token capacity with GPU vision. Coding off passed 16/18 and low passed 13/18; recall passed 6/6 and the development adapter passed 3/3. Long coding passed 2/3. Image checks passed 12/12; exact image-ID results are separate in the report.
+
+**Tiel Coder 35B-A3B UD-Q4_K_XL** was measured at 262,144-token capacity with GPU vision. Coding off passed 16/18 and low passed 18/18; recall passed 6/6 and the development adapter passed 3/3. Long coding passed 3/3. Image checks passed 8/12; exact image-ID results are separate in the report.
+
+**LFM2.5-24B-A2B UD-Q4_K_XL** was measured at 131,072-token capacity with text input only. Native-thinking coding at 4K output passed 18/18; recall passed 2/6 and the development adapter passed 3/3. Long coding passed 0/3. This model does not accept images. Initial forced-off failures remain archived.
+
+Gemma output-budget tuning is reported separately from the standard 1,400-token coding tests. Tiel has measured screenshot transcription misses; do not treat vision support as perfect OCR. These are bounded fixtures, not general repository-level quality scores.
+
+Gemma's separate low-reasoning probe at 4,096 output tokens passed 18/18 short coding sessions and 2/3 long coding/image sessions. The original smaller-budget failures remain in the report.
+
 1. Target confirmed: this Windows PC, for coding and local coding agents.
 2. Choose one model and quantization using [AI_SETUP.md](AI_SETUP.md) and
    [BACKENDS.md](BACKENDS.md). Confirm the download size and destination before setup.
@@ -81,23 +91,13 @@ Keep vision enabled during validation for image-capable profiles. Treat untested
 settings as an experiment plan, not a measured optimum.
 Follow [COMMUNITY_BENCHMARKS.md](COMMUNITY_BENCHMARKS.md) for reporting conventions.
 
-## Deferred coding comparison
+## Additional model deployment
 
-Tiel Coder `UD-Q3_K_XL` was considered before the existing Qwen installation was found:
-setup lists a 17.2 GB download and supports Windows. This is a candidate baseline,
-not a claim that it is the best model for this machine. Start at 32,768 tokens,
-without vision, then check tool calls, code edits and tests before tuning speed.
-The C: drive had 462.1 GiB free during inspection.
-
-The user chose to set up the preserved Qwen3.8 model first. Tiel has not been
-downloaded or installed. If chosen later, its proposed setup command is:
-
-```powershell
-.\START-HERE.bat --yes --family tiel --model UD-Q3_K_XL --context 32768 --vision no --data-dir C:\AryaStrata\local-data --no-start
-```
-
-Keep downloaded files in the ignored `local-data` folder. Inspect setup's runtime
-requirements before allowing any system compiler or toolkit installation.
+The original deferred Tiel Q3/32K plan was superseded by the user-selected
+Q4-or-higher installation and full-native-context validation. Model downloads
+are kept outside the checkout in `C:\AI\Strata-data`; the installed run profiles
+remain in the checkout. See the [model roster report](MODEL_ROSTER_HOST_RESULTS.md)
+for exact profiles, model fingerprints, measured failures and reproduction steps.
 
 ## Existing model migration (October 17, 2026)
 
@@ -110,9 +110,9 @@ settings, old source code and prior benchmark artifacts were preserved in place.
 - `C:\AI\Strata-data`: Qwen3.8 IQ3_XXS, both GGUF shards, plus existing auxiliary data.
 - `C:\AI\Ornith35\models`: Ornith 1.5 Q4_K_M and its vision projector.
 
-Qwen's files match the supported native model path. Ornith's architecture is
-supported, but this exact Q4_K_M file still needs a load and correctness test.
-Prefer testing the preserved downloads before downloading Tiel. No model files
+At the initial migration inspection, Qwen's files matched the supported native model path. Ornith's architecture was
+supported, but that preserved Q4_K_M file had not been load-tested. The new tested Ornith deployment uses APEX-I-QUALITY.
+That initial recommendation was superseded by the measured deployments above. No model files
 were moved or redownloaded. The local removal inventory is saved under
 `local-data/runtime-removal-inventory.json` (ignored by Git).
 
@@ -162,9 +162,9 @@ MTP and default suffix drafting are enabled; the engine reports lookup windows u
 to 6. Vision was off during these benchmarks. `fit_max_tokens` is enabled. Calibration is saved using setup's
 per-hardware/per-model/per-context settings format so updates can retain it.
 
-The same-day 262K-ceiling API comparison measured **76.4 → 86.1 tokens/s** for
-short chat and **86.8 → 95.6 tokens/s** for agent-style generation. Fresh 32K
-prompt processing was **2,933.7 → 2,915.0 tokens/s**, with about **11 seconds** to
+The same-day 262K-ceiling API comparison measured **76.4 â†’ 86.1 tokens/s** for
+short chat and **86.8 â†’ 95.6 tokens/s** for agent-style generation. Fresh 32K
+prompt processing was **2,933.7 â†’ 2,915.0 tokens/s**, with about **11 seconds** to
 first token. Agent follow-up latency was essentially unchanged at about **2.1 s**.
 Three repetitions were used; the full report preserves ranges and sample counts.
 

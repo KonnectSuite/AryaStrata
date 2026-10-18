@@ -1,4 +1,4 @@
-> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221â€™s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
 
 # Models and backends
 
@@ -11,8 +11,7 @@ AryaStrata host measurements are separate from the inherited comparisons below:
 with GPU vision on our Windows host. See each report for actual input counts,
 coding checks, failures and limits.
 The [additional-model host report](MODEL_ROSTER_HOST_RESULTS.md) also records
-completed Ornith APEX-I-QUALITY measurements and will list further families only
-after their validation finishes.
+completed Ornith APEX-I-QUALITY, Gemma 4 Q4, Tiel Coder Q4 and text-only LFM2.5 Q4 measurements, including their failures and output-budget limits.
 
 One model is in memory at a time. The measurements below are from one machine: an RTX 5090 (32 GB), 24 threads of
 a Xeon Platinum 8470Q, 120 GiB of RAM, Linux, CUDA 12.8. On that card the three new models fit in VRAM whole.
@@ -215,7 +214,7 @@ and, by the tokenizer's `pre` name, how the model writes its reasoning and its t
 | Qwen3.8, Qwen3.6, Ornith | the prompt opens it, `</think>` ends it | `<tool_call><function=NAME><parameter=P>...` |
 | GLM | the same | `<tool_call>NAME<arg_key>K</arg_key><arg_value>V</arg_value>...` |
 | Gemma 4 | `<\|channel>thought` to `<channel\|>`, opened by the model | `<\|tool_call>call:NAME{key:value,...}<tool_call\|>` |
-| DeepSeek V4 | the prompt opens it, `</think>` ends it | `<｜DSML｜invoke name="NAME"><｜DSML｜parameter name="K" string="true">V...` |
+| DeepSeek V4 | the prompt opens it, `</think>` ends it | `<ï½œDSMLï½œinvoke name="NAME"><ï½œDSMLï½œparameter name="K" string="true">V...` |
 | LFM2.5 | the prompt opens it, `</think>` ends it | `<\|tool_call_start\|>[NAME(K='V', ...), NAME2()]<\|tool_call_end\|>` |
 
 Gemma 4's template thinks only when it is told to, reads a tool in OpenAI's shape and starts with the tokenizer's

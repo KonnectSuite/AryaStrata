@@ -1,0 +1,3 @@
+[strata] 2026-10-18 04:04:44 engine started: C:\AryaStrata\engine-poly\strata-poly.exe --serve --model C:\AI\Strata-data\models\lfm25-UD-Q4_K_XL\LFM2.5-24B-A2B-UD-Q4_K_XL.gguf --max-context 131072 --expert-profile C:\AI\Strata-data\packs\lfm25-ud-q4_k_xl\expert-profile.txt --conversation-cache-mib 8192 --prompt-batch 2048 --threads 20 --vram-reserve-mib 768 --tail-skip 0 --window 8 --kv-whole
+strata-poly: loaded in 3.0 s; 1750 of 2432 routed experts in VRAM (9.4 GiB), 20 CPU threads
+strata-poly: the expert cache 1750 -> 1660 experts (8.94 GiB) for the VRAM free now, 803 MiB left

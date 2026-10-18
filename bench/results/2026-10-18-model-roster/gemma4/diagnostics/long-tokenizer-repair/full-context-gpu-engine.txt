@@ -1,0 +1,19 @@
+load: control-looking token:      1 '<eos>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+load: '</s>' is a normal token here, removing it from EOG list
+strata-vision: model files loaded in 2.2 s
+strata-vision: warmed up at 1024 image tokens in 1.2 s
+[strata] 2026-10-18 04:11:23 engine started: C:\AryaStrata\engine-poly\strata-poly.exe --serve --model C:\AI\Strata-data\models\gemma4-UD-Q4_K_M\gemma-4-26B-A4B-it-UD-Q4_K_M.gguf --max-context 262144 --expert-profile C:\AI\Strata-data\packs\gemma4-ud-q4_k_m\expert-profile.txt --draft-model C:\AI\Strata-data\models\gemma4-UD-Q4_K_M\mtp-gemma-4-26B-A4B-it-Q8_0.gguf --conversation-cache-mib 8192 --threads 15 --prompt-batch 1024 --vram-reserve-mib 768 --tail-skip 0 --window 8 --kv-whole
+strata-poly: loaded in 4.9 s; 717 of 3840 routed experts in VRAM (2.5 GiB), 15 CPU threads
+strata-poly: conversation cache: parked 130709 tokens in 588.5 ms; parked=1 bytes=3935279104 evictions=0
+strata-poly: conversation cache: parked 130709 tokens in 568.3 ms; parked=2 bytes=7870558208 evictions=0
+strata-poly: conversation cache: parked 130709 tokens in 620.4 ms; parked=2 bytes=7870558208 evictions=1
+strata-poly: conversation cache: parked 253588 tokens in 1042.3 ms; parked=1 bytes=6451841024 evictions=3
+strata-poly: conversation cache: parked 253588 tokens in 871.1 ms; parked=1 bytes=6451841024 evictions=4
+strata-poly: conversation cache: parked 253588 tokens in 821.8 ms; parked=1 bytes=6451841024 evictions=5
+strata-poly: conversation cache: parked 229845 tokens in 767.8 ms; parked=1 bytes=5965584384 evictions=6
+strata-poly: conversation cache: parked 230187 tokens in 1.3 ms; parked=2 bytes=6182437888 evictions=6
+strata-poly: conversation cache: parked 229860 tokens in 54.8 ms; parked=3 bytes=7031233536 evictions=6
+strata-poly: conversation cache: parked 230587 tokens in 2.3 ms; parked=4 bytes=7465698304 evictions=6
+strata-poly: conversation cache: parked 229842 tokens in 63.5 ms; parked=4 bytes=8104398848 evictions=7

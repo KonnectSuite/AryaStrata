@@ -1,0 +1,281 @@
+{
+  "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+  "contextWindow": 262144,
+  "adapterVersion": "0.2.0-rc.2",
+  "scope": "DSH pi-ai adapter, streaming assembly and tool-result replay",
+  "results": [
+    {
+      "run": 0,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_76dccab61813465dbb5906c4",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+                "responseId": "chatcmpl-51e53aa0cbb14a6c978762aa",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "bf1d6079-32fd-4897-a8ea-caa6cc47a548"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 516,
+          "outputTokens": 27,
+          "totalTokens": 543
+        },
+        "seconds": 0.9680362000000001
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The build label is **ARYA-QWEN-262144-0**."
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+                "responseId": "chatcmpl-67c01703680b4e91a4908cb3",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "9e175e50-66b9-4e74-9a93-d2cb6f6a5e25"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 35,
+          "outputTokens": 21,
+          "totalTokens": 598,
+          "cacheReadTokens": 542
+        },
+        "seconds": 0.3483400999999999
+      }
+    },
+    {
+      "run": 1,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_28c0f6d6223c4d6f8535195f",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+                "responseId": "chatcmpl-430acbf97bb74c37b865f332",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "f63b40c4-6a8a-47d9-8361-9eede7b14d78"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 516,
+          "outputTokens": 27,
+          "totalTokens": 543
+        },
+        "seconds": 0.7661200000000001
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The build label is **ARYA-QWEN-262144-1**."
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+                "responseId": "chatcmpl-13f71cfe47704b77a838b916",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "701b8b94-016e-4699-8216-84816c5bd30b"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 35,
+          "outputTokens": 21,
+          "totalTokens": 598,
+          "cacheReadTokens": 542
+        },
+        "seconds": 0.3112339999999999
+      }
+    },
+    {
+      "run": 2,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_daf8dd0e7c2c489dba39cb6c",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+                "responseId": "chatcmpl-4599ce712c4f411f895395db",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "97e7a741-c9d3-4cd1-b6b9-a3914a547b29"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 516,
+          "outputTokens": 27,
+          "totalTokens": 543
+        },
+        "seconds": 0.7534291999999996
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The build label returned by the tool is: **ARYA-QWEN-262144-2**"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+                "responseId": "chatcmpl-b4f186e83c5d462c8716e687",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "5e902f80-1e68-4283-b322-237644125739"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 35,
+          "outputTokens": 26,
+          "totalTokens": 603,
+          "cacheReadTokens": 542
+        },
+        "seconds": 0.3128074999999999
+      }
+    }
+  ]
+}

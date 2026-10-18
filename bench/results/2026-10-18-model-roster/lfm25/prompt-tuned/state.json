@@ -1,0 +1,71 @@
+[
+  {
+    "phase": "explicit-path-coding-loading",
+    "time": 1792313234.9403112
+  },
+  {
+    "phase": "explicit-path-coding-ready",
+    "time": 1792313242.1988447,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "explicit-path-long-loading",
+    "time": 1792313490.2585473
+  },
+  {
+    "phase": "explicit-path-long-ready",
+    "time": 1792313496.363297,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "recall-native4096-loading",
+    "time": 1792313640.4021275
+  },
+  {
+    "phase": "recall-native4096-ready",
+    "time": 1792313646.474728,
+    "health": {
+      "status": "ok",
+      "max_context": 131072,
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "native-dsh-running",
+    "time": 1792313832.7797754
+  },
+  {
+    "phase": "native-dsh-finished",
+    "time": 1792313836.3972409,
+    "exit": 0
+  },
+  {
+    "phase": "complete",
+    "time": 1792313836.3982453,
+    "passed": 18,
+    "total": 18
+  }
+]

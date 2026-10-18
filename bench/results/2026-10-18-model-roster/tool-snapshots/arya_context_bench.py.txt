@@ -1,4 +1,4 @@
-"""Token-sized, three-fact recall ladder for this host's Qwen model.
+"""Token-sized, three-fact recall ladder for this host's installed models.
 
 Uses actual local tokenizer counts to size prompts, and reports the server's
 actual count separately. A successful ceiling is not a general long-code score.
@@ -20,13 +20,9 @@ from strata_bench import chat, digest
 
 
 def tokenizer(folder):
-    path = Path(folder)
-    vocab = json.loads((path / "vocab.json").read_text(encoding="utf-8"))
-    tokens = [None] * len(vocab)
-    for token, index in vocab.items():
-        tokens[index] = token
-    return Tokenizer(tokens, (path / "merges.txt").read_text(encoding="utf-8").split("\n"),
-                     json.loads((path / "token_type.json").read_text(encoding="utf-8")))
+    # Use the same loader as the server: Gemma keeps newline-bearing merges
+    # in JSON, and each family needs its own pre-tokenizer metadata.
+    return Tokenizer.from_dir(folder)
 
 
 def main():

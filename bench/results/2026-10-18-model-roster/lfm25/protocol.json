@@ -1,0 +1,85 @@
+{
+  "family": "lfm25",
+  "quant": "UD-Q4_K_XL",
+  "source_commit": "cef8ed93149317c943212d2f9485d7758f914aa6",
+  "model_files": [
+    {
+      "file": "LFM2.5-24B-A2B-UD-Q4_K_XL.gguf",
+      "bytes": 14876901632,
+      "sha256": "a235d23638cc5549cb1ff61da7522c8a7e97f056f27093462a1e56f35aba91d8",
+      "url": "https://huggingface.co/unsloth/LFM2.5-24B-A2B-GGUF/resolve/faa77113e93335b63423e9e8d33395f86eaf8946/LFM2.5-24B-A2B-UD-Q4_K_XL.gguf"
+    }
+  ],
+  "engine_build": {
+    "source": "release",
+    "version": "0.1.45",
+    "archs": [
+      75,
+      80,
+      86,
+      89,
+      120
+    ],
+    "cuda": "13.0",
+    "src": "72891a8b04dfd4d9",
+    "vision": "gpu",
+    "vision_src": "68eadd07fce1dbf1"
+  },
+  "tools_sha256": {
+    "arya_agent_bench.py": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+    "arya_context_bench.py": "42f42aa62eb8c77922d0b7a9455eb672079ed41e50fa935695e696a36f514560",
+    "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
+    "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82",
+    "arya_dsh_probe.mjs": "fc45b85dfb3bbb7e0a5e89fb6914d58aff11d42a2c99f2e2418bbea086f6d779"
+  },
+  "scope": "bounded fixtures, synthetic images, repeated source excerpts; expert cache remains adaptive across sequential trials",
+  "initial_tool_fingerprints": {
+    "arya_agent_bench.py": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+    "arya_context_bench.py": "42f42aa62eb8c77922d0b7a9455eb672079ed41e50fa935695e696a36f514560",
+    "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82",
+    "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3"
+  },
+  "tool_archives": {
+    "arya_agent_bench.py": "../tool-snapshots/arya_agent_bench.py.txt",
+    "arya_context_bench.py": "../tool-snapshots/arya_context_bench.py.txt",
+    "arya_vision_bench.py": "../tool-snapshots/arya_vision_bench.py.txt",
+    "arya_long_agent_bench.py": "../tool-snapshots/arya_long_agent_bench.py.txt",
+    "arya_dsh_probe.mjs": "../tool-snapshots/arya_dsh_probe_before_lfm_native.mjs.txt"
+  },
+  "tool_note": "Primary per-model fingerprints identify the initial test tools. MiniCPM uses the earlier vision-only SDK probe; other initial SDK runs use the before-LFM-native probe. The corrected LFM native-thinking protocol separately identifies the newer SDK probe and deployment helper. Exact archives preserve every version.",
+  "source_commit_note": "Recorded checkout revision; archived tool snapshots identify exact benchmark tool bytes, including uncommitted changes where applicable. Inference backend source was unchanged.",
+  "tuning_protocol": {
+    "prompts": [
+      "Write a Python function that performs a stable merge of two sorted lists. Explain its complexity and include three edge case tests.",
+      "Implement a TypeScript retry helper with bounded exponential backoff, cancellation, and error propagation. Include a usage example.",
+      "Review a Python dictionary-based cache for race conditions and propose a thread-safe implementation with eviction."
+    ],
+    "repeats": 2,
+    "max_output_tokens": 384,
+    "temperature": 0,
+    "reasoning_effort": "none",
+    "nonce_prefix": "[trial <label>-<run>-<prompt-index>-<time_ns>] ",
+    "warmup": "Reply READY.",
+    "warmup_max_output_tokens": 16,
+    "threads": [
+      8,
+      15,
+      20
+    ],
+    "windows": [
+      1,
+      4,
+      8
+    ],
+    "confirmation_order": [
+      "baseline-a",
+      "candidate-a",
+      "candidate-b",
+      "baseline-b"
+    ]
+  },
+  "deployment_correction": {
+    "record_root": "prompt-tuned/",
+    "reason": "Always-reasoning model: preserve unsuitable forced-off and incorrect non-reasoning SDK diagnostics; corrected native-thinking profile uses 4096 output tokens and an explicit tool/path contract. Long-context reliability remains limited."
+  }
+}

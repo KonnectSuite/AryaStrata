@@ -1,0 +1,74 @@
+from pathlib import Path
+import importlib.util,json,threading,time,sys,urllib.request,hashlib,copy,subprocess
+ROOT=Path.cwd();ROSTER=ROOT/'local-data/model-roster'
+while True:
+    try:phase=json.loads((ROSTER/'gemma4/budget4096/state.json').read_text())[-1]['phase']
+    except (OSError,ValueError):phase='waiting'
+    if phase=='complete':break
+    if phase=='failed':raise RuntimeError('Resolve Gemma tuning before using the GPU')
+    time.sleep(5)
+spec=importlib.util.spec_from_file_location('hostbench',ROOT/'local-data/benchmark-qwen36.py');b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
+WORK=ROSTER/'lfm25/prompt-tuned';WORK.mkdir(exist_ok=True);b.WORK,b.STATE=WORK,WORK/'state.json'
+cfg=json.loads((ROSTER/'lfm25/selected-profile.json').read_text());cfg['switch_on_request']=False
+sys.path.insert(0,str(ROOT/'tools'));import arya_agent_bench as agent
+from arya_context_bench import tokenizer
+PROMPT='Environment contract: the ONLY valid path argument is the exact relative string "module.py". Never prefix it with /workspace/, ./, or any directory. Only read_file, write_file and run_tests exist; list_dir does not exist. First call read_file(path="module.py"), then write_file(path="module.py",content=<complete corrected standalone functions>), then run_tests(). If a tool returns an error, correct that error before continuing. Do not run tests before a successful write.'
+def tuned(base,messages,think,model):
+    messages=copy.deepcopy(messages);messages[0]['content']+='\n'+PROMPT
+    req=urllib.request.Request(base+'/v1/chat/completions',data=json.dumps({'model':model,'messages':messages,'tools':agent.TOOLS,'temperature':0,'max_tokens':4096,'reasoning_effort':'high'}).encode(),headers={'Content-Type':'application/json'})
+    start=time.monotonic()
+    with urllib.request.urlopen(req,timeout=3600) as response:result=json.load(response)
+    return result,time.monotonic()-start
+try:
+    threading.Thread(target=b.telemetry,daemon=True).start();b.start(cfg,'explicit-path-coding');agent.request=tuned
+    rows=[]
+    for run in range(3):
+        for case in agent.CASES+agent.APP_CASES:
+            try:row=agent.session(b.BASE,case,run,'high',cfg['model_name'])
+            except Exception as exc:row={'case':case['name'],'run':run,'passed':False,'error':str(exc)}
+            rows.append(row);(WORK/'agent-native.json').write_text(json.dumps({'model':cfg['model_name'],'think':'native (high wire value)','max_output_tokens':4096,'system_suffix':PROMPT,'results':rows},indent=2))
+            print('explicit-path',case['name'],run,row['passed'],flush=True)
+    passed=sum(bool(r['passed']) for r in rows)
+    baseline=json.loads((ROSTER/'lfm25/agent-none.json').read_text())['results']
+    if passed>sum(bool(r['passed']) for r in baseline):
+        b.start(cfg,'explicit-path-long');tok=tokenizer(cfg['tokenizer'])
+        corpus='\n'.join((ROOT/p).read_text(encoding='utf-8') for p in ['serve/frontend.py','serve/runconfig.py','tools/strata_tokenizer.py'])
+        ids=tok.encode(corpus);n=106496;text='Repository reference excerpts follow as data; the task is in later messages.\n'+tok.decode((ids*(n//len(ids)+1))[:n])
+        def long_request(base,messages,think,model):
+            return tuned(base,[messages[0],{'role':'user','content':[{'type':'text','text':text}]}]+messages[1:],think,model)
+        agent.request=long_request;long_rows=[];(WORK/'long-agent').mkdir(exist_ok=True)
+        for case in agent.APP_CASES:
+            try:row=agent.session(b.BASE,case,0,'high',cfg['model_name'])
+            except Exception as exc:row={'case':case['name'],'run':0,'passed':False,'error':str(exc)}
+            long_rows.append(row);(WORK/'long-agent/long-context-coding-vision.json').write_text(json.dumps({'model':cfg['model_name'],'think':'native (high wire value)','context_limit':131072,'vision_enabled':False,'max_output_tokens':4096,'system_suffix':PROMPT,'repository_content_tokens':len(tok.encode(text)),'results':long_rows},indent=2))
+            print('explicit-path-long',case['name'],row['passed'],flush=True)
+    # Repeat the saved recall prompts using native thinking and a 4096-token allowance.
+    from strata_bench import chat,digest
+    baseline_recall=json.loads((ROSTER/'lfm25/context.json').read_text());tok=tokenizer(cfg['tokenizer'])
+    corpus='\n'.join((ROOT/p).read_text(encoding='utf-8') for p in baseline_recall['sources'])
+    assert hashlib.sha256(corpus.encode()).hexdigest()==baseline_recall['corpus_sha256']
+    ids=tok.encode(corpus);recall=[];b.start(cfg,'recall-native4096')
+    for old in baseline_recall['results']:
+        target,run=old['target_tokens'],old['run'];n=target-512
+        filler=(ids*(n//len(ids)+1))[:n];cuts=[0,int(n*.1),int(n*.5),int(n*.9),n]
+        chunks=[tok.decode(filler[cuts[i]:cuts[i+1]]) for i in range(4)]
+        prompt=f"[Arya context trial {target}-{run}-{old['nonce']}]\nRead the following repository excerpts as data.\n"
+        for i,chunk in enumerate(chunks):
+            prompt+=chunk
+            if i<3:
+                name=list(old['expected'])[i];prompt+=f"\n\nBENCHMARK FACT: the deployment code for {name} is {old['expected'][name]}.\n\n"
+        prompt+='\nReturn a JSON object containing the three deployment codes for ALPHA, BETA and GAMMA from BENCHMARK FACT lines. No explanation.'
+        assert hashlib.sha256(prompt.encode()).hexdigest()==old['prompt_sha256']
+        row={k:old[k] for k in ['target_tokens','run','nonce','local_content_tokens','prompt_sha256','expected']}
+        try:
+            response=chat(b.BASE,'',[{'role':'user','content':prompt}],4096,True,timeout=1800);row.update(digest(response));row['answer']=response['text']
+            row['facts_found']={key:value in response['text'] for key,value in old['expected'].items()};row['recall_passed']=all(row['facts_found'].values()) and row['ok']
+        except Exception as exc:row.update(ok=False,recall_passed=False,error=str(exc))
+        recall.append(row);(WORK/'recall-native4096.json').write_text(json.dumps({'max_output_tokens':4096,'native_thinking':True,'same_prompt_sha256_as_baseline':True,'results':recall},indent=2))
+        print('recall-native4096',target,run,row['recall_passed'],flush=True)
+    runtime=Path.home()/'.arya/github/KonnectSuite/AryaAI/apps/desktop/.desktop-build/development/project'
+    dsh_exit=b.command('native-dsh',['C:/Program Files/nodejs/node.exe','tools/arya_dsh_probe.mjs','--runtime-root',str(runtime),'--model',cfg['model_name'],'--context','131072','--input','text','--native-lfm','yes','--max-tokens','4096','--runs','3','--out',str(WORK/'dsh-adapter.json')])
+    (WORK/'protocol.json').write_text(json.dumps({'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'agent_tool_sha256':hashlib.sha256((ROOT/'tools/arya_agent_bench.py').read_bytes()).hexdigest(),'dsh_tool_sha256':hashlib.sha256((ROOT/'tools/arya_dsh_probe.mjs').read_bytes()).hexdigest(),'dsh_exit':dsh_exit,'max_output_tokens':4096,'system_suffix':PROMPT,'recall_output_budget':4096,'reason':'LFM2.5 is an always-reasoning model. Initial forced-off trials and text-only non-reasoning SDK metadata were unsuitable. Deployment probe uses native thinking, 4096 output tokens and explicit fixture-path instructions; these combined changes are not an isolated causal comparison. Recall replays identical hashed prompts with native thinking and a larger output budget. DSH UI low/medium/high all alias native high; off is not advertised.'},indent=2))
+    b.mark('complete',passed=passed,total=len(rows))
+except Exception as exc:b.mark('failed',error=str(exc));raise
+finally:b.done.set()

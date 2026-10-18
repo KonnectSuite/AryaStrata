@@ -1,0 +1,281 @@
+{
+  "model": "gemma-4-26b-a4b-ud-q4_k_m",
+  "contextWindow": 262144,
+  "adapterVersion": "0.2.0-rc.2",
+  "scope": "DSH pi-ai adapter, streaming assembly and tool-result replay",
+  "results": [
+    {
+      "run": 0,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_29f9369abe1a4d2dbadd7f31",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "gemma-4-26b-a4b-ud-q4_k_m",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "gemma-4-26b-a4b-ud-q4_k_m",
+                "responseId": "chatcmpl-b7e083964e6740c08acb9c55",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "f7b400c2-b885-47e1-a4bf-dea8951166ea"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 93,
+          "outputTokens": 19,
+          "totalTokens": 112
+        },
+        "seconds": 0.5540328000000001
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The exact build label returned by the tool is ARYA-QWEN-262144-0."
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "gemma-4-26b-a4b-ud-q4_k_m",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "gemma-4-26b-a4b-ud-q4_k_m",
+                "responseId": "chatcmpl-4f84fba0580244ce977f29aa",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "a0fbcc84-32f1-46f5-9764-1cdf49ccff72"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 52,
+          "outputTokens": 30,
+          "totalTokens": 168,
+          "cacheReadTokens": 86
+        },
+        "seconds": 0.39892219999999984
+      }
+    },
+    {
+      "run": 1,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_9f30b2027d0c475987393719",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "gemma-4-26b-a4b-ud-q4_k_m",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "gemma-4-26b-a4b-ud-q4_k_m",
+                "responseId": "chatcmpl-487e8799df7f4e558b7640e5",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "f49b63ff-b863-4d0d-a64f-c57637a637ff"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 93,
+          "outputTokens": 19,
+          "totalTokens": 112
+        },
+        "seconds": 0.39534569999999986
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The exact build label returned by the tool is ARYA-QWEN-262144-1."
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "gemma-4-26b-a4b-ud-q4_k_m",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "gemma-4-26b-a4b-ud-q4_k_m",
+                "responseId": "chatcmpl-14c174736acd458bb4049d9d",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "e5b26ce4-2b1c-4df9-b5ec-154c71601dc3"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 52,
+          "outputTokens": 30,
+          "totalTokens": 168,
+          "cacheReadTokens": 86
+        },
+        "seconds": 0.3803859
+      }
+    },
+    {
+      "run": 2,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_ec1d34b027cd48339e3998dc",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "gemma-4-26b-a4b-ud-q4_k_m",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "gemma-4-26b-a4b-ud-q4_k_m",
+                "responseId": "chatcmpl-9065fc212e644efdb55e2ef0",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "ce45781a-3a4a-4e12-bb6a-0d25f8aebbf2"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 93,
+          "outputTokens": 19,
+          "totalTokens": 112
+        },
+        "seconds": 0.38194370000000005
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The exact build label returned by the tool is ARYA-QWEN-262144-2."
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "gemma-4-26b-a4b-ud-q4_k_m",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "gemma-4-26b-a4b-ud-q4_k_m",
+                "responseId": "chatcmpl-7569c1f63d904362b8828e48",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "f84a132d-091d-4106-ae5b-414d0f33cfdc"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 52,
+          "outputTokens": 30,
+          "totalTokens": 168,
+          "cacheReadTokens": 86
+        },
+        "seconds": 0.3787920999999997
+      }
+    }
+  ]
+}

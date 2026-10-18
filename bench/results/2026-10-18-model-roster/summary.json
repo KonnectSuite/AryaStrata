@@ -119,6 +119,335 @@
       "quant": "Q4_K_M"
     },
     {
+      "family": "gemma4",
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "context": 262144,
+      "threads": 15,
+      "vision": true,
+      "vision_gpu": true,
+      "baseline_tps": 148.0,
+      "candidate_tps": 144.175,
+      "selected_candidate": false,
+      "checks": {
+        "coding-none": {
+          "passed": 16,
+          "total": 18,
+          "median_seconds": 10.479730499999278,
+          "failed_cases": [
+            "merge_tool_results"
+          ]
+        },
+        "coding-low": {
+          "passed": 13,
+          "total": 18,
+          "median_seconds": 15.714585449999504,
+          "failed_cases": [
+            "parse_pairs",
+            "summarize_usage",
+            "trim_history"
+          ]
+        },
+        "vision": {
+          "passed": 12,
+          "total": 12,
+          "median_seconds": 0.8053335999993578,
+          "failed_cases": []
+        },
+        "recall": {
+          "passed": 6,
+          "total": 6,
+          "median_seconds": null,
+          "failed_cases": []
+        },
+        "long-agent": {
+          "passed": 2,
+          "total": 3,
+          "median_seconds": 65.9293837999976,
+          "failed_cases": [
+            "trim_history"
+          ],
+          "image_ids": 2
+        },
+        "dsh": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": null,
+          "failed_cases": []
+        }
+      },
+      "recall_lengths": [
+        {
+          "target": 131072,
+          "actual_tokens": 130710,
+          "prefill_tps": 2509.0,
+          "ttft_seconds": 52.142,
+          "decode_tps": 82.9,
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "target": 253952,
+          "actual_tokens": 253589,
+          "prefill_tps": 1692.8,
+          "ttft_seconds": 149.912,
+          "decode_tps": 54.8,
+          "passed": 3,
+          "total": 3
+        }
+      ],
+      "long_reasoning": "none",
+      "long_sessions": [
+        {
+          "case": "trim_history",
+          "seconds": 280.25563180000063,
+          "input_tokens": 229846,
+          "cached_tokens": 0,
+          "passed": false,
+          "image_id_reported": false
+        },
+        {
+          "case": "merge_tool_results",
+          "seconds": 45.95950189999894,
+          "input_tokens": 229861,
+          "cached_tokens": 208896,
+          "passed": true,
+          "image_id_reported": true
+        },
+        {
+          "case": "summarize_usage",
+          "seconds": 65.9293837999976,
+          "input_tokens": 229843,
+          "cached_tokens": 208896,
+          "passed": true,
+          "image_id_reported": true
+        }
+      ],
+      "coding_record_root": ".",
+      "resources": {
+        "peak_ram_used_gib": 41.70463943481445,
+        "least_ram_available_gib": 22.112815856933594,
+        "peak_gpu_mib": 15984.0,
+        "sample_seconds": 5
+      },
+      "prompt_batch": 1024,
+      "window": 8,
+      "kv": "fp16",
+      "title": "Gemma 4 26B-A4B",
+      "quant": "UD-Q4_K_M",
+      "extra_budget_probe": {
+        "max_output_tokens": 4096,
+        "think": "low",
+        "passed": 18,
+        "total": 18,
+        "median_seconds": 31.285379299999477,
+        "long_passed": 2,
+        "long_total": 3,
+        "image_ids": 2,
+        "long_sessions": [
+          {
+            "case": "trim_history",
+            "seconds": 311.6671572000014,
+            "passed": false,
+            "image_id_reported": false,
+            "input_tokens": 229844,
+            "cached_tokens": 0
+          },
+          {
+            "case": "merge_tool_results",
+            "seconds": 156.25725809999858,
+            "passed": true,
+            "image_id_reported": true,
+            "input_tokens": 229859,
+            "cached_tokens": 208896
+          },
+          {
+            "case": "summarize_usage",
+            "seconds": 134.0488151999998,
+            "passed": true,
+            "image_id_reported": true,
+            "input_tokens": 229841,
+            "cached_tokens": 208896
+          }
+        ]
+      }
+    },
+    {
+      "family": "lfm25",
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "context": 131072,
+      "threads": 15,
+      "vision": false,
+      "vision_gpu": null,
+      "baseline_tps": 194.875,
+      "candidate_tps": 201.925,
+      "selected_candidate": true,
+      "checks": {
+        "coding-none": {
+          "passed": 0,
+          "total": 18,
+          "median_seconds": 1.3633374000000913,
+          "failed_cases": [
+            "chunked",
+            "merge_sorted",
+            "merge_tool_results",
+            "parse_pairs",
+            "summarize_usage",
+            "trim_history"
+          ]
+        },
+        "recall": {
+          "passed": 0,
+          "total": 6,
+          "median_seconds": null,
+          "failed_cases": [
+            "unknown"
+          ]
+        },
+        "long-agent": {
+          "passed": 0,
+          "total": 3,
+          "median_seconds": 27.704405899999983,
+          "failed_cases": [
+            "merge_tool_results",
+            "summarize_usage",
+            "trim_history"
+          ]
+        },
+        "dsh": {
+          "passed": 0,
+          "total": 3,
+          "median_seconds": null,
+          "failed_cases": [
+            "unknown"
+          ]
+        }
+      },
+      "recall_lengths": [
+        {
+          "target": 65536,
+          "actual_tokens": 65229,
+          "prefill_tps": 6824.7,
+          "ttft_seconds": 9.629,
+          "decode_tps": 124.1,
+          "passed": 0,
+          "total": 3
+        },
+        {
+          "target": 122880,
+          "actual_tokens": 122619,
+          "prefill_tps": 5598.1,
+          "ttft_seconds": 22.029,
+          "decode_tps": 99.9,
+          "passed": 0,
+          "total": 3
+        }
+      ],
+      "long_reasoning": "none",
+      "long_sessions": [
+        {
+          "case": "trim_history",
+          "seconds": 27.704405899999983,
+          "input_tokens": 106955,
+          "cached_tokens": 0,
+          "passed": false,
+          "image_id_reported": null
+        },
+        {
+          "case": "merge_tool_results",
+          "seconds": 49.342425700000604,
+          "input_tokens": 106973,
+          "cached_tokens": 73728,
+          "passed": false,
+          "image_id_reported": null
+        },
+        {
+          "case": "summarize_usage",
+          "seconds": 18.29386540000087,
+          "input_tokens": 106953,
+          "cached_tokens": 73728,
+          "passed": false,
+          "image_id_reported": null
+        }
+      ],
+      "coding_record_root": ".",
+      "resources": {
+        "peak_ram_used_gib": 36.83971405029297,
+        "least_ram_available_gib": 26.977741241455078,
+        "peak_gpu_mib": 15236.0,
+        "sample_seconds": 5
+      },
+      "prompt_batch": 2048,
+      "window": 1,
+      "kv": "fp16",
+      "title": "LFM2.5-24B-A2B",
+      "quant": "UD-Q4_K_XL",
+      "native_deployment_probe": {
+        "coding": {
+          "passed": 18,
+          "total": 18,
+          "median_seconds": 9.373692499999379
+        },
+        "recall": {
+          "passed": 2,
+          "total": 6,
+          "median_seconds": null
+        },
+        "recall_lengths": [
+          {
+            "target": 65536,
+            "actual_tokens": 65228,
+            "ttft_seconds": 9.221,
+            "prefill_tps": 7124.2,
+            "decode_tps": 131.3,
+            "passed": 1,
+            "total": 3
+          },
+          {
+            "target": 122880,
+            "actual_tokens": 122618,
+            "ttft_seconds": 21.299,
+            "prefill_tps": 5790.1,
+            "decode_tps": 101.5,
+            "passed": 1,
+            "total": 3
+          }
+        ],
+        "long": {
+          "passed": 0,
+          "total": 3,
+          "median_seconds": 45.531423899999936
+        },
+        "long_sessions": [
+          {
+            "case": "trim_history",
+            "seconds": 52.93733020000218,
+            "passed": false,
+            "input_tokens": 107056,
+            "cached_tokens": 0
+          },
+          {
+            "case": "merge_tool_results",
+            "seconds": 44.984533299997565,
+            "passed": false,
+            "input_tokens": 107074,
+            "cached_tokens": 73728
+          },
+          {
+            "case": "summarize_usage",
+            "seconds": 45.531423899999936,
+            "passed": false,
+            "input_tokens": 107054,
+            "cached_tokens": 73728
+          }
+        ],
+        "dsh": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": null
+        }
+      }
+    },
+    {
       "family": "ornith",
       "model": "ornith-1.5-35b-a3b-apex-i-quality",
       "context": 262144,
@@ -229,17 +558,137 @@
       "kv": "q8_0",
       "title": "Ornith 1.5 35B-A3B",
       "quant": "APEX-I-QUALITY"
+    },
+    {
+      "family": "tiel",
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "context": 262144,
+      "threads": 15,
+      "vision": true,
+      "vision_gpu": true,
+      "baseline_tps": 150.225,
+      "candidate_tps": 150.39999999999998,
+      "selected_candidate": false,
+      "checks": {
+        "coding-none": {
+          "passed": 16,
+          "total": 18,
+          "median_seconds": 3.3689803000006577,
+          "failed_cases": [
+            "trim_history"
+          ]
+        },
+        "coding-low": {
+          "passed": 18,
+          "total": 18,
+          "median_seconds": 4.392505799999526,
+          "failed_cases": []
+        },
+        "vision": {
+          "passed": 8,
+          "total": 12,
+          "median_seconds": 0.813918649999323,
+          "failed_cases": [
+            "build-screen",
+            "two-images"
+          ]
+        },
+        "recall": {
+          "passed": 6,
+          "total": 6,
+          "median_seconds": null,
+          "failed_cases": []
+        },
+        "long-agent": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": 79.29417540000031,
+          "failed_cases": [],
+          "image_ids": 3
+        },
+        "dsh": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": null,
+          "failed_cases": []
+        }
+      },
+      "recall_lengths": [
+        {
+          "target": 131072,
+          "actual_tokens": 131209,
+          "prefill_tps": 1480.8,
+          "ttft_seconds": 88.705,
+          "decode_tps": 74.2,
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "target": 253952,
+          "actual_tokens": 254369,
+          "prefill_tps": 1047.7,
+          "ttft_seconds": 242.957,
+          "decode_tps": 49.2,
+          "passed": 3,
+          "total": 3
+        }
+      ],
+      "long_reasoning": "low",
+      "long_sessions": [
+        {
+          "case": "trim_history",
+          "seconds": 452.28806540000005,
+          "input_tokens": 231137,
+          "cached_tokens": 0,
+          "passed": true,
+          "image_id_reported": true
+        },
+        {
+          "case": "merge_tool_results",
+          "seconds": 65.7563566000008,
+          "input_tokens": 231151,
+          "cached_tokens": 208896,
+          "passed": true,
+          "image_id_reported": true
+        },
+        {
+          "case": "summarize_usage",
+          "seconds": 79.29417540000031,
+          "input_tokens": 231134,
+          "cached_tokens": 208896,
+          "passed": true,
+          "image_id_reported": true
+        }
+      ],
+      "coding_record_root": ".",
+      "resources": {
+        "peak_ram_used_gib": 44.51605987548828,
+        "least_ram_available_gib": 19.301395416259766,
+        "peak_gpu_mib": 15815.0,
+        "sample_seconds": 5
+      },
+      "prompt_batch": 512,
+      "window": 8,
+      "kv": "q8_0",
+      "title": "Tiel Coder 35B-A3B",
+      "quant": "UD-Q4_K_XL"
     }
   ],
   "tools_sha256": {
     "arya_agent_bench.py": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
-    "arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "arya_context_bench.py": "42f42aa62eb8c77922d0b7a9455eb672079ed41e50fa935695e696a36f514560",
     "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
     "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82",
-    "arya_dsh_probe.mjs": "fc45b85dfb3bbb7e0a5e89fb6914d58aff11d42a2c99f2e2418bbea086f6d779"
+    "arya_dsh_probe.mjs": "30cd4b8ba37da27b7efec8d063ea424a5e0759a596986f4a84bd96fdc1e58705"
   },
   "historical_tools_sha256": {
     "arya_agent_bench_restricted.py": "3ebf569e61536e67a65a41bb8ea3a7ba07d00d30c1ee668799f4e68956a1d50e",
-    "arya_dsh_probe_vision_before_textfix.mjs": "0a427dc8161354e39f222b372660d96dae0fba1d30b1915d2cfe0ba2400cd0c1"
+    "arya_dsh_probe_vision_before_textfix.mjs": "0a427dc8161354e39f222b372660d96dae0fba1d30b1915d2cfe0ba2400cd0c1",
+    "arya_context_bench_before_metadatafix.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "arya_dsh_probe_before_lfm_native.mjs": "fc45b85dfb3bbb7e0a5e89fb6914d58aff11d42a2c99f2e2418bbea086f6d779"
+  },
+  "additional_tools_sha256": {
+    "gemma_budget4096_probe.py": "75599ba3e33c526b7e84ca6aa321ab435e743bd0335be03b864d47ca1ae8e3d6",
+    "lfm_native_deployment_probe.py": "b58e9451fead594e1306e78233d7e3b4173aaccdd6e11e209f5365e75eba1b5f"
   }
 }

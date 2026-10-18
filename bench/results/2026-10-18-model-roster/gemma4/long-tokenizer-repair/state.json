@@ -1,0 +1,44 @@
+[
+  {
+    "phase": "full-context-gpu-loading",
+    "time": 1792311077.487254
+  },
+  {
+    "phase": "full-context-gpu-ready",
+    "time": 1792311088.6307995,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "context-running",
+    "time": 1792311088.6311524
+  },
+  {
+    "phase": "context-finished",
+    "time": 1792311698.4489655,
+    "exit": 0
+  },
+  {
+    "phase": "long-agent-running",
+    "time": 1792311698.4540613
+  },
+  {
+    "phase": "long-agent-finished",
+    "time": 1792312091.2713864,
+    "exit": 1
+  },
+  {
+    "phase": "complete",
+    "time": 1792312091.279574,
+    "context_exit": 0,
+    "long_agent_exit": 1
+  }
+]

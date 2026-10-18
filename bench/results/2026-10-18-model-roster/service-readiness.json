@@ -1,0 +1,112 @@
+{
+  "passed": true,
+  "scope": "Live loopback server model discovery and sequential switch-on-request smoke checks; not a desktop GUI acceptance test or speed benchmark. Final active model is Qwen3.6 Q4.",
+  "available_model_ids": [
+    "gemma-4-26b-a4b-ud-q4_k_m",
+    "lfm2.5-24b-a2b-ud-q4_k_xl",
+    "minicpm-v-4.7-35b-a3b-q4_k_m",
+    "ornith-1.5-35b-a3b-apex-i-quality",
+    "qwen3.6-35b-a3b-q8_0",
+    "qwen3.6-35b-a3b-ud-q4_k_xl",
+    "qwen3.8-flash-next-iq3_xxs",
+    "tiel-coder-35b-a3b-ud-q4_k_xl"
+  ],
+  "results": [
+    {
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "passed": true,
+      "seconds": 23.379,
+      "answer": "READY",
+      "health": {
+        "status": "ok",
+        "max_context": 262144,
+        "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+        "images": true,
+        "api_key": false,
+        "image_generation": false,
+        "loaded": true,
+        "service": "strata"
+      }
+    },
+    {
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "passed": true,
+      "seconds": 23.715,
+      "answer": "READY",
+      "health": {
+        "status": "ok",
+        "max_context": 262144,
+        "model": "ornith-1.5-35b-a3b-apex-i-quality",
+        "images": true,
+        "api_key": false,
+        "image_generation": false,
+        "loaded": true,
+        "service": "strata"
+      }
+    },
+    {
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "passed": true,
+      "seconds": 14.381,
+      "answer": "READY",
+      "health": {
+        "status": "ok",
+        "max_context": 262144,
+        "model": "gemma-4-26b-a4b-ud-q4_k_m",
+        "images": true,
+        "api_key": false,
+        "image_generation": false,
+        "loaded": true,
+        "service": "strata"
+      }
+    },
+    {
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "passed": true,
+      "seconds": 25.067,
+      "answer": "READY",
+      "health": {
+        "status": "ok",
+        "max_context": 262144,
+        "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+        "images": true,
+        "api_key": false,
+        "image_generation": false,
+        "loaded": true,
+        "service": "strata"
+      }
+    },
+    {
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "passed": true,
+      "seconds": 15.21,
+      "answer": "READY",
+      "health": {
+        "status": "ok",
+        "max_context": 131072,
+        "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+        "images": false,
+        "api_key": false,
+        "image_generation": false,
+        "loaded": true,
+        "service": "strata"
+      }
+    },
+    {
+      "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+      "passed": true,
+      "seconds": 19.074,
+      "answer": "READY",
+      "health": {
+        "status": "ok",
+        "max_context": 262144,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "images": true,
+        "api_key": false,
+        "image_generation": false,
+        "loaded": true,
+        "service": "strata"
+      }
+    }
+  ]
+}

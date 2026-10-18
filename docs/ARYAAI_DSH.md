@@ -14,6 +14,27 @@ do not establish acceptance of every native desktop workflow. Updated model
 metadata is saved in the development profile; reload the development app to
 refresh a model list that was already open.
 
+## Additional development models
+
+All five additional models have installed profiles and development-app metadata. Each passed three isolated streaming/tool-result replay checks. The output limit advertised to the app is 8,192 tokens within total context; it is not extra context.
+
+| Model | ID | Total context | Input |
+|---|---|---:|---|
+| MiniCPM-V 4.7 35B-A3B Q4_K_M | `minicpm-v-4.7-35b-a3b-q4_k_m` | 262,144 | text, image |
+| Gemma 4 26B-A4B UD-Q4_K_M | `gemma-4-26b-a4b-ud-q4_k_m` | 262,144 | text, image |
+| LFM2.5-24B-A2B UD-Q4_K_XL | `lfm2.5-24b-a2b-ud-q4_k_xl` | 131,072 | text |
+| Ornith 1.5 35B-A3B APEX-I-QUALITY | `ornith-1.5-35b-a3b-apex-i-quality` | 262,144 | text, image |
+| Tiel Coder 35B-A3B UD-Q4_K_XL | `tiel-coder-35b-a3b-ud-q4_k_xl` | 262,144 | text, image |
+
+Use low reasoning for MiniCPM, Ornith and Tiel for this style of coding. Gemma output-budget results and recommendations are in the [host report](MODEL_ROSTER_HOST_RESULTS.md); its standard low-mode runs hit the output allowance on some fixtures. LFM is text-only and always reasons: low/medium/high explicitly alias its native mode (`high` on the wire), with no off choice. Use at least 4,096 output tokens for work like the measured deployment probe. Its initial forced-off and incorrect non-reasoning metadata failures remain archived. Tiel has measured build-ID transcription misses. Reload the development app to refresh a model list that was already open. Existing default-model and sampling preferences remain unchanged.
+
+These checks do not qualify the native desktop approval, compaction, recovery or large-repository workflows.
+
+Gemma passed 2/3 long coding/image fixtures even with the larger allowance.
+LFM passed 0/3 long coding fixtures and 2/6 recall trials with native thinking.
+Keep those entries available for their measured shorter workloads; prefer
+MiniCPM or Ornith for the full-context coding/image workload validated in this batch.
+
 ## Applied development profile
 
 Ornith APEX-I-QUALITY is configured as `ornith-1.5-35b-a3b-apex-i-quality`,
@@ -90,7 +111,7 @@ new model metadata is used.
 
 ## Context and output budget
 
-The model label’s 256K means 256 × 1,024 = 262,144 tokens.
+The model labelâ€™s 256K means 256 Ã— 1,024 = 262,144 tokens.
 262,144 is the total context ceiling, not a guaranteed amount of user text plus
 unlimited output. An 8,192-token output allowance leaves at most 253,952 input
 tokens before any additional system/tool budgeting, and compaction can start

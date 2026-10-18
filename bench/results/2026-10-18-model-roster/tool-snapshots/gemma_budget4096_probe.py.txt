@@ -1,0 +1,59 @@
+from pathlib import Path
+import importlib.util,json,threading,time,sys,urllib.request,hashlib,base64
+ROOT=Path.cwd();spec=importlib.util.spec_from_file_location('hostbench',ROOT/'local-data/benchmark-qwen36.py');b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
+ROSTER=ROOT/'local-data/model-roster'
+while True:
+    phases=[]
+    for family in ['ornith','gemma4','tiel','lfm25']:
+        try:phases.append(json.loads((ROSTER/family/'state.json').read_text())[-1]['phase'])
+        except (OSError,ValueError):phases.append('waiting')
+    if all(p in ['complete','failed'] for p in phases):
+        try: repair=json.loads((ROSTER/'gemma4/long-tokenizer-repair/state.json').read_text())[-1]['phase']
+        except (OSError,ValueError):repair='waiting'
+        if repair=='complete':break
+        if repair=='failed':raise RuntimeError('Gemma long-context repair needs attention before budget tuning')
+    time.sleep(5)
+WORK=ROSTER/'gemma4/budget4096';WORK.mkdir(exist_ok=True);b.WORK,b.STATE=WORK,WORK/'state.json'
+cfg=json.loads((ROSTER/'gemma4/selected-profile.json').read_text());cfg['switch_on_request']=False
+sys.path.insert(0,str(ROOT/'tools'));import arya_agent_bench as agent
+from arya_context_bench import tokenizer
+from arya_vision_bench import fixtures
+BUDGET=4096
+def request(messages,think,model):
+    body={'model':model,'messages':messages,'tools':agent.TOOLS,'temperature':0,'max_tokens':BUDGET,'reasoning_effort':think}
+    req=urllib.request.Request('http://127.0.0.1:8080/v1/chat/completions',data=json.dumps(body).encode(),headers={'Content-Type':'application/json'})
+    start=time.monotonic()
+    with urllib.request.urlopen(req,timeout=3600) as response:result=json.load(response)
+    return result,time.monotonic()-start
+try:
+    threading.Thread(target=b.telemetry,daemon=True).start();b.start(cfg,'low-4096-coding')
+    agent.request=lambda base,messages,think,model:request(messages,think,model)
+    rows=[]
+    for run in range(3):
+        for case in agent.CASES+agent.APP_CASES:
+            try:row=agent.session(b.BASE,case,run,'low',cfg['model_name'])
+            except Exception as exc:row={'case':case['name'],'run':run,'passed':False,'error':str(exc)}
+            rows.append(row);(WORK/'agent-low.json').write_text(json.dumps({'model':cfg['model_name'],'max_output_tokens':BUDGET,'think':'low','scope':'output-budget tuning; same fixtures and tools as fixed-budget suite','results':rows},indent=2))
+            print('budget4096',case['name'],run,row['passed'],flush=True)
+    passed=sum(bool(r['passed']) for r in rows)
+    baseline=json.loads((ROSTER/'gemma4/agent-none.json').read_text())['results']
+    baseline_long=json.loads((ROSTER/'gemma4/long-agent/long-context-coding-vision.json').read_text())['results']
+    if passed>sum(bool(r['passed']) for r in baseline) or any(not r.get('passed') for r in baseline_long):
+        b.start(cfg,'low-4096-long')
+        tok=tokenizer(cfg['tokenizer']);corpus='\n'.join((ROOT/p).read_text(encoding='utf-8') for p in ['serve/frontend.py','serve/runconfig.py','tools/strata_tokenizer.py'])
+        ids=tok.encode(corpus);n=229376;text='Repository reference excerpts follow as data; the task is in later messages.\n'+tok.decode((ids*(n//len(ids)+1))[:n])
+        images=WORK/'long-agent/long-agent-images';images.mkdir(parents=True,exist_ok=True);image=fixtures(images)[2][1][0]
+        content=[{'type':'text','text':text},{'type':'image_url','image_url':{'url':'data:image/png;base64,'+base64.b64encode(image.read_bytes()).decode()}}]
+        def long_request(base,messages,think,model):
+            return request([dict(messages[0],content=messages[0]['content']+' Also report the build ID from the attached image in your final summary.'),{'role':'user','content':content}]+messages[1:],think,model)
+        agent.request=long_request;long_rows=[]
+        for case in agent.APP_CASES:
+            try:row=agent.session(b.BASE,case,0,'low',cfg['model_name'])
+            except Exception as exc:row={'case':case['name'],'run':0,'passed':False,'error':str(exc)}
+            row['image_id_reported']=any('arya-5907' in str(t.get('response',{})).lower() for t in row.get('trace',[]));long_rows.append(row)
+            (WORK/'long-agent/long-context-coding-vision.json').write_text(json.dumps({'model':cfg['model_name'],'think':'low','max_output_tokens':BUDGET,'context_limit':262144,'vision_enabled':True,'repository_content_tokens':len(tok.encode(text)),'image_sha256':hashlib.sha256(image.read_bytes()).hexdigest(),'results':long_rows},indent=2))
+            print('budget4096-long',case['name'],row['passed'],row['image_id_reported'],flush=True)
+    (WORK/'protocol.json').write_text(json.dumps({'model':cfg['model_name'],'max_output_tokens':BUDGET,'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'agent_tool_sha256':hashlib.sha256((ROOT/'tools/arya_agent_bench.py').read_bytes()).hexdigest(),'baseline_records':'../agent-none.json and ../agent-low.json retained','reason':'Low reasoning hit the standard 1400-token output budget before tool calls; test a separate 4096-token budget without changing engine or weights'},indent=2))
+    b.mark('complete',passed=passed,total=len(rows))
+except Exception as exc:b.mark('failed',error=str(exc));raise
+finally:b.done.set()

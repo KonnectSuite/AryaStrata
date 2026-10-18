@@ -1,0 +1,377 @@
+[
+  {
+    "phase": "installing",
+    "time": 1792308038.1179326,
+    "family": "tiel",
+    "quant": "UD-Q4_K_XL",
+    "context": 262144
+  },
+  {
+    "phase": "setup-running",
+    "time": 1792308038.1183946
+  },
+  {
+    "phase": "setup-finished",
+    "time": 1792308376.5753257,
+    "exit": 0
+  },
+  {
+    "phase": "full-context-gpu-loading",
+    "time": 1792308387.396682
+  },
+  {
+    "phase": "full-context-gpu-ready",
+    "time": 1792308394.955296,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-loading",
+    "time": 1792308394.955665
+  },
+  {
+    "phase": "threads-8-ready",
+    "time": 1792308403.6346543,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-measured",
+    "time": 1792308421.347009,
+    "median": 146.8
+  },
+  {
+    "phase": "threads-15-loading",
+    "time": 1792308421.3473332
+  },
+  {
+    "phase": "threads-15-ready",
+    "time": 1792308428.4778366,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-15-measured",
+    "time": 1792308445.7449687,
+    "median": 148.5
+  },
+  {
+    "phase": "threads-20-loading",
+    "time": 1792308445.7452571
+  },
+  {
+    "phase": "threads-20-ready",
+    "time": 1792308452.829074,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-20-measured",
+    "time": 1792308469.916936,
+    "median": 151.4
+  },
+  {
+    "phase": "window-1-loading",
+    "time": 1792308469.917252
+  },
+  {
+    "phase": "window-1-ready",
+    "time": 1792308477.1292732,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-1-measured",
+    "time": 1792308498.8984318,
+    "median": 110.4
+  },
+  {
+    "phase": "window-4-loading",
+    "time": 1792308498.898757
+  },
+  {
+    "phase": "window-4-ready",
+    "time": 1792308507.1044698,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-4-measured",
+    "time": 1792308524.1269267,
+    "median": 146.85000000000002
+  },
+  {
+    "phase": "window-8-loading",
+    "time": 1792308524.127268
+  },
+  {
+    "phase": "window-8-ready",
+    "time": 1792308531.2392533,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-8-measured",
+    "time": 1792308548.1348078,
+    "median": 150.05
+  },
+  {
+    "phase": "baseline-a-loading",
+    "time": 1792308548.1351185
+  },
+  {
+    "phase": "baseline-a-ready",
+    "time": 1792308555.234728,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-a-measured",
+    "time": 1792308572.3347175,
+    "median": 149.45
+  },
+  {
+    "phase": "candidate-a-loading",
+    "time": 1792308572.3350587
+  },
+  {
+    "phase": "candidate-a-ready",
+    "time": 1792308579.460644,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-a-measured",
+    "time": 1792308595.9224193,
+    "median": 152.9
+  },
+  {
+    "phase": "candidate-b-loading",
+    "time": 1792308595.9227934
+  },
+  {
+    "phase": "candidate-b-ready",
+    "time": 1792308603.1589243,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-b-measured",
+    "time": 1792308619.8666677,
+    "median": 147.89999999999998
+  },
+  {
+    "phase": "baseline-b-loading",
+    "time": 1792308619.866978
+  },
+  {
+    "phase": "baseline-b-ready",
+    "time": 1792308627.016594,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-b-measured",
+    "time": 1792308643.9087975,
+    "median": 151.0
+  },
+  {
+    "phase": "quality-loading",
+    "time": 1792308643.91025
+  },
+  {
+    "phase": "quality-ready",
+    "time": 1792308651.0171418,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "agent-none-running",
+    "time": 1792308651.0176861
+  },
+  {
+    "phase": "agent-none-finished",
+    "time": 1792308723.624815,
+    "exit": 1
+  },
+  {
+    "phase": "agent-low-running",
+    "time": 1792308723.6252117
+  },
+  {
+    "phase": "agent-low-finished",
+    "time": 1792308826.471849,
+    "exit": 0
+  },
+  {
+    "phase": "vision-running",
+    "time": 1792308826.4829984
+  },
+  {
+    "phase": "vision-finished",
+    "time": 1792308837.2258198,
+    "exit": 1
+  },
+  {
+    "phase": "context-running",
+    "time": 1792308837.2262583
+  },
+  {
+    "phase": "context-finished",
+    "time": 1792309839.1450298,
+    "exit": 0
+  },
+  {
+    "phase": "long-agent-running",
+    "time": 1792309839.1454387
+  },
+  {
+    "phase": "long-agent-finished",
+    "time": 1792310437.2047942,
+    "exit": 0
+  },
+  {
+    "phase": "dsh-adapter-running",
+    "time": 1792310437.2051919
+  },
+  {
+    "phase": "dsh-adapter-finished",
+    "time": 1792310440.8155773,
+    "exit": 0
+  },
+  {
+    "phase": "complete",
+    "time": 1792310440.8168612,
+    "summary": {
+      "family": "tiel",
+      "quant": "UD-Q4_K_XL",
+      "context": 262144,
+      "checks": [
+        {
+          "label": "agent-none",
+          "exit": 1
+        },
+        {
+          "label": "agent-low",
+          "exit": 0
+        },
+        {
+          "label": "vision",
+          "exit": 1
+        },
+        {
+          "label": "context",
+          "exit": 0
+        },
+        {
+          "label": "long-agent",
+          "exit": 0
+        },
+        {
+          "label": "dsh-adapter",
+          "exit": 0
+        }
+      ],
+      "profile": "strata-tiel-ud-q4_k_xl.json",
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "selected_candidate": false,
+      "recommended_think": "low"
+    }
+  }
+]

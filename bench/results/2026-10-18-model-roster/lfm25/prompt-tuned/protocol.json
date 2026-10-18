@@ -1,0 +1,12 @@
+{
+  "source_sha256": "b58e9451fead594e1306e78233d7e3b4173aaccdd6e11e209f5365e75eba1b5f",
+  "agent_tool_sha256": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+  "dsh_tool_sha256": "30cd4b8ba37da27b7efec8d063ea424a5e0759a596986f4a84bd96fdc1e58705",
+  "dsh_exit": 0,
+  "max_output_tokens": 4096,
+  "system_suffix": "Environment contract: the ONLY valid path argument is the exact relative string \"module.py\". Never prefix it with /workspace/, ./, or any directory. Only read_file, write_file and run_tests exist; list_dir does not exist. First call read_file(path=\"module.py\"), then write_file(path=\"module.py\",content=<complete corrected standalone functions>), then run_tests(). If a tool returns an error, correct that error before continuing. Do not run tests before a successful write.",
+  "recall_output_budget": 4096,
+  "reason": "LFM2.5 is an always-reasoning model. Initial forced-off trials and text-only non-reasoning SDK metadata were unsuitable. Deployment probe uses native thinking, 4096 output tokens and explicit fixture-path instructions; these combined changes are not an isolated causal comparison. Recall replays identical hashed prompts with native thinking and a larger output budget. DSH UI low/medium/high all alias native high; off is not advertised.",
+  "source_archive": "../../tool-snapshots/lfm_native_deployment_probe.py.txt",
+  "dsh_tool_archive": "../../tool-snapshots/arya_dsh_probe.mjs.txt"
+}
