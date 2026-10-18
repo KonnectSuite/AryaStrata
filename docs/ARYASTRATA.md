@@ -126,7 +126,7 @@ profile uses the old installation's **262,144-token ceiling**:
 ```
 
 MTP and default suffix drafting are enabled; the engine reports lookup windows up
-to 6. Vision is off. `fit_max_tokens` is enabled. Calibration is saved using setup's
+to 6. Vision was off during these benchmarks. `fit_max_tokens` is enabled. Calibration is saved using setup's
 per-hardware/per-model/per-context settings format so updates can retain it.
 
 The same-day 262K-ceiling API comparison measured **76.4 → 86.1 tokens/s** for
@@ -146,7 +146,7 @@ latency **101.6 seconds**. This validates those retrieval trials, not arbitrary
 reasoning or large-repository coding at that size.
 
 The development DSH profile now selects the same Qwen model with its full context,
-**8,192-token output capability** and text-only input. Its low-thinking preference
+**8,192-token output capability** and text/image input (vision enabled after the text benchmarks). Its low-thinking preference
 was preserved. Details and the adapter-test boundary: [AryaAI DSH](ARYAAI_DSH.md).
 
 [Full benchmark and raw records](../bench/results/2026-10-17-aryastrata-qwen38-iq3xxs/README.md).
@@ -156,3 +156,13 @@ The existing
 used a Ryzen CPU and Linux; its numbers are reference data, not results from this PC.
 Hardware-specific engine defaults should change only after a repeatable improvement
 is measured here.
+
+## Vision enabled after the text benchmarks
+
+GPU vision is enabled with the existing BF16 Qwen3.8 Flash Next projector and
+`strata-vision.exe`, up to 1,024 image tokens per picture. Context remains
+262,144, with the same text tuning settings. The development DSH model now
+advertises both text and image input. A local synthetic shapes/text image was
+correctly described in 2.11 seconds through the image-input chat API. This is a
+smoke check, not a vision benchmark or a remeasurement of text speed with vision
+loaded. [Vision check and raw response](../bench/results/2026-10-17-aryastrata-qwen38-vision/README.md).

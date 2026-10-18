@@ -1,0 +1,50 @@
+{
+  "health": {
+    "status": "ok",
+    "max_context": 262144,
+    "model": "qwen3.8-flash-next-iq3_xxs",
+    "images": true,
+    "api_key": false,
+    "image_generation": false,
+    "loaded": true,
+    "service": "strata"
+  },
+  "elapsed_seconds": 2.1137721000122838,
+  "response": {
+    "id": "chatcmpl-5763acd04e7846a2818b30be",
+    "object": "chat.completion",
+    "created": 1792289577,
+    "model": "qwen3.8-flash-next-iq3_xxs",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Based on the image provided, here is a description of its contents:\n\n**Shapes and Positions:**\n*   **Left Shape:** A solid red square.\n*   **Right Shape:** A solid blue circle.\n\n**Text at the Bottom:**\nThe text transcribed from the bottom of the image is:\n`VISION 7319`"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 254,
+      "completion_tokens": 74,
+      "total_tokens": 328,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 254,
+      "prompt_ms": 1015.7,
+      "prompt_per_token_ms": 3.999,
+      "prompt_per_second": 250.1,
+      "predicted_n": 74,
+      "predicted_ms": 932.7,
+      "predicted_per_token_ms": 12.604,
+      "predicted_per_second": 79.3,
+      "draft_n": 48,
+      "draft_n_accepted": 44
+    }
+  }
+}

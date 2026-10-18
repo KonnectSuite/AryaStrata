@@ -36,7 +36,7 @@ The relevant configuration is:
             name: AryaStrata Qwen3.8 Flash Next IQ3_XXS - 256K
             contextWindow: 262144
             maxTokens: 8192
-            input: [text]
+            input: [text, image]
             reasoningEfforts:
               'off': 'none'
               low: low
@@ -60,7 +60,7 @@ earlier. The near-ceiling retrieval benchmark used 258,300 input tokens and only
 
 The profile previously advertised almost the whole context as output capability
 and advertised image input. The new capability metadata reserves a practical
-answer budget and matches the tested text-only server. The selected output cap
+answer budget. Image input was subsequently enabled in both the server and this development profile; the published coding and speed benchmarks remain text-only measurements. The selected output cap
 is a configuration choice, not a measured optimum for every coding task.
 
 ## What was tested
