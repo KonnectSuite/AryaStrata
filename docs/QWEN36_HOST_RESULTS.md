@@ -36,6 +36,33 @@ The native Strata Qwen3.6 backend failed at 262K and 192K on this host; the sepa
 
 [Raw results](../bench/results/2026-10-17-qwen36-poly-256k/summary.json)
 
+## Choose a model in AryaAI
+
+In the AryaAI development build, select one of these installed models. Reload
+the app's model list if the updated entries are not visible.
+
+| Choice | Exact model ID | Weight quantization | When to use it on this host |
+|---|---|---|---|
+| Q4 | `qwen3.6-35b-a3b-ud-q4_k_xl` | UD-Q4_K_XL | Recommended daily coding-agent profile; more measured RAM headroom |
+| Q8 | `qwen3.6-35b-a3b-q8_0` | Q8_0 | Higher-precision weight comparison; very little RAM headroom in these trials |
+
+Both profiles support text and image input, advertise 262,144 context tokens
+and 8,192 output tokens to the development adapter, and use the same compressed
+Q8_0 KV cache. The output limit is part of the total context budget, not extra
+capacity beyond it. Leave room for image tokens, message formatting, generated
+answers and subsequent tool results when assembling an agent conversation.
+
+The largest measured text recall input was **254,191 tokens**. The combined
+coding-and-image test began around **230,827 input tokens**, leaving more room
+for its tool loop. Both ran with the full 262,144-token cache allocated and
+vision enabled; a successful text recall trial does not establish image-and-tool
+performance at that same input length.
+
+For small edits like the measured fixtures, start with reasoning off. Low
+reasoning passed the same fixture checks but took longer. Keep either setting
+available for harder work; these results do not establish its quality there.
+See [AryaAI connection settings](ARYAAI_DSH.md) for the integration details.
+
 ## Long-input performance
 
 Fresh three-fact recall prompts, three runs per length and quant; medians below. Vision was loaded throughout.
