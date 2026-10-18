@@ -1,0 +1,114 @@
+[
+  {
+    "phase": "corrected-coding-loading",
+    "time": 1792303379.619333
+  },
+  {
+    "phase": "corrected-coding-ready",
+    "time": 1792303387.3053155,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "agent-none-running",
+    "time": 1792303387.3058085
+  },
+  {
+    "phase": "agent-none-finished",
+    "time": 1792303462.1962075,
+    "exit": 1
+  },
+  {
+    "phase": "agent-low-running",
+    "time": 1792303462.1967845
+  },
+  {
+    "phase": "agent-low-finished",
+    "time": 1792303590.3851697,
+    "exit": 0
+  },
+  {
+    "phase": "long-none-loading",
+    "time": 1792303590.385566
+  },
+  {
+    "phase": "long-none-ready",
+    "time": 1792303598.0385158,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "long-agent-none-running",
+    "time": 1792303598.0389237
+  },
+  {
+    "phase": "long-agent-none-finished",
+    "time": 1792304103.143775,
+    "exit": 0
+  },
+  {
+    "phase": "long-low-loading",
+    "time": 1792304103.1441152
+  },
+  {
+    "phase": "long-low-ready",
+    "time": 1792304110.8362896,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "long-agent-low-running",
+    "time": 1792304110.8367465
+  },
+  {
+    "phase": "long-agent-low-finished",
+    "time": 1792304653.5451736,
+    "exit": 0
+  },
+  {
+    "phase": "complete",
+    "time": 1792304653.5468774,
+    "checks": [
+      {
+        "label": "agent-none",
+        "exit": 1
+      },
+      {
+        "label": "agent-low",
+        "exit": 0
+      },
+      {
+        "label": "long-agent-none",
+        "exit": 0
+      },
+      {
+        "label": "long-agent-low",
+        "exit": 0
+      }
+    ]
+  }
+]

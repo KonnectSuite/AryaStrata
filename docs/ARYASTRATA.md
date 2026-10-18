@@ -41,6 +41,15 @@ practical daily-agent choice here: less RAM pressure and lower median fixture
 latency. Q8 completed the tests but briefly left only 0.10 GiB of RAM available.
 These are bounded host checks, not a general coding-quality ranking.
 
+[MiniCPM-V 4.7 Q4_K_M](MINICPMV_HOST_RESULTS.md) is also validated at
+262,144-token capacity with GPU vision and Q8_0 KV. The corrected coding suite
+passed 18/18 sessions with low reasoning and 16/18 with reasoning off; both
+modes passed all three long coding/image sessions and reported all image IDs.
+Twelve image checks, six recall trials and three development DSH adapter checks
+passed. The longest text input was 254,191 tokens; the first combined
+coding/image input was 230,715 tokens. The original restricted-validator runs
+remain archived and are not the published coding scores.
+
 1. Target confirmed: this Windows PC, for coding and local coding agents.
 2. Choose one model and quantization using [AI_SETUP.md](AI_SETUP.md) and
    [BACKENDS.md](BACKENDS.md). Confirm the download size and destination before setup.
@@ -55,8 +64,11 @@ These are bounded host checks, not a general coding-quality ranking.
 7. Repeat each case at least three times and report medians. Change one setting
    at a time, comparing the modified build to a same-day unmodified baseline.
 
-Start with short prompts and a 32K context ceiling; expand only after checking
-memory use and correctness. Treat this as an experiment plan, not a measured optimum.
+For coding-agent validation, target the model's supported full context and record
+the actual input length separately from allocated capacity. Short prompts are
+useful diagnostics, but do not establish long-context coding-agent performance.
+Keep vision enabled during validation for image-capable profiles. Treat untested
+settings as an experiment plan, not a measured optimum.
 Follow [COMMUNITY_BENCHMARKS.md](COMMUNITY_BENCHMARKS.md) for reporting conventions.
 
 ## Deferred coding comparison

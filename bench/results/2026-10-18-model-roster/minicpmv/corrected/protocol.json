@@ -1,0 +1,25 @@
+{
+  "reason": "Earlier validator incorrectly rejected ordinary set.add and dict.values; original records retained but superseded for coding quality. No model/engine settings changed.",
+  "tools_sha256": {
+    "arya_agent_bench.py": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+    "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82"
+  },
+  "checks": [
+    {
+      "label": "agent-none",
+      "exit": 1
+    },
+    {
+      "label": "agent-low",
+      "exit": 0
+    },
+    {
+      "label": "long-agent-none",
+      "exit": 0
+    },
+    {
+      "label": "long-agent-low",
+      "exit": 0
+    }
+  ]
+}

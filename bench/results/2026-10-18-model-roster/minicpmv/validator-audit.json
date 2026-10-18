@@ -1,0 +1,117 @@
+{
+  "scope": "Offline recheck of previously rejected generated solutions; not a replacement for the rerun tool-loop benchmark",
+  "results": [
+    {
+      "original_record": "long-agent",
+      "case": "merge_tool_results",
+      "original_passed": false,
+      "offline_recheck_only": true,
+      "attempts": [
+        {
+          "source_sha256": "21c4e76ad1ce36e6bf0e57157313cc053c4b4b8ff190700cfb397ca0e7b993c1",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "21c4e76ad1ce36e6bf0e57157313cc053c4b4b8ff190700cfb397ca0e7b993c1",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "21c4e76ad1ce36e6bf0e57157313cc053c4b4b8ff190700cfb397ca0e7b993c1",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "21c4e76ad1ce36e6bf0e57157313cc053c4b4b8ff190700cfb397ca0e7b993c1",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "21c4e76ad1ce36e6bf0e57157313cc053c4b4b8ff190700cfb397ca0e7b993c1",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "21c4e76ad1ce36e6bf0e57157313cc053c4b4b8ff190700cfb397ca0e7b993c1",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "21c4e76ad1ce36e6bf0e57157313cc053c4b4b8ff190700cfb397ca0e7b993c1",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "21c4e76ad1ce36e6bf0e57157313cc053c4b4b8ff190700cfb397ca0e7b993c1",
+          "passes_corrected_tests": true
+        }
+      ]
+    },
+    {
+      "original_record": "long-agent",
+      "case": "summarize_usage",
+      "original_passed": false,
+      "offline_recheck_only": true,
+      "attempts": [
+        {
+          "source_sha256": "0e258d654a020320ba4a5e1291b2bcf9fae8f42777b9043d6e6ba11507986eda",
+          "passes_corrected_tests": false
+        },
+        {
+          "source_sha256": "273822449512e3055d0f53f71e5599faec903f6ffcc61664ef6d39688b0c036c",
+          "passes_corrected_tests": false
+        },
+        {
+          "source_sha256": "273822449512e3055d0f53f71e5599faec903f6ffcc61664ef6d39688b0c036c",
+          "passes_corrected_tests": false
+        },
+        {
+          "source_sha256": "273822449512e3055d0f53f71e5599faec903f6ffcc61664ef6d39688b0c036c",
+          "passes_corrected_tests": false
+        },
+        {
+          "source_sha256": "273822449512e3055d0f53f71e5599faec903f6ffcc61664ef6d39688b0c036c",
+          "passes_corrected_tests": false
+        },
+        {
+          "source_sha256": "273822449512e3055d0f53f71e5599faec903f6ffcc61664ef6d39688b0c036c",
+          "passes_corrected_tests": false
+        },
+        {
+          "source_sha256": "273822449512e3055d0f53f71e5599faec903f6ffcc61664ef6d39688b0c036c",
+          "passes_corrected_tests": false
+        },
+        {
+          "source_sha256": "273822449512e3055d0f53f71e5599faec903f6ffcc61664ef6d39688b0c036c",
+          "passes_corrected_tests": false
+        }
+      ]
+    },
+    {
+      "original_record": "long-agent-low",
+      "case": "merge_tool_results",
+      "original_passed": false,
+      "offline_recheck_only": true,
+      "attempts": [
+        {
+          "source_sha256": "4e13faf1d71bd89330525250943c12983cd89467889dde71bd3405abf5397dc5",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "4e13faf1d71bd89330525250943c12983cd89467889dde71bd3405abf5397dc5",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "ab8bcc57cdc7f7335aecbc3a3f277b417274850b539ed9eee7feddb074c0f411",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "ab8bcc57cdc7f7335aecbc3a3f277b417274850b539ed9eee7feddb074c0f411",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "d642ee654cb8d90903cbaa3a30571884c6a93abb59516fc7a1a739c6b90ba7df",
+          "passes_corrected_tests": true
+        },
+        {
+          "source_sha256": "bf99ce6de715a2720fc1561aedfbda73b2d1d21bf8d7b709d09b3fbc46b0fa50",
+          "passes_corrected_tests": true
+        }
+      ]
+    }
+  ]
+}

@@ -15,6 +15,9 @@ def main():
     ap.add_argument('--out', required=True)
     ap.add_argument('--tokens', type=int, default=229376)
     ap.add_argument('--runs', type=int, default=1)
+    ap.add_argument('--context', type=int, default=262144)
+    ap.add_argument('--think', default='none', choices=('none', 'low', 'medium', 'high'))
+    ap.add_argument('--text-only', action='store_true', help='Run the coding tool loop without an image for text-only models')
     ap.add_argument('--resume', action='store_true')
     a = ap.parse_args()
     work = Path(a.out)
@@ -27,10 +30,13 @@ def main():
     image_folder = work / 'long-agent-images'
     image_folder.mkdir(parents=True, exist_ok=True)
     image = fixtures(image_folder)[2][1][0]
-    content = [{'type': 'text', 'text': text}, {'type': 'image_url', 'image_url': {'url': 'data:image/png;base64,' + base64.b64encode(image.read_bytes()).decode()}}]
+    content = [{'type': 'text', 'text': text}]
+    if not a.text_only:
+        content.append({'type': 'image_url', 'image_url': {'url': 'data:image/png;base64,' + base64.b64encode(image.read_bytes()).decode()}})
 
     def request(base, messages, think, model):
-        payload = {'model': model, 'messages': [dict(messages[0], content=messages[0]['content'] + ' Also report the build ID from the attached image in your final summary.'), {'role': 'user', 'content': content}] + messages[1:], 'tools': agent.TOOLS, 'temperature': 0, 'max_tokens': 1400, 'reasoning_effort': think}
+        instruction = '' if a.text_only else ' Also report the build ID from the attached image in your final summary.'
+        payload = {'model': model, 'messages': [dict(messages[0], content=messages[0]['content'] + instruction), {'role': 'user', 'content': content}] + messages[1:], 'tools': agent.TOOLS, 'temperature': 0, 'max_tokens': 1400, 'reasoning_effort': think}
         req = urllib.request.Request(base.rstrip('/') + '/v1/chat/completions', data=json.dumps(payload).encode(), headers={'Content-Type': 'application/json'})
         start = time.monotonic()
         with urllib.request.urlopen(req, timeout=3600) as r:
@@ -45,6 +51,10 @@ def main():
             raise ValueError('Saved long-agent report uses a different model or input size')
         if saved['image_sha256'] != hashlib.sha256(image.read_bytes()).hexdigest():
             raise ValueError('Saved long-agent report uses a different image')
+        if saved.get('vision_enabled', True) != (not a.text_only) or saved.get('context_limit', 262144) != a.context:
+            raise ValueError('Saved long-agent report uses a different context or vision mode')
+        if saved.get('think', 'none') != a.think:
+            raise ValueError('Saved long-agent report uses a different reasoning mode')
         rows = saved['results']
     completed = {(row['case'], row.get('run', 0)) for row in rows}
     for run in range(a.runs):
@@ -53,13 +63,13 @@ def main():
                 print(case['name'], run, 'already recorded; preserving', flush=True)
                 continue
             try:
-                row = agent.session('http://127.0.0.1:8080', case, run, 'none', a.model)
+                row = agent.session('http://127.0.0.1:8080', case, run, a.think, a.model)
             except Exception as exc:
                 row = {'case': case['name'], 'run': run, 'passed': False, 'error': str(exc)}
-            row['image_id_reported'] = any(('arya-5907' in str(t.get('response', {})).lower() for t in row.get('trace', [])))
+            row['image_id_reported'] = None if a.text_only else any(('arya-5907' in str(t.get('response', {})).lower() for t in row.get('trace', [])))
             rows.append(row)
-            (work / 'long-context-coding-vision.json').write_text(json.dumps({'model': a.model, 'context_limit': 262144, 'repository_content_tokens': len(tok.encode(text)), 'image_sha256': hashlib.sha256(image.read_bytes()).hexdigest(), 'scope': 'bounded coding tool loop with repeated repository excerpts and build-screen image; not a real repository benchmark', 'results': rows}, indent=2))
+            (work / 'long-context-coding-vision.json').write_text(json.dumps({'model': a.model, 'context_limit': a.context, 'vision_enabled': not a.text_only, 'think': a.think, 'repository_content_tokens': len(tok.encode(text)), 'image_sha256': hashlib.sha256(image.read_bytes()).hexdigest(), 'scope': 'bounded coding tool loop with repeated repository excerpts' + ('' if a.text_only else ' and build-screen image') + '; not a real repository benchmark', 'results': rows}, indent=2))
             print(case['name'], row['passed'], flush=True)
-    return int(not rows or not all(row.get('passed') and row.get('image_id_reported') for row in rows))
+    return int(not rows or not all(row.get('passed') and (a.text_only or row.get('image_id_reported')) for row in rows))
 if __name__ == '__main__':
     raise SystemExit(main())

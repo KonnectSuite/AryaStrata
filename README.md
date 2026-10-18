@@ -40,7 +40,7 @@ The linked guides retain upstream measurements, hardware requirements and limita
 | **Ornith 1.5** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Old llama.cpp downloads removed; fresh setup and validation pending | [Backends](docs/BACKENDS.md) |
 | **Gemma 4 26B-A4B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
 | **Tiel Coder 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
-| **MiniCPM-V 4.7 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
+| **MiniCPM-V 4.7 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **Q4: 262K GPU vision; low reasoning passed 18/18 bounded coding sessions and 3/3 long coding/image sessions** | [Measured host results](docs/MINICPMV_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 
 Qwen3.8 variants include **Coder, Swift 1.5, and Unsloth quantizations**. These are
 inherited options; our results apply to the exact IQ3_XXS files in the benchmark
@@ -97,6 +97,11 @@ qualified native desktop workflow. Raw records, ranges, exact model/build hashes
 resource observations and methodology: [full host benchmark](bench/results/2026-10-17-aryastrata-qwen38-iq3xxs/README.md).
 
 [Current host setup](docs/ARYASTRATA.md) · [AryaAI development DSH profile](docs/ARYAAI_DSH.md)
+
+Additional full-context host results: [Qwen3.6 Q4 versus Q8](docs/QWEN36_HOST_RESULTS.md)
+and [MiniCPM-V 4.7 Q4 with vision](docs/MINICPMV_HOST_RESULTS.md). The MiniCPM
+report uses corrected coding-validator results and retains the original records
+for audit; its speed, image and recall results are separate measurements.
 
 ### Current vision and agent configuration
 

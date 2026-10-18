@@ -1,0 +1,5 @@
+{
+  "general.architecture": "qwen35moe",
+  "general.name": "35a3_hf_v47_0923",
+  "qwen35moe.context_length": 262144
+}

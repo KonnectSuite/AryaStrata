@@ -1,0 +1,47 @@
+{
+  "exe": "C:\\AryaStrata\\engine-poly\\strata-poly.exe",
+  "args": [
+    "--model",
+    "C:\\AI\\Strata-data\\models\\minicpmv-Q4_K_M\\MiniCPM-V-4_7-35B-A3B-Q4_K_M.gguf",
+    "--max-context",
+    "262144",
+    "--expert-profile",
+    "C:\\AI\\Strata-data\\packs\\minicpmv-q4_k_m\\expert-profile.txt",
+    "--conversation-cache-mib",
+    "8192",
+    "--threads",
+    "15",
+    "--kv",
+    "q8_0",
+    "--prompt-batch",
+    "512",
+    "--vram-reserve-mib",
+    "768",
+    "--tail-skip",
+    "0",
+    "--kv-whole"
+  ],
+  "cwd": "C:\\AryaStrata",
+  "tokenizer": "C:\\AI\\Strata-data\\packs\\minicpmv-q4_k_m\\tokenizer",
+  "model_name": "minicpm-v-4.7-35b-a3b-q4_k_m",
+  "display_name": "MiniCPM-V 4.7 35B-A3B Q4_K_M",
+  "log": "C:\\AryaStrata\\local-data\\minicpmv-q4-256k\\initial-256k-vision-engine.log",
+  "lib_dirs": [
+    "C:\\AryaStrata\\.venv\\Lib\\site-packages\\nvidia\\cu13\\bin\\x86_64"
+  ],
+  "port": 8080,
+  "gpu": 0,
+  "gpus_asked": true,
+  "vision": {
+    "exe": "C:\\AryaStrata\\engine-poly\\strata-vision.exe",
+    "mmproj": "C:\\AI\\Strata-data\\models\\minicpmv-Q4_K_M\\mmproj-model-f16.gguf",
+    "model": "C:\\AI\\Strata-data\\models\\minicpmv-Q4_K_M\\MiniCPM-V-4_7-35B-A3B-Q4_K_M.gguf",
+    "gpu": true,
+    "max_tokens": 1024
+  },
+  "host": "127.0.0.1",
+  "parallel": 1,
+  "open_browser": false,
+  "switch_on_request": false,
+  "fit_max_tokens": true
+}

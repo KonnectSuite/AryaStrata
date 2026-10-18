@@ -16,6 +16,17 @@ refresh a model list that was already open.
 
 ## Applied development profile
 
+MiniCPM-V 4.7 Q4_K_M is configured as
+`minicpm-v-4.7-35b-a3b-q4_k_m`, with 262,144 total context tokens,
+8,192 advertised output tokens within that budget, and text/image input.
+The GPU vision profile passed three isolated development-adapter streaming and
+tool-result replay checks. Low reasoning passed 18/18 corrected bounded coding
+sessions and is recommended for these fixtures. See the
+[MiniCPM host results](MINICPMV_HOST_RESULTS.md) for long-context checks,
+timings, memory observations and the validator correction. Reload the development
+app model list if the new entry is not visible. Existing default-model and
+thinking preferences were preserved.
+
 The running development app uses `%USERPROFILE%/profiles/desktop/cordis.patch.yml`.
 The initial Qwen3.8 model's label, context, output capability and input modalities
 were updated, followed by the two Qwen3.6 model entries. The provider key,

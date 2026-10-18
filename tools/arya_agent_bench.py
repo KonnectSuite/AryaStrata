@@ -54,7 +54,15 @@ def validate(source):
     tree = ast.parse(source)
     banned = (ast.Import, ast.ImportFrom, ast.ClassDef, ast.AsyncFunctionDef,
               ast.Global, ast.Nonlocal, ast.With, ast.AsyncWith)
-    attrs = {"append", "extend", "split", "strip", "items", "get", "lower", "isdigit", "copy"}
+    # Normal container/string operations are part of the fixture vocabulary.
+    # Rejecting set.add or dict.values turned valid solutions into harness failures.
+    # Keep introspection, imports and I/O unavailable rather than requiring one
+    # particular implementation style for these pure functions.
+    attrs = {"append", "extend", "split", "strip", "items", "get", "lower", "isdigit", "copy",
+             "add", "discard", "remove", "pop", "clear", "keys", "values", "setdefault", "update",
+             "sort", "reverse", "count", "index", "startswith", "endswith", "join", "replace",
+             "rstrip", "lstrip", "isspace", "upper", "casefold", "splitlines", "partition", "rsplit",
+             "union", "intersection", "difference", "issubset", "issuperset", "isdisjoint"}
     for node in ast.walk(tree):
         if isinstance(node, banned):
             raise ValueError("Only standalone Python functions without imports are allowed")

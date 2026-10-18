@@ -1,0 +1,8 @@
+strata-vision: model files loaded in 1.1 s
+strata-vision: warmed up at 661 image tokens in 0.4 s
+[strata] 2026-10-18 01:17:49 engine started: C:\AryaStrata\engine-poly\strata-poly.exe --serve --model C:\AI\Strata-data\models\minicpmv-Q4_K_M\MiniCPM-V-4_7-35B-A3B-Q4_K_M.gguf --max-context 262144 --expert-profile C:\AI\Strata-data\packs\minicpmv-q4_k_m\expert-profile.txt --conversation-cache-mib 8192 --threads 15 --kv q8_0 --prompt-batch 512 --vram-reserve-mib 768 --tail-skip 0 --kv-whole
+strata-poly: q8_0 KV cache: 544 bytes a row
+strata-poly: loaded in 3.4 s; 5096 of 10240 routed experts in VRAM (9.1 GiB), 15 CPU threads
+strata-poly: the expert cache 5096 -> 4674 experts (8.25 GiB) for the VRAM free now, 0 MiB left
+strata-poly: the expert cache 4674 -> 4260 experts (7.50 GiB) for the VRAM free now, 546 MiB left
+strata-poly: the expert cache 4260 -> 4012 experts (7.06 GiB) for the VRAM free now, 828 MiB left

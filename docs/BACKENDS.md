@@ -5,6 +5,12 @@
 AryaStrata runs more than one model family. This page says which, how the engine is put together so that it can,
 how a model is recognized, how to add one, and how to change the model that answers.
 
+AryaStrata host measurements are separate from the inherited comparisons below:
+[Qwen3.6 Q4/Q8](QWEN36_HOST_RESULTS.md) and
+[MiniCPM-V 4.7 Q4](MINICPMV_HOST_RESULTS.md), both at 262,144-token capacity
+with GPU vision on our Windows host. See each report for actual input counts,
+coding checks, failures and limits.
+
 One model is in memory at a time. The measurements below are from one machine: an RTX 5090 (32 GB), 24 threads of
 a Xeon Platinum 8470Q, 120 GiB of RAM, Linux, CUDA 12.8. On that card the three new models fit in VRAM whole.
 [One section](#with-8-gb-of-vram) holds the 5090 to 8 GB, and [one section](#on-a-laptop-with-8-gb-of-vram) is from

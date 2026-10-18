@@ -1,0 +1,101 @@
+{
+  "models": [
+    {
+      "family": "minicpmv",
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "context": 262144,
+      "threads": 15,
+      "vision": true,
+      "vision_gpu": true,
+      "baseline_tps": 137.3,
+      "candidate_tps": 138.325,
+      "selected_candidate": false,
+      "checks": {
+        "coding-none": {
+          "passed": 16,
+          "total": 18,
+          "median_seconds": 3.610663349999868,
+          "failed_cases": [
+            "summarize_usage"
+          ]
+        },
+        "coding-low": {
+          "passed": 18,
+          "total": 18,
+          "median_seconds": 5.8157270500005325,
+          "failed_cases": []
+        },
+        "vision": {
+          "passed": 12,
+          "total": 12,
+          "median_seconds": 0.6481074499997703,
+          "failed_cases": []
+        },
+        "recall": {
+          "passed": 6,
+          "total": 6,
+          "median_seconds": null,
+          "failed_cases": []
+        },
+        "long-agent": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": 77.56575599999996,
+          "failed_cases": [],
+          "image_ids": 3
+        },
+        "long-agent-low": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": 92.072251399999,
+          "failed_cases": [],
+          "image_ids": 3
+        },
+        "dsh": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": null,
+          "failed_cases": []
+        }
+      },
+      "recall_lengths": [
+        {
+          "target": 131072,
+          "actual_tokens": 131031,
+          "prefill_tps": 1379.6,
+          "ttft_seconds": 95.096,
+          "decode_tps": 54.2,
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "target": 253952,
+          "actual_tokens": 254191,
+          "prefill_tps": 960.1,
+          "ttft_seconds": 265.021,
+          "decode_tps": 34.6,
+          "passed": 3,
+          "total": 3
+        }
+      ],
+      "long_reasoning": "low",
+      "coding_record_root": "corrected",
+      "resources": {
+        "peak_ram_used_gib": 55.5351448059082,
+        "least_ram_available_gib": 8.282310485839844,
+        "peak_gpu_mib": 15988.0,
+        "sample_seconds": 5
+      },
+      "prompt_batch": 512,
+      "window": null,
+      "kv": "q8_0"
+    }
+  ],
+  "tools_sha256": {
+    "arya_agent_bench.py": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+    "arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
+    "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82",
+    "arya_dsh_probe.mjs": "0a427dc8161354e39f222b372660d96dae0fba1d30b1915d2cfe0ba2400cd0c1"
+  }
+}

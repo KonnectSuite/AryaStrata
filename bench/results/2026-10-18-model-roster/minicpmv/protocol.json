@@ -1,0 +1,94 @@
+{
+  "source_commit": "7fc91d38023c46b9cd2563f365fcd7c72f4263bc",
+  "hardware": {
+    "cpu": "Intel Core i9-14900KF",
+    "gpu": "NVIDIA GeForce RTX 4070 Ti SUPER",
+    "ram": "64 GB DDR5-6000",
+    "os": "Windows 11",
+    "driver": "610.88"
+  },
+  "model_files": [
+    {
+      "file": "MiniCPM-V-4_7-35B-A3B-Q4_K_M.gguf",
+      "bytes": 21166255040,
+      "sha256": "c729ae6c7bb16dd5b362cdb925c7fb09d744c95601f62b0f45ce51efb55bfe95",
+      "url": "https://huggingface.co/openbmb/MiniCPM-V-4.7-35B-A3B-gguf/resolve/77f6d8cb08b2b115ce27d2e2ac1359e126921689/MiniCPM-V-4_7-35B-A3B-Q4_K_M.gguf"
+    },
+    {
+      "file": "mmproj-model-f16.gguf",
+      "bytes": 1119575840,
+      "sha256": "bff3b688e14c300eca273092c37c50a0ddfcc2054e079af1a0480edeed5d20f1",
+      "url": "https://huggingface.co/openbmb/MiniCPM-V-4.7-35B-A3B-gguf/resolve/77f6d8cb08b2b115ce27d2e2ac1359e126921689/mmproj-model-f16.gguf"
+    }
+  ],
+  "engine_build": {
+    "source": "release",
+    "version": "0.1.45",
+    "archs": [
+      75,
+      80,
+      86,
+      89,
+      120
+    ],
+    "cuda": "13.0",
+    "src": "72891a8b04dfd4d9",
+    "vision": "gpu",
+    "vision_src": "68eadd07fce1dbf1"
+  },
+  "binaries": {
+    "strata-poly.exe": "35d1af52b08eecfa7d4ecb126af31cbccd4c7143eb217907bedccdbf1a8b1371",
+    "strata-vision.exe": "83c6a6f9c02ec0d74c2c14bcae0907057414b401f7c23f0a967f948145292d8c"
+  },
+  "tools_sha256": {
+    "arya_agent_bench.py": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+    "arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
+    "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82",
+    "arya_dsh_probe.mjs": "0a427dc8161354e39f222b372660d96dae0fba1d30b1915d2cfe0ba2400cd0c1"
+  },
+  "tuning": "threads 8/15/20; 2 repeats of 3 prompts each; baseline/candidate/candidate/baseline confirmations; 384 max output tokens; full context and GPU vision throughout",
+  "scope": "bounded Python fixtures and synthetic images; repeated source excerpts for long context; not a real repository benchmark",
+  "cache_note": "expert cache remains adaptive; sequential runs may update the same expert-profile file; candidates are not isolated from cache history",
+  "initial_tool_fingerprints": {
+    "arya_agent_bench.py": "3ebf569e61536e67a65a41bb8ea3a7ba07d00d30c1ee668799f4e68956a1d50e",
+    "arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
+    "arya_long_agent_bench.py": "a7e7b61372f9cd99c9efcc274b60cac6208e977562c0dd0a48f6c296bda44183",
+    "arya_dsh_probe.mjs": "1f87756b7d107bc7e1c13730e4cec798b07e8c64a202d039e42199291288a943"
+  },
+  "tool_note": "Long-agent modality/context/reasoning options and DSH text-only metadata were added before their measured runs; default request content remains unchanged.",
+  "source_commit_note": "Recorded checkout revision; archived tool snapshots identify exact benchmark tool bytes, including uncommitted changes where applicable. Inference backend source was unchanged.",
+  "validation_correction": {
+    "original_validator_sha256": "3ebf569e61536e67a65a41bb8ea3a7ba07d00d30c1ee668799f4e68956a1d50e",
+    "original_validator_archive": "../tool-snapshots/arya_agent_bench_restricted.py.txt",
+    "coding_record_root": "corrected/",
+    "reason": "Original validator rejected normal set.add/dict.values operations. Original coding records remain for audit; corrected/ supplies the published coding scores. Vision, recall, speed calibration and DSH measurements were unaffected."
+  },
+  "tuning_protocol": {
+    "prompts": [
+      "Write a Python function that performs a stable merge of two sorted lists. Explain its complexity and include three edge case tests.",
+      "Implement a TypeScript retry helper with bounded exponential backoff, cancellation, and error propagation. Include a usage example.",
+      "Review a Python dictionary-based cache for race conditions and propose a thread-safe implementation with eviction."
+    ],
+    "repeats": 2,
+    "max_output_tokens": 384,
+    "temperature": 0,
+    "reasoning_effort": "none",
+    "nonce_prefix": "[trial <label>-<run>-<prompt-index>-<time_ns>] ",
+    "warmup": "Reply READY.",
+    "warmup_max_output_tokens": 16,
+    "threads": [
+      8,
+      15,
+      20
+    ],
+    "windows": [],
+    "confirmation_order": [
+      "baseline-a",
+      "candidate-a",
+      "candidate-b",
+      "baseline-b"
+    ]
+  }
+}

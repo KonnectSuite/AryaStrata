@@ -1,0 +1,310 @@
+[
+  {
+    "phase": "initial-256k-vision-loading",
+    "time": 1792300614.661407
+  },
+  {
+    "phase": "initial-256k-vision-ready",
+    "time": 1792300625.9853914,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "vision-smoke-running",
+    "time": 1792300625.9858072
+  },
+  {
+    "phase": "vision-smoke-finished",
+    "time": 1792300637.200497,
+    "exit": 0
+  },
+  {
+    "phase": "threads-8-loading",
+    "time": 1792300637.2010772
+  },
+  {
+    "phase": "threads-8-ready",
+    "time": 1792300645.5420003,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-measured",
+    "time": 1792300665.3199315,
+    "median": 127.75
+  },
+  {
+    "phase": "threads-15-loading",
+    "time": 1792300665.3204043
+  },
+  {
+    "phase": "threads-15-ready",
+    "time": 1792300673.0765212,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-15-measured",
+    "time": 1792300692.0632327,
+    "median": 132.39999999999998
+  },
+  {
+    "phase": "threads-20-loading",
+    "time": 1792300692.063566
+  },
+  {
+    "phase": "threads-20-ready",
+    "time": 1792300699.7378528,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-20-measured",
+    "time": 1792300719.4417763,
+    "median": 130.95
+  },
+  {
+    "phase": "baseline-a-loading",
+    "time": 1792300719.442065
+  },
+  {
+    "phase": "baseline-a-ready",
+    "time": 1792300728.2024279,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-a-measured",
+    "time": 1792300746.2206578,
+    "median": 137.65
+  },
+  {
+    "phase": "candidate-a-loading",
+    "time": 1792300746.2209282
+  },
+  {
+    "phase": "candidate-a-ready",
+    "time": 1792300753.8535826,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-a-measured",
+    "time": 1792300771.8027966,
+    "median": 139.0
+  },
+  {
+    "phase": "candidate-b-loading",
+    "time": 1792300771.8030748
+  },
+  {
+    "phase": "candidate-b-ready",
+    "time": 1792300779.4374542,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-b-measured",
+    "time": 1792300797.5510614,
+    "median": 137.65
+  },
+  {
+    "phase": "baseline-b-loading",
+    "time": 1792300797.551467
+  },
+  {
+    "phase": "baseline-b-ready",
+    "time": 1792300805.1545181,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-b-measured",
+    "time": 1792300823.291062,
+    "median": 136.95
+  },
+  {
+    "phase": "selected-quality-loading",
+    "time": 1792300823.2923124
+  },
+  {
+    "phase": "selected-quality-ready",
+    "time": 1792300830.863057,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "agent-none-running",
+    "time": 1792300830.8635695
+  },
+  {
+    "phase": "agent-none-finished",
+    "time": 1792300916.447077,
+    "exit": 1
+  },
+  {
+    "phase": "agent-low-running",
+    "time": 1792300916.4475458
+  },
+  {
+    "phase": "agent-low-finished",
+    "time": 1792301052.1320333,
+    "exit": 0
+  },
+  {
+    "phase": "vision-running",
+    "time": 1792301052.1323926
+  },
+  {
+    "phase": "vision-finished",
+    "time": 1792301060.2684891,
+    "exit": 0
+  },
+  {
+    "phase": "context-running",
+    "time": 1792301060.2688794
+  },
+  {
+    "phase": "context-finished",
+    "time": 1792302149.7787457,
+    "exit": 0
+  },
+  {
+    "phase": "long-agent-running",
+    "time": 1792302149.779218
+  },
+  {
+    "phase": "long-agent-finished",
+    "time": 1792302741.060735,
+    "exit": 1
+  },
+  {
+    "phase": "dsh-adapter-running",
+    "time": 1792302741.0611944
+  },
+  {
+    "phase": "dsh-adapter-finished",
+    "time": 1792302745.923605,
+    "exit": 0
+  },
+  {
+    "phase": "installed-minicpmv-loading",
+    "time": 1792302745.9274445
+  },
+  {
+    "phase": "installed-minicpmv-ready",
+    "time": 1792302753.6844156,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "complete",
+    "time": 1792302753.6849267,
+    "checks": [
+      {
+        "exit": 1,
+        "label": "agent-none"
+      },
+      {
+        "exit": 0,
+        "label": "agent-low"
+      },
+      {
+        "exit": 0,
+        "label": "vision"
+      },
+      {
+        "exit": 0,
+        "label": "context"
+      },
+      {
+        "exit": 1,
+        "label": "long-agent"
+      },
+      {
+        "exit": 0,
+        "label": "dsh-adapter"
+      }
+    ]
+  }
+]

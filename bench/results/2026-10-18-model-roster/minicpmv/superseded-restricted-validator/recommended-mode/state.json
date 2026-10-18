@@ -1,0 +1,24 @@
+[
+  {
+    "phase": "recommended-low-loading",
+    "time": 1792302757.4180255
+  },
+  {
+    "phase": "recommended-low-ready",
+    "time": 1792302766.143293,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "long-agent-low-running",
+    "time": 1792302766.1443453
+  }
+]
