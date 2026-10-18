@@ -45,11 +45,18 @@ assuming every model implements the same effort scale.
 | Tiel Coder UD-Q4_K_XL | Off, Low, Medium, High | Same distinct-effort mapping as Qwen3.8 |
 | LFM2.5 UD-Q4_K_XL | Native thinking; no Off choice | Low/Medium/High all send `high`; these are aliases |
 
-The app uses generic effort labels. Keeping the aliases accepts existing agent
-requests and saved Low/Medium/High preferences without pretending the binary
-models have three distinct thinking strengths. For those models, select Off
-to disable thinking or any offered non-Off label to enable native thinking.
-Historical benchmark requests labeled `low` mean thinking On for those models.
+The development selector groups equivalent enabled efforts into **On** for
+binary models and **Native thinking** for LFM. Qwen3.8 and Tiel retain their
+distinct Low/Medium/High levels and their supported Off choice. Compatibility
+aliases remain accepted for existing agents and saved preferences, but are not
+displayed as different strengths. A saved Medium selection on a binary model
+therefore displays On without rewriting the chat. Historical benchmark requests
+labeled `low` mean thinking On for binary models.
+
+The adapter derives the grouping from identical explicit wire mappings; the
+picker contains no model-name list. Choosing On uses the supported `high` alias.
+LFM has no Off choice. These labels describe controls, not new quality or speed
+measurements.
 
 For Qwen3.8 and Tiel, the server translates High to the template's `xhigh`.
 Low, Medium and High render different prompts. For the five binary-control
@@ -65,6 +72,7 @@ from whether the requested mode reached the model.
 | Check | Result |
 |---|---|
 | Installed model profiles | 8/8 present in the normal service catalog |
+| Rebuilt development selector metadata | 8/8 profiles grouped correctly; all original accepted effort IDs retained |
 | Renderer audit, with and without tools | 16/16 contexts passed across eight profiles |
 | Advertised mode / adapter checks | 31/31 passed |
 | Outgoing effort fields and tool-result replay | 62 requests matched their intended model and wire effort |
@@ -75,6 +83,19 @@ from whether the requested mode reached the model.
 include the safe provider-capability export used by the adapter, cleanup record,
 template fingerprints and every mode result. User preferences were preserved;
 the saved MiniCPM default and the previously active server model agree.
+
+[Selector metadata](../bench/results/2026-10-18-development-connection-audit/selector-runtime.json)
+was checked separately through the rebuilt development adapter. It verifies
+control grouping and compatibility IDs, rather than repeating inference or
+full-context benchmarks. Restart AryaAI development to load its rebuilt Host
+and browser packages together.
+
+The [AryaAI selector change](https://github.com/KonnectSuite/AryaAI/commit/6a2d0d2800)
+also passed 142 focused adapter/API/picker tests and ten browser acceptance
+checks across Chromium and WebKit, including read-only snapshot replay. The wider GUI suite had
+10,218 passes, 14 failures and one skip; its failures concerned other controls,
+stylesheet rules and Windows file-link permissions. This is not a claim that
+the complete application test suite is green.
 
 `tools/arya_thinking_audit.py` uses each installed tokenizer and the production
 `Service.render_prompt` path. It checks all eight profiles both with and without
@@ -99,4 +120,5 @@ provider fields (`api`, `baseURL`, `models`, timeout and budget settings):
 ```powershell
 .\.venv\Scripts\python.exe tools/arya_thinking_audit.py --out <template-results.json>
 node tools/arya_dsh_connection_audit.mjs --config <safe-provider-export.json> --runtime-root <development-runtime-project> --out <adapter-results.json>
+node tools/arya_dsh_selector_audit.mjs --config <safe-provider-export.json> --runtime-root <development-runtime-project> --out <selector-results.json>
 ```

@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "scope": "Actual development adapter capability metadata; browser acceptance tracked separately",
+  "results": [
+    {
+      "model": "qwen3.8-flash-next-iq3_xxs",
+      "passed": true,
+      "singleMode": false,
+      "acceptedEfforts": [
+        "off",
+        "low",
+        "medium",
+        "high"
+      ],
+      "selector": [
+        "Off",
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    {
+      "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+      "passed": true,
+      "singleMode": true,
+      "acceptedEfforts": [
+        "off",
+        "low",
+        "medium",
+        "high"
+      ],
+      "selector": [
+        "Off",
+        "On"
+      ]
+    },
+    {
+      "model": "qwen3.6-35b-a3b-q8_0",
+      "passed": true,
+      "singleMode": true,
+      "acceptedEfforts": [
+        "off",
+        "low",
+        "medium",
+        "high"
+      ],
+      "selector": [
+        "Off",
+        "On"
+      ]
+    },
+    {
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "passed": true,
+      "singleMode": true,
+      "acceptedEfforts": [
+        "off",
+        "low",
+        "medium",
+        "high"
+      ],
+      "selector": [
+        "Off",
+        "On"
+      ]
+    },
+    {
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "passed": true,
+      "singleMode": true,
+      "acceptedEfforts": [
+        "off",
+        "low",
+        "medium",
+        "high"
+      ],
+      "selector": [
+        "Off",
+        "On"
+      ]
+    },
+    {
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "passed": true,
+      "singleMode": true,
+      "acceptedEfforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "selector": [
+        "Native thinking"
+      ]
+    },
+    {
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "passed": true,
+      "singleMode": true,
+      "acceptedEfforts": [
+        "off",
+        "low",
+        "medium",
+        "high"
+      ],
+      "selector": [
+        "Off",
+        "On"
+      ]
+    },
+    {
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "passed": true,
+      "singleMode": false,
+      "acceptedEfforts": [
+        "off",
+        "low",
+        "medium",
+        "high"
+      ],
+      "selector": [
+        "Off",
+        "Low",
+        "Medium",
+        "High"
+      ]
+    }
+  ]
+}
