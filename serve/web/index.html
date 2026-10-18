@@ -205,11 +205,17 @@
           which is a fork of <a href="https://github.com/Niko1221/Strata" target="_blank" rel="noopener noreferrer">Niko1221’s original Strata</a>.
           Thanks to both projects and their contributors.</p>
         <p class="muted">Configured for our i9-14900KF, RTX 4070 Ti SUPER 16 GB, 64 GB RAM, Windows 11 host.
-          We benchmark against this setup and update the docs with our findings as measurements become available.
-          Measured here: 86.1 tokens/s for short chat and 95.6 tokens/s in agent-style speed sessions (medians).
-          The 262K context ceiling is restored; all three recall trials at 258,300 input tokens passed.
-          18 small coding-agent sessions and 3 development DSH adapter checks passed.
-          Vision is off; full desktop-workflow qualification remains separate.</p>
+          We benchmark against this setup and update the docs with our findings as measurements become available.</p>
+        <p class="muted">Qwen3.8 Flash Next: the earlier text-only measurements were 86.1 tokens/s for short chat
+          and 95.6 tokens/s in agent-style speed sessions (medians). All three recall trials at 258,300 input tokens,
+          18 small coding-agent sessions and 3 development DSH adapter checks passed. Vision was enabled and checked
+          separately afterward; those speed measurements do not include vision.</p>
+        <p class="muted" id="qwen36-host-findings">Qwen3.6 Q4 and Q8: 262,144-token context with GPU vision enabled.
+          Each quant passed 36 bounded coding sessions, 12 image checks, 6 recall trials and 3 combined
+          long-context coding/image sessions. Each also passed 3 development DSH adapter checks.
+          Q4 offers more memory headroom on this host; Q8 briefly left about 0.1 GiB of system RAM available.
+          These fixtures do not establish general coding accuracy or full desktop-workflow qualification.
+          <a href="https://github.com/KonnectSuite/AryaStrata/blob/main/docs/QWEN36_HOST_RESULTS.md" target="_blank" rel="noopener noreferrer">Host benchmark details</a>.</p>
       </div>
       <div class="st-card cfg-card" id="cfg-card" hidden>
         <div class="req-head"><span class="card-title">Model settings</span><span class="muted small" id="cfg-file"></span></div>

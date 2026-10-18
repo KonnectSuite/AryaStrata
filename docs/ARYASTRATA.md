@@ -30,6 +30,17 @@ Starting source revision: `dc2080ba16d7f9f644cd01c3d5ff3237b2ae0f85`.
 
 ## Establish our baseline
 
+The [Qwen3.6 Q4/Q8 host comparison](QWEN36_HOST_RESULTS.md) validates both
+quants on PolyStrata's backend at 262,144-token capacity with GPU vision and
+Q8-compressed KV. Each passed 36 bounded coding sessions, 12 image checks,
+6 recall trials, 3 long-context coding/image sessions, and 3 development DSH
+adapter checks. The longest text input was 254,191 tokens; the combined
+coding/image input began at about 230,827 tokens, leaving room for tool turns.
+Both retained 15 CPU threads and window 8 after the tuning sweep. Q4 is the
+practical daily-agent choice here: less RAM pressure and lower median fixture
+latency. Q8 completed the tests but briefly left only 0.10 GiB of RAM available.
+These are bounded host checks, not a general coding-quality ranking.
+
 1. Target confirmed: this Windows PC, for coding and local coding agents.
 2. Choose one model and quantization using [AI_SETUP.md](AI_SETUP.md) and
    [BACKENDS.md](BACKENDS.md). Confirm the download size and destination before setup.

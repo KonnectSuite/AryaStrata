@@ -45,6 +45,25 @@ def run(fn, *a, **kw):
 
 
 class Qwen36Entries(unittest.TestCase):
+    def test_main_dispatches_native_family_after_hardware_check(self):
+        from tools.test_setup_golden import install, card
+        target = mock.Mock(return_value=0)
+        code, out, _, _ = install(63.8, [card(0, "RTX 4070 Ti SUPER", 16.0, "89")],
+                                 ["--family", "qwen36-strata", "--no-start"],
+                                 extra=[mock.patch.object(setup, "install_own_path", target)])
+        self.assertEqual(code, 0, out)
+        target.assert_called_once()
+
+    def test_windows_capability_probe_includes_cuda_runtime(self):
+        with tempfile.TemporaryDirectory() as folder, \
+             mock.patch.object(setup, "WIN", True), \
+             mock.patch.object(setup, "hip_lib_dirs", return_value=[]), \
+             mock.patch.object(setup, "engine_lib_dirs", return_value=["C:/runtime/cu13/bin"]):
+            eng = Path(folder)
+            (eng / "BUILD.json").write_text('{}')
+            env = setup.engine_env(eng)
+        self.assertEqual(env["PATH"].split(setup.os.pathsep)[0], "C:/runtime/cu13/bin")
+
     def test_pinned_and_hashed(self):
         fam = setup.OWN_PATH_FAMILIES["qwen36-strata"]
         self.assertIs(setup.PREVIEW_FAMILIES, setup.OWN_PATH_FAMILIES)   # the earlier name still works

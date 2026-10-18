@@ -4,11 +4,22 @@ This host's Qwen3.8-Flash-Next IQ3_XXS profile was measured on October 17, 2026.
 See the [host benchmark](../bench/results/2026-10-17-aryastrata-qwen38-iq3xxs/README.md)
 for exact measurements, source/build identities and raw records.
 
+Qwen3.6 Q4 and Q8 are now also configured for the development app: each uses
+262,144-token context, up to 8,192 output tokens, and text/image input. Their
+PolyStrata profiles are `qwen3.6-35b-a3b-ud-q4_k_xl` and
+`qwen3.6-35b-a3b-q8_0`. Each passed three isolated streaming/tool-result replay
+checks through the development app's actual `dsh-llm-pi-ai` 0.2.0-rc.2 adapter.
+See the [full Q4/Q8 host results](QWEN36_HOST_RESULTS.md). These adapter checks
+do not establish acceptance of every native desktop workflow. Updated model
+metadata is saved in the development profile; reload the development app to
+refresh a model list that was already open.
+
 ## Applied development profile
 
 The running development app uses `%USERPROFILE%/profiles/desktop/cordis.patch.yml`.
-Only this model's label, context, output capability and input modalities were
-changed. Its provider key, credentials reference, default-model selection, other
+The initial Qwen3.8 model's label, context, output capability and input modalities
+were updated, followed by the two Qwen3.6 model entries. The provider key,
+credentials reference, default-model selection, other
 providers and existing low-thinking preference were preserved. The original file
 is backed up locally under `local-data/dsh-desktop-profile-before-aryastrata.yml.bak`
 in the AryaStrata checkout; it is excluded from Git. No AryaAI source code was changed.

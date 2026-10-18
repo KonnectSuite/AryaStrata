@@ -1,0 +1,12 @@
+load_hparams: Qwen-VL models require at minimum 1024 image tokens to function correctly on grounding tasks
+load_hparams: if you encounter problems with accuracy, try adding --image-min-tokens 1024
+load_hparams: more info: https://github.com/ggml-org/llama.cpp/issues/16842
+
+strata-vision: model files loaded in 0.9 s
+strata-vision: warmed up at 1024 image tokens in 0.3 s
+[strata] 2026-10-17 23:16:49 engine started: C:\AryaStrata\engine\strata.exe --serve --native C:\AI\Strata-data\models\qwen36s-UD-Q4_K_XL\Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf --max-context 196608 --prefill 512 --mtp 2 --pool-workers 15 --vision
+strata-q36: C:\AI\Strata-data\models\qwen36s-UD-Q4_K_XL\Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf: 753 tensors (layout checked), 4.40 GiB on the GPU in 1.5 s (the routed experts are placed after the engine's buffers)
+strata: K-quant prompt kernels from C:\AryaStrata\engine\strata_kq.dll (STRATA_MMQ_KQ=1)
+strata-q36: prompt experts on MMQ (int8)
+strata-q36: context 196608 cells, prompt chunk 512, MTP block loaded, 0.00 GiB of VRAM free
+strata-q36: not enough VRAM left for the hybrid experts' buffers and slots (1159 MiB needed, 0 MiB free after the weights, the context and the sessions): use fewer slots ("parallel" / --batch), a shorter --max-context

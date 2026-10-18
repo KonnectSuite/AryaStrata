@@ -1,0 +1,675 @@
+{
+  "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+  "scope": "synthetic OCR, chart, shape and multiple-image smoke checks; first use versus repeated images not separated",
+  "results": [
+    {
+      "case": "shapes",
+      "run": 0,
+      "prompt": "Describe the shapes on the left and right, including their colors. Transcribe the text at the bottom.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-e82f5437a5f749c69f6e60a8",
+        "object": "chat.completion",
+        "created": 1792294871,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "On the left is a solid red square.  \nOn the right is a solid blue circle.  \n\nThe text at the bottom reads:  \n**ARYA VISION 8462**"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 361,
+          "completion_tokens": 40,
+          "total_tokens": 401,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 361,
+          "prompt_ms": 485.9,
+          "prompt_per_token_ms": 1.346,
+          "prompt_per_second": 743.0,
+          "predicted_n": 40,
+          "predicted_ms": 295.8,
+          "predicted_per_token_ms": 7.395,
+          "predicted_per_second": 135.2,
+          "draft_n": 35,
+          "draft_n_accepted": 27
+        }
+      },
+      "seconds": 0.9583905999897979,
+      "checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "chart",
+      "run": 0,
+      "prompt": "Which module has the highest number of completed tests? State its name and exact value.",
+      "images": [
+        {
+          "file": "chart.png",
+          "sha256": "cb1dcfd8b1d490d2182a459493b83b059133c9e7d252650d96f691aab27249c9"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-035a2fc3f5e84f0bae7ab31f",
+        "object": "chat.completion",
+        "created": 1792294872,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The module with the highest number of completed tests is **Router**, with an exact value of **12**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 357,
+          "completion_tokens": 23,
+          "total_tokens": 380,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 357,
+          "prompt_ms": 475.6,
+          "prompt_per_token_ms": 1.332,
+          "prompt_per_second": 750.6,
+          "predicted_n": 23,
+          "predicted_ms": 169.1,
+          "predicted_per_token_ms": 7.352,
+          "predicted_per_second": 136.0,
+          "draft_n": 19,
+          "draft_n_accepted": 15
+        }
+      },
+      "seconds": 0.704395700013265,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "build-screen",
+      "run": 0,
+      "prompt": "Read this build screen. Report the file name, line number, expected token and build ID.",
+      "images": [
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-af629eccfda447ed8065fec8",
+        "object": "chat.completion",
+        "created": 1792294872,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the provided build screen:\n\n- **File name**: `parser.py`  \n- **Line number**: `27`  \n- **Expected token**: `COLON`  \n- **Build ID**: `ARYA-5907`\n\nThis indicates a syntax error in `parser.py` at line 27 \u2014 likely a missing colon (`:`) after a statement such as `if`, `for`, `def`, `class`, etc., which is required in Python."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 360,
+          "completion_tokens": 102,
+          "total_tokens": 462,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 360,
+          "prompt_ms": 445.1,
+          "prompt_per_token_ms": 1.236,
+          "prompt_per_second": 808.8,
+          "predicted_n": 102,
+          "predicted_ms": 713.7,
+          "predicted_per_token_ms": 6.997,
+          "predicted_per_second": 142.9,
+          "draft_n": 76,
+          "draft_n_accepted": 67
+        }
+      },
+      "seconds": 1.2205641000182368,
+      "checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "two-images",
+      "run": 0,
+      "prompt": "Read both images. Report the numeric code in the shapes image and the build ID in the build screen.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        },
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-1ff8cc3ba03142a187d94e4d",
+        "object": "chat.completion",
+        "created": 1792294873,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the provided images:\n\n- The numeric code in the shapes image is **8462**.\n- The build ID in the build screen is **ARYA-5907**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 663,
+          "completion_tokens": 42,
+          "total_tokens": 705,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 663,
+          "prompt_ms": 817.7,
+          "prompt_per_token_ms": 1.233,
+          "prompt_per_second": 810.8,
+          "predicted_n": 42,
+          "predicted_ms": 275.1,
+          "predicted_per_token_ms": 6.55,
+          "predicted_per_second": 152.7,
+          "draft_n": 30,
+          "draft_n_accepted": 25
+        }
+      },
+      "seconds": 1.111019200005103,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "shapes",
+      "run": 1,
+      "prompt": "Describe the shapes on the left and right, including their colors. Transcribe the text at the bottom.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-313fad6529da470d8877875e",
+        "object": "chat.completion",
+        "created": 1792294875,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "On the left is a solid red square.  \nOn the right is a solid blue circle.  \n\nThe text at the bottom reads:  \n**ARYA VISION 8462**"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 361,
+          "completion_tokens": 40,
+          "total_tokens": 401,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 361,
+          "prompt_ms": 484.2,
+          "prompt_per_token_ms": 1.341,
+          "prompt_per_second": 745.6,
+          "predicted_n": 40,
+          "predicted_ms": 247.5,
+          "predicted_per_token_ms": 6.188,
+          "predicted_per_second": 161.6,
+          "draft_n": 32,
+          "draft_n_accepted": 27
+        }
+      },
+      "seconds": 0.7439473000122234,
+      "checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "chart",
+      "run": 1,
+      "prompt": "Which module has the highest number of completed tests? State its name and exact value.",
+      "images": [
+        {
+          "file": "chart.png",
+          "sha256": "cb1dcfd8b1d490d2182a459493b83b059133c9e7d252650d96f691aab27249c9"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-6be328ef22cf427989ea5873",
+        "object": "chat.completion",
+        "created": 1792294875,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The module with the highest number of completed tests is **Router**, with an exact value of **12**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 357,
+          "completion_tokens": 23,
+          "total_tokens": 380,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 357,
+          "prompt_ms": 467.4,
+          "prompt_per_token_ms": 1.309,
+          "prompt_per_second": 763.8,
+          "predicted_n": 23,
+          "predicted_ms": 133.5,
+          "predicted_per_token_ms": 5.804,
+          "predicted_per_second": 172.3,
+          "draft_n": 17,
+          "draft_n_accepted": 15
+        }
+      },
+      "seconds": 0.6332283000228927,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "build-screen",
+      "run": 1,
+      "prompt": "Read this build screen. Report the file name, line number, expected token and build ID.",
+      "images": [
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-0d8895e15f2a4c1280d13ea1",
+        "object": "chat.completion",
+        "created": 1792294876,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the provided build screen:\n\n- **File name**: `parser.py`  \n- **Line number**: `27`  \n- **Expected token**: `COLON`  \n- **Build ID**: `ARYA-5907`\n\nThis indicates that during the build check for file `parser.py`, a syntax error occurred at line 27 \u2014 specifically, the parser expected a colon (`:`) but did not find it. This is common in Python when defining functions, classes, conditionals, or loops without proper syntax."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 360,
+          "completion_tokens": 113,
+          "total_tokens": 473,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 360,
+          "prompt_ms": 416.5,
+          "prompt_per_token_ms": 1.157,
+          "prompt_per_second": 864.3,
+          "predicted_n": 113,
+          "predicted_ms": 685.1,
+          "predicted_per_token_ms": 6.063,
+          "predicted_per_second": 164.9,
+          "draft_n": 75,
+          "draft_n_accepted": 69
+        }
+      },
+      "seconds": 1.1131888999952935,
+      "checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "two-images",
+      "run": 1,
+      "prompt": "Read both images. Report the numeric code in the shapes image and the build ID in the build screen.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        },
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-eedaef03d723448bb0b58dab",
+        "object": "chat.completion",
+        "created": 1792294877,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the provided images:\n\n- The numeric code in the shapes image is **8462**.\n- The build ID in the build screen is **ARYA-5907**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 663,
+          "completion_tokens": 42,
+          "total_tokens": 705,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 663,
+          "prompt_ms": 772.1,
+          "prompt_per_token_ms": 1.165,
+          "prompt_per_second": 858.7,
+          "predicted_n": 42,
+          "predicted_ms": 238.9,
+          "predicted_per_token_ms": 5.688,
+          "predicted_per_second": 175.8,
+          "draft_n": 30,
+          "draft_n_accepted": 26
+        }
+      },
+      "seconds": 1.0459332999889739,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "shapes",
+      "run": 2,
+      "prompt": "Describe the shapes on the left and right, including their colors. Transcribe the text at the bottom.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-e0bd79dba4dc475ebe30e0c2",
+        "object": "chat.completion",
+        "created": 1792294878,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "On the left is a solid red square.  \nOn the right is a solid blue circle.  \n\nThe text at the bottom reads:  \n**ARYA VISION 8462**"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 361,
+          "completion_tokens": 40,
+          "total_tokens": 401,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 361,
+          "prompt_ms": 479.8,
+          "prompt_per_token_ms": 1.329,
+          "prompt_per_second": 752.4,
+          "predicted_n": 40,
+          "predicted_ms": 237.5,
+          "predicted_per_token_ms": 5.938,
+          "predicted_per_second": 168.4,
+          "draft_n": 29,
+          "draft_n_accepted": 24
+        }
+      },
+      "seconds": 0.7290285000344738,
+      "checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "chart",
+      "run": 2,
+      "prompt": "Which module has the highest number of completed tests? State its name and exact value.",
+      "images": [
+        {
+          "file": "chart.png",
+          "sha256": "cb1dcfd8b1d490d2182a459493b83b059133c9e7d252650d96f691aab27249c9"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-53da5d80518c4414af3bd51c",
+        "object": "chat.completion",
+        "created": 1792294879,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The module with the highest number of completed tests is **Router**, with an exact value of **12**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 357,
+          "completion_tokens": 23,
+          "total_tokens": 380,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 357,
+          "prompt_ms": 464.2,
+          "prompt_per_token_ms": 1.3,
+          "prompt_per_second": 769.1,
+          "predicted_n": 23,
+          "predicted_ms": 136.9,
+          "predicted_per_token_ms": 5.952,
+          "predicted_per_second": 168.0,
+          "draft_n": 16,
+          "draft_n_accepted": 13
+        }
+      },
+      "seconds": 0.6230311999679543,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "build-screen",
+      "run": 2,
+      "prompt": "Read this build screen. Report the file name, line number, expected token and build ID.",
+      "images": [
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-ac33d252e8da4db19c2d2b94",
+        "object": "chat.completion",
+        "created": 1792294880,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the provided build screen:\n\n- **File name**: `parser.py`  \n- **Line number**: `27`  \n- **Expected token**: `COLON`  \n- **Build ID**: `ARYA-5907`\n\nThis indicates a syntax error in `parser.py` at line 27 \u2014 the parser expected a colon (`:`) but did not find one, which is common in Python for statements like `if`, `for`, `def`, `class`, etc."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 360,
+          "completion_tokens": 106,
+          "total_tokens": 466,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 360,
+          "prompt_ms": 420.1,
+          "prompt_per_token_ms": 1.167,
+          "prompt_per_second": 856.9,
+          "predicted_n": 106,
+          "predicted_ms": 640.6,
+          "predicted_per_token_ms": 6.043,
+          "predicted_per_second": 165.5,
+          "draft_n": 71,
+          "draft_n_accepted": 67
+        }
+      },
+      "seconds": 1.074577399995178,
+      "checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "case": "two-images",
+      "run": 2,
+      "prompt": "Read both images. Report the numeric code in the shapes image and the build ID in the build screen.",
+      "images": [
+        {
+          "file": "shapes.png",
+          "sha256": "403dab14db316e3be98cc6077b5aed38d806d5bb6f4191e2aba6f1f18a1315eb"
+        },
+        {
+          "file": "build-screen.png",
+          "sha256": "9b7828afbed545b4df5d570209bfac2ab459ace2e0f495d3e2a160a710dcbfaa"
+        }
+      ],
+      "response": {
+        "id": "chatcmpl-9e7de9ca22704e3aa8dc306c",
+        "object": "chat.completion",
+        "created": 1792294881,
+        "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Based on the provided images:\n\n- The numeric code in the shapes image is **8462**.\n- The build ID in the build screen is **ARYA-5907**."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 663,
+          "completion_tokens": 42,
+          "total_tokens": 705,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 663,
+          "prompt_ms": 776.8,
+          "prompt_per_token_ms": 1.172,
+          "prompt_per_second": 853.5,
+          "predicted_n": 42,
+          "predicted_ms": 250.8,
+          "predicted_per_token_ms": 5.971,
+          "predicted_per_second": 167.5,
+          "draft_n": 34,
+          "draft_n_accepted": 29
+        }
+      },
+      "seconds": 1.0449247999931686,
+      "checks": [
+        true,
+        true
+      ],
+      "passed": true
+    }
+  ]
+}

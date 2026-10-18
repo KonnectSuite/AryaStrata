@@ -27,6 +27,18 @@ CASES = [
      "tests": "a=[' x = a=b ', '', 'x=c', ' y = 2 ']; assert parse_pairs(a)=={'x':'c','y':'2'}; assert a==[' x = a=b ', '', 'x=c', ' y = 2 ']; assert parse_pairs([])=={}; assert parse_pairs(['key='])=={'key':''}\nfor lines in [['bad'],[' =x']]:\n    try: parse_pairs(lines)\n    except ValueError: pass\n    else: raise AssertionError('invalid line accepted')"},
 ]
 
+APP_CASES = [
+    {"name": "trim_history", "source": "def trim_history(messages, budget):\n    return list(messages)\n",
+     "request": "Fix trim_history(messages, budget). Each message is a dict with integer cost. Validate budget and every cost are nonnegative, otherwise raise ValueError. Return the longest contiguous suffix of messages whose summed cost fits budget, in original order; never skip an oversized newer message to keep an older one. Include zero-cost messages when they are in that suffix. Do not mutate the input or its dicts.",
+     "tests": "a=[{'cost':2,'text':'a'},{'cost':3,'text':'b'},{'cost':1,'text':'c'}]; assert trim_history(a,4)==a[1:]; assert trim_history(a,6)==a; assert trim_history(a,0)==[]; assert a==[{'cost':2,'text':'a'},{'cost':3,'text':'b'},{'cost':1,'text':'c'}]; assert trim_history([],0)==[]; assert trim_history([{'cost':1},{'cost':9}],3)==[]; assert trim_history([{'cost':0},{'cost':0}],0)==[{'cost':0},{'cost':0}]\nfor messages,budget in [([], -1),([{'cost':-1},{'cost':10}],0)]:\n    try: trim_history(messages,budget)\n    except ValueError: pass\n    else: raise AssertionError('negative cost or budget accepted')"},
+    {"name": "merge_tool_results", "source": "def merge_tool_results(calls, results):\n    return list(results)\n",
+     "request": "Fix merge_tool_results(calls, results). Calls and results are dicts with an id. Return one dict per call in call order: {'id': id, 'status':'done', 'content': content} when a result exists, otherwise {'id':id, 'status':'pending'}. The last result for an id wins; missing content defaults to ''. Ignore results with unknown ids. Reject duplicate call ids with ValueError. Do not mutate either input.",
+     "tests": "calls=[{'id':'b'},{'id':'a'},{'id':'c'}]; results=[{'id':'a','content':'old'},{'id':'x','content':'ignore'},{'id':'b'},{'id':'a','content':'new'}]; assert merge_tool_results(calls,results)==[{'id':'b','status':'done','content':''},{'id':'a','status':'done','content':'new'},{'id':'c','status':'pending'}]; assert calls==[{'id':'b'},{'id':'a'},{'id':'c'}]; assert results[0]['content']=='old'; assert merge_tool_results([],results)==[]; assert merge_tool_results([{'id':'x'}],[])==[{'id':'x','status':'pending'}]\ntry: merge_tool_results([{'id':'a'},{'id':'a'}],[])\nexcept ValueError: pass\nelse: raise AssertionError('duplicate call accepted')"},
+    {"name": "summarize_usage", "source": "def summarize_usage(events):\n    return {'input':0, 'output':0}\n",
+     "request": "Fix summarize_usage(events). Events have request_id and optional nonnegative integer input/output token counts, which are cumulative snapshots for that request. For each request, keep the maximum seen input and output counts independently, then sum across requests. Missing counts mean 0. Reject any negative count with ValueError. Return {'input':total, 'output':total}; do not mutate events.",
+     "tests": "a=[{'request_id':'a','input':10,'output':1},{'request_id':'b','input':5,'output':2},{'request_id':'a','input':8,'output':4},{'request_id':'a','input':10,'output':4},{'request_id':'c'}]; assert summarize_usage(a)=={'input':15,'output':6}; assert a[0]=={'request_id':'a','input':10,'output':1}; assert summarize_usage([])=={'input':0,'output':0}; assert summarize_usage([{'request_id':'x','output':3},{'request_id':'x','input':2}])=={'input':2,'output':3}\nfor event in [{'request_id':'x','input':-1},{'request_id':'x','output':-2}]:\n    try: summarize_usage([event])\n    except ValueError: pass\n    else: raise AssertionError('negative token count accepted')"},
+]
+
 TOOLS = [{"type": "function", "function": {"name": name, "description": desc,
           "parameters": {"type": "object", "properties": props, "required": required,
                          "additionalProperties": False}}}
@@ -69,8 +81,8 @@ def check(source, tests):
         return {"passed": False, "detail": str(exc)}
 
 
-def request(base, messages, think):
-    payload = {"model": "qwen3.8-flash-next-iq3_xxs", "messages": messages,
+def request(base, messages, think, model="qwen3.8-flash-next-iq3_xxs"):
+    payload = {"model": model, "messages": messages,
                "tools": TOOLS, "temperature": 0, "max_tokens": 1400,
                "reasoning_effort": think}
     req = urllib.request.Request(base.rstrip("/") + "/v1/chat/completions",
@@ -82,7 +94,7 @@ def request(base, messages, think):
     return result, time.monotonic() - start
 
 
-def session(base, case, run, think):
+def session(base, case, run, think, model="qwen3.8-flash-next-iq3_xxs"):
     messages = [{"role": "system", "content":
         "You are a coding agent in a bounded Python fixture. Read module.py, fix it with write_file, then run_tests. "
         "Only standalone functions, no imports, no classes, no filesystem or networking code. "
@@ -92,7 +104,7 @@ def session(base, case, run, think):
     trace, calls = [], []
     start = time.monotonic()
     for turn in range(9):
-        result, secs = request(base, messages, think)
+        result, secs = request(base, messages, think, model)
         msg = result["choices"][0]["message"]
         trace.append({"turn": turn, "seconds": secs, "response": result})
         messages.append(msg)
@@ -129,17 +141,20 @@ def main():
     ap.add_argument("--url", default="http://127.0.0.1:8080")
     ap.add_argument("--runs", type=int, default=3)
     ap.add_argument("--think", default="none")
+    ap.add_argument("--model", default="qwen3.8-flash-next-iq3_xxs")
+    ap.add_argument("--suite", choices=("core", "agent-app", "all"), default="core")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     rows = []
+    cases = CASES if a.suite == "core" else APP_CASES if a.suite == "agent-app" else CASES + APP_CASES
     for run in range(a.runs):
-        for case in CASES:
+        for case in cases:
             try:
-                row = session(a.url, case, run, a.think)
+                row = session(a.url, case, run, a.think, a.model)
             except Exception as exc:
                 row = {"case": case["name"], "run": run, "think": a.think, "passed": False, "error": str(exc)}
             rows.append(row)
-            Path(a.out).write_text(json.dumps({"tool": __file__, "results": rows}, indent=2), encoding="utf-8")
+            Path(a.out).write_text(json.dumps({"tool": __file__, "model": a.model, "suite": a.suite, "results": rows}, indent=2), encoding="utf-8")
             print(case["name"], run, "PASS" if row["passed"] else "FAIL", round(row.get("seconds", 0), 2), flush=True)
     return int(not all(row["passed"] for row in rows))
 

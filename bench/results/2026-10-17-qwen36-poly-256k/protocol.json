@@ -1,0 +1,90 @@
+{
+  "run_started": "2026-10-17 America/New_York",
+  "repo_parent_commit": "6074b1d3457f5d001fbf61d6c272b4d9a05717fe",
+  "engine": {
+    "source": "release",
+    "version": "0.1.45",
+    "archs": [
+      75,
+      80,
+      86,
+      89,
+      120
+    ],
+    "cuda": "13.0",
+    "src": "72891a8b04dfd4d9",
+    "vision": "gpu",
+    "vision_src": "68eadd07fce1dbf1"
+  },
+  "hardware": {
+    "cpu": "Intel Core i9-14900KF",
+    "gpu": "RTX 4070 Ti SUPER 16 GB",
+    "ram_gib": 63.82,
+    "os": "Windows 11"
+  },
+  "model_files": [
+    {
+      "file": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "bytes": 22853663008,
+      "sha256": "55983c5a75a1ab969824077b3bb3de4146e82a9234072b48ad4e8f92ad3fe9f1",
+      "url": "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF/resolve/5bc3e238d916f48a861bac2f8a1990a0e9b7e98d/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf"
+    },
+    {
+      "family": "qwen36-q8",
+      "model": "Q8_0",
+      "file": "Qwen3.6-35B-A3B-Q8_0.gguf",
+      "url": "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF/resolve/5bc3e238d916f48a861bac2f8a1990a0e9b7e98d/Qwen3.6-35B-A3B-Q8_0.gguf",
+      "bytes": 37801097504,
+      "sha256": "c1283d8b80c3e38b2735ddbc9766d3b3126f44d6c484be419d4e101d09a76131"
+    }
+  ],
+  "q4_sha256": "55983c5a75a1ab969824077b3bb3de4146e82a9234072b48ad4e8f92ad3fe9f1",
+  "projector_sha256": "71f3cbc1f7cc0f30d09d41cfa924c0060827ebc33bf15ace7e86661e856f0160",
+  "script_hashes": {
+    "tools/arya_agent_bench.py": "3ebf569e61536e67a65a41bb8ea3a7ba07d00d30c1ee668799f4e68956a1d50e",
+    "tools/arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "tools/arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
+    "tools/arya_long_agent_bench.py": "17a42b1c34d97c9b0ef5915d3d1ba8f354b3a1b43be08674851251e5286d896c"
+  },
+  "tuning": {
+    "threads": [
+      8,
+      15,
+      20
+    ],
+    "windows": [
+      1,
+      4,
+      8
+    ],
+    "runs_per_prompt": 2,
+    "prompts": [
+      "Write a Python function that performs a stable merge of two sorted lists. Explain its complexity and include three edge case tests.",
+      "Implement a TypeScript retry helper with bounded exponential backoff, cancellation, and error propagation. Include a usage example.",
+      "Review a Python dictionary-based cache for race conditions and propose a thread-safe implementation with eviction."
+    ],
+    "max_generated_tokens": 384,
+    "warmup": "Reply READY.",
+    "selection": "Retain a candidate only if a >2% median gain is consistent across paired confirmation runs. Neither candidate was retained; Q8 was explicitly rejected for inconsistent repeats."
+  },
+  "os_version": "10.0.26200.0",
+  "driver": "610.88",
+  "ram_configuration": "2 x 32 GiB DDR5-6000",
+  "adapter": {
+    "package": "@deepseek-ai/dsh-llm-pi-ai",
+    "version": "0.2.0-rc.2",
+    "checks_per_quant": 3,
+    "scope": "isolated development adapter transport, streaming assembly and tool-result replay"
+  },
+  "binary_sha256": {
+    "strata-poly.exe": "35d1af52b08eecfa7d4ecb126af31cbccd4c7143eb217907bedccdbf1a8b1371",
+    "strata-vision.exe": "83c6a6f9c02ec0d74c2c14bcae0907057414b401f7c23f0a967f948145292d8c"
+  },
+  "current_tool_hashes": {
+    "tools/arya_agent_bench.py": "3ebf569e61536e67a65a41bb8ea3a7ba07d00d30c1ee668799f4e68956a1d50e",
+    "tools/arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "tools/arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
+    "tools/arya_long_agent_bench.py": "a7e7b61372f9cd99c9efcc274b60cac6208e977562c0dd0a48f6c296bda44183"
+  },
+  "tool_note": "Measured-version source snapshots match script_hashes. After the run, the long-agent CLI gained correct aggregate failure exit status and run metadata for error rows; request generation and per-case scoring are unchanged."
+}

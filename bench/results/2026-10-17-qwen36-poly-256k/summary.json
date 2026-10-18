@@ -1,0 +1,62 @@
+{
+  "Q4": {
+    "baseline_tps": 151.225,
+    "candidate_tps": 150.75,
+    "selected_candidate": false,
+    "threads": "15",
+    "window": "8",
+    "files": {
+      "agent-none": "Q4\\agent-none.json",
+      "agent-low": "Q4\\agent-low.json",
+      "vision": "Q4\\vision\\results.json",
+      "context": "Q4\\context.json",
+      "long-agent": "Q4\\long-agent\\long-context-coding-vision.json"
+    },
+    "profile": "strata-qwen36s-ud-q4_k_xl.json",
+    "engine_build": {
+      "source": "release",
+      "version": "0.1.45",
+      "archs": [
+        75,
+        80,
+        86,
+        89,
+        120
+      ],
+      "cuda": "13.0",
+      "src": "72891a8b04dfd4d9",
+      "vision": "gpu",
+      "vision_src": "68eadd07fce1dbf1"
+    }
+  },
+  "Q8": {
+    "baseline_tps": 97.22500000000001,
+    "candidate_tps": 100.125,
+    "selected_candidate": false,
+    "threads": "15",
+    "window": "8",
+    "files": {
+      "agent-none": "Q8\\agent-none.json",
+      "agent-low": "Q8\\agent-low.json",
+      "vision": "Q8\\vision\\results.json",
+      "context": "Q8\\context.json",
+      "long-agent": "Q8\\long-agent\\long-context-coding-vision.json"
+    },
+    "profile": "strata-qwen36s-q8_0.json",
+    "engine_build": {
+      "source": "release",
+      "version": "0.1.45",
+      "archs": [
+        75,
+        80,
+        86,
+        89,
+        120
+      ],
+      "cuda": "13.0",
+      "src": "72891a8b04dfd4d9",
+      "vision": "gpu",
+      "vision_src": "68eadd07fce1dbf1"
+    }
+  }
+}

@@ -20,7 +20,7 @@ const Llm = await load('@deepseek-ai/dsh-llm');
 const Pi = await load('@deepseek-ai/dsh-llm-pi-ai');
 const version = JSON.parse(await readFile(require.resolve('@deepseek-ai/dsh-llm-pi-ai/package.json'), 'utf8')).version;
 process.env.ARYA_BENCH_LOCAL_KEY = 'arya-local-placeholder';
-const model = 'qwen3.8-flash-next-iq3_xxs';
+const model = args.model || 'qwen3.8-flash-next-iq3_xxs';
 const ctx = new Context();
 const rows = [];
 try {
@@ -28,7 +28,7 @@ try {
   await ctx.plugin(Pi, { providers: { strata: {
     apiKeyEnv: 'ARYA_BENCH_LOCAL_KEY', api: 'openai-completions', outputBudgetMode: 'gateway',
     baseURL: args.url || 'http://127.0.0.1:8080/v1',
-    models: [{ id: model, contextWindow: 262144, maxTokens: 8192, input: ['text'],
+    models: [{ id: model, contextWindow: Number(args.context || 262144), maxTokens: 8192, input: ['text', 'image'],
       reasoningEfforts: { off: 'none', low: 'low', medium: 'medium', high: 'high' } }],
   } } });
   const tools = [{ name: 'read_file', description: 'Read a file from the fixture workspace',
@@ -53,7 +53,7 @@ try {
       if (!call || call.name !== 'read_file' || JSON.parse(call.arguments).path !== 'build-info.txt') {
         rows.push({ run, passed: false, first, error: 'Expected structured read_file call' });
       } else {
-        const label = `ARYA-QWEN-262K-${run}`;
+        const label = `ARYA-QWEN-${args.context || 262144}-${run}`;
         const second = await assemble([...messages, first.message, Llm.createToolResultMessage({
           callId: Llm.ToolCallId(call.id), content: [{ type: 'text', text: `Build label: ${label}` }], isError: false,
         })]);
@@ -63,7 +63,7 @@ try {
     } catch (error) {
       rows.push({ run, passed: false, error: String(error) });
     }
-    await writeFile(args.out, JSON.stringify({ adapterVersion: version, scope: 'DSH pi-ai adapter, streaming assembly and tool-result replay', results: rows }, null, 2));
+    await writeFile(args.out, JSON.stringify({ model, contextWindow: Number(args.context || 262144), adapterVersion: version, scope: 'DSH pi-ai adapter, streaming assembly and tool-result replay', results: rows }, null, 2));
     console.log('DSH adapter trial', run, rows.at(-1).passed ? 'PASS' : 'FAIL');
   }
 } finally {

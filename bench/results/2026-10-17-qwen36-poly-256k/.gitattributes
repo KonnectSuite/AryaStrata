@@ -1,0 +1,2 @@
+# Source snapshot checksums refer to the exact measured bytes, including CRLF.
+tool-snapshots/*.txt -text whitespace=cr-at-eol

@@ -2,6 +2,61 @@
 
 # Qwen3.6-35B-A3B: pictures, several requests at once and speed
 
+## AryaStrata host investigation: context and engine choice
+
+On October 17, 2026, this fork tested the native `strata-q36` path on its
+i9-14900KF, RTX 4070 Ti SUPER 16 GB, 64 GB RAM Windows host with
+Qwen3.6 UD-Q4_K_XL and vision enabled. Startup failed at 262,144 tokens with
+GPU vision and again with CPU vision and a 512-token prefill chunk. A
+196,608-token GPU-vision attempt also failed. The engine reported insufficient
+VRAM for its hybrid expert buffers after allocating weights and context.
+At 131,072 tokens it started and passed all four synthetic vision checks;
+that is not a completed long-context coding benchmark.
+
+These are limits of the tested configuration, not a demonstrated hardware
+limit across both engines. This repository also inherits PolyStrata's separate
+`strata-poly` Qwen3.6 backend. Its cache defaults to FP16, supports opt-in
+`--kv q8_0`, and can grow as the conversation grows. `--kv-whole` allocates the
+whole configured cache at startup and is useful for a capacity check. The
+native path above stores its cache in FP32. Model-weight quantization (Q4 or
+Q8) and context-cache quantization are separate choices.
+
+The follow-up loaded the same verified Q4 model file on the source-matched
+`strata-poly` Windows release (engine source `72891a8b04dfd4d9`) with a
+262,144-token limit, `--kv q8_0 --kv-whole`, and GPU vision. All four
+synthetic image checks passed (shapes/OCR, chart, build screen, and two images).
+The whole context cache was allocated at startup, rather than only reserving
+an address range for a conversation that might grow. The initial three-fact
+recall probe passed at both lengths below (one run each, fresh prompts):
+
+| Actual input tokens | Prompt tokens/s | First token, seconds | Decode tokens/s | Recall |
+|---:|---:|---:|---:|---|
+| 131,031 | 1,397.6 | 93.891 | 69.3 | 3/3 facts |
+| 254,191 | 987.4 | 257.613 | 43.1 | 3/3 facts |
+
+These initial measurements use repeated repository excerpts, not a general
+long-context coding-quality test. The completed [Q4/Q8 host comparison](QWEN36_HOST_RESULTS.md)
+now includes repeated recall, coding tools, image checks, combined long-context
+coding/image sessions, and development DSH adapter checks. Both quants run on
+`strata-poly` at 262,144-token capacity with GPU vision and Q8-compressed KV.
+An allocated context ceiling and a recall probe alone must not be described as
+a complete coding-agent benchmark. The report states the exact tested input
+lengths and the limits of its bounded fixtures.
+
+PolyStrata's published Qwen3.6 laptop speed table uses different quantizations
+and 30,000–32,000-token prompts. Its RTX 5090 measurements use a 32 GB GPU.
+Neither establishes 262K coding-agent performance on this host. See the
+[inherited two-engine comparison](BACKENDS.md#qwen36-on-two-engines).
+Upstream's laptop Qwen3.6 setup also uses `--tail-skip 6`, an approximation
+that can omit low-ranked CPU experts and change answers. Our initial
+compressed-cache capacity probe leaves that approximation off; any later
+speed comparison must state whether it is enabled.
+
+Qwen3.8's working host profile uses INT8 KV with `--kv-resident 32768` for a
+262,144-token context. The PolyStrata backend's RAM conversation checkpoints
+are not equivalent to streaming the active attention cache from RAM; active
+cache offload must be established separately before claiming support.
+
 AryaStrata runs [Qwen3.6-35B-A3B](https://huggingface.co/Qwen/Qwen3.6-35B-A3B) (35B mixture of experts, 3B active, 256 experts, top-8) from
 [Unsloth's GGUFs with the MTP layer](https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF) (UD-Q4_K_XL, UD-Q6_K_XL, Q8_0)
 on the Strata project's own engine path (`src/qwen35`; `strata` switches to it from the file's architecture). Pick it in

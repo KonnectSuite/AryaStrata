@@ -1,0 +1,21 @@
+{
+  "health": {
+    "status": "ok",
+    "max_context": 262144,
+    "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+    "images": true,
+    "api_key": false,
+    "image_generation": false,
+    "loaded": true,
+    "service": "strata"
+  },
+  "models": [
+    "qwen3.6-35b-a3b-ud-q4_k_xl",
+    "qwen3.6-35b-a3b-q8_0",
+    "qwen3.8-flash-next-iq3_xxs"
+  ],
+  "adapter_passes": {
+    "Q4": 3,
+    "Q8": 3
+  }
+}

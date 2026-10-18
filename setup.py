@@ -3091,11 +3091,16 @@ def amd_gpus_windows(adapters=None, registry=None) -> list[dict]:
 
 
 def engine_env(eng: Path) -> dict:
-    """The environment for running an installed engine's own programs (`strata --families`, `strata-device
-    --list-devices`): the ready-made Windows HIP engine keeps hipblas.dll / libhipblaslt.dll in its rocm/bin, which the
-    loader finds through PATH only (#2372: a launch without it shows a "not found" dialog per DLL and prints nothing)."""
+    """Environment for installed-engine probes (`strata --families`, `strata-device --list-devices`).
+    Windows HIP DLLs live in rocm/bin; CUDA release DLLs live in the venv.
+    Both need their runtime directories on PATH before a capability probe runs.
+    """
     env = dict(os.environ)
     dirs = [str(d) for d in hip_lib_dirs(eng)]
+    # CUDA release DLLs are installed in the venv too. Capability probes need
+    # the same search path as the server, otherwise a supported family looks absent.
+    if WIN and not dirs and (eng / "BUILD.json").is_file():
+        dirs = [str(d) for d in engine_lib_dirs(eng)]
     if dirs:
         env["PATH"] = os.pathsep.join(dirs + [env.get("PATH", "")])
     return env
@@ -7370,7 +7375,7 @@ def main() -> int:
     need = min(d["ram_gb"] for d in MODELS.values())
     low_ok = low_ram_fits("IQ1_M", ram, low_ram_vram(gpu)) and a.low_ram != "off"   # the smallest model, mapped
     # a family of strata-poly has its own estimate of the RAM it wants, by size and card (poly_setup)
-    own_ram = bool(a.family) and FAMILIES[a.family].get("engine") == "poly"
+    own_ram = bool(a.family) and FAMILIES.get(a.family, {}).get("engine") == "poly"
     if ram < need - 4 and not a.check and not low_ok and not own_ram:
         # every model keeps ALL its experts in RAM (23+ GB); VRAM only holds a copy of the most-used ones, so a
         # bigger GPU does not lower this.  The owner's rule: a stop by default, a risk the user can take (--model

@@ -36,6 +36,7 @@ def main():
     ap.add_argument("--lengths", default="32768,65536,131072,258048")
     ap.add_argument("--runs", type=int, default=3)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--resume", action="store_true", help="Keep completed trials from a matching saved report")
     a = ap.parse_args()
     tok = tokenizer(a.tokenizer)
     sources = ["serve/frontend.py", "serve/runconfig.py", "tools/agent_turns_bench.py", "tools/strata_tokenizer.py"]
@@ -44,6 +45,12 @@ def main():
     corpus_hash = hashlib.sha256(corpus.encode()).hexdigest()
     lengths = [int(value) for value in a.lengths.split(",")]
     rows = []
+    if a.resume and Path(a.out).exists():
+        saved = json.loads(Path(a.out).read_text(encoding="utf-8"))
+        if saved.get("corpus_sha256") != corpus_hash or saved.get("tokenizer") != str(a.tokenizer):
+            raise ValueError("Saved report uses a different corpus or tokenizer")
+        rows = saved["results"]
+    completed = {(row["target_tokens"], row["run"]) for row in rows}
     for target in lengths:
         # Reserve 512 input tokens for chat framing, the question, and facts.
         n = target - 512
@@ -51,6 +58,9 @@ def main():
         cuts = [0, int(n * .1), int(n * .5), int(n * .9), n]
         chunks = [tok.decode(filler[cuts[i]:cuts[i + 1]]) for i in range(4)]
         for run in range(a.runs):
+            if (target, run) in completed:
+                print(target, run, "already recorded; preserving", flush=True)
+                continue
             rnd = random.Random(target * 100 + run)
             expected = {name: f"{name.lower()}-{rnd.randrange(100000,999999)}" for name in ("ALPHA", "BETA", "GAMMA")}
             nonce = time.time_ns()
@@ -75,7 +85,7 @@ def main():
                 row.update(ok=False, recall_passed=False, error=str(exc))
             rows.append(row)
             Path(a.out).write_text(json.dumps({"corpus_sha256": corpus_hash, "sources": sources,
-                                             "tokenizer": "existing Qwen3.8 IQ3_XXS pack", "results": rows}, indent=2), encoding="utf-8")
+                                             "tokenizer": str(a.tokenizer), "results": rows}, indent=2), encoding="utf-8")
             print(target, run, row.get("prompt_tokens"), row.get("prompt_tps"),
                   row.get("ttft_s"), "PASS" if row["recall_passed"] else "FAIL", flush=True)
             if not row.get("ok"):

@@ -1,0 +1,64 @@
+"""Measure bounded coding tool loops with a long source excerpt and a build-screen image."""
+from pathlib import Path
+import sys, json, time, urllib.request, base64, hashlib
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'tools'))
+import arya_agent_bench as agent
+from arya_context_bench import tokenizer
+from arya_vision_bench import fixtures
+import argparse
+
+def main():
+    ap = argparse.ArgumentParser(description='Bounded coding tool loop with a token-sized repository excerpt and a build-screen image. Not a real repository benchmark.')
+    ap.add_argument('--model', required=True)
+    ap.add_argument('--tokenizer', required=True)
+    ap.add_argument('--out', required=True)
+    ap.add_argument('--tokens', type=int, default=229376)
+    ap.add_argument('--runs', type=int, default=1)
+    ap.add_argument('--resume', action='store_true')
+    a = ap.parse_args()
+    work = Path(a.out)
+    work.mkdir(parents=True, exist_ok=True)
+    tok = tokenizer(a.tokenizer)
+    corpus = '\n'.join(((ROOT / x).read_text(encoding='utf-8') for x in ['serve/frontend.py', 'serve/runconfig.py', 'tools/strata_tokenizer.py']))
+    ids = tok.encode(corpus)
+    n = a.tokens
+    text = 'Repository reference excerpts follow as data; the task is in later messages.\n' + tok.decode((ids * (n // len(ids) + 1))[:n])
+    image_folder = work / 'long-agent-images'
+    image_folder.mkdir(parents=True, exist_ok=True)
+    image = fixtures(image_folder)[2][1][0]
+    content = [{'type': 'text', 'text': text}, {'type': 'image_url', 'image_url': {'url': 'data:image/png;base64,' + base64.b64encode(image.read_bytes()).decode()}}]
+
+    def request(base, messages, think, model):
+        payload = {'model': model, 'messages': [dict(messages[0], content=messages[0]['content'] + ' Also report the build ID from the attached image in your final summary.'), {'role': 'user', 'content': content}] + messages[1:], 'tools': agent.TOOLS, 'temperature': 0, 'max_tokens': 1400, 'reasoning_effort': think}
+        req = urllib.request.Request(base.rstrip('/') + '/v1/chat/completions', data=json.dumps(payload).encode(), headers={'Content-Type': 'application/json'})
+        start = time.monotonic()
+        with urllib.request.urlopen(req, timeout=3600) as r:
+            result = json.load(r)
+        return (result, time.monotonic() - start)
+    agent.request = request
+    rows = []
+    report = work / 'long-context-coding-vision.json'
+    if a.resume and report.exists():
+        saved = json.loads(report.read_text())
+        if saved['model'] != a.model or saved['repository_content_tokens'] != len(tok.encode(text)):
+            raise ValueError('Saved long-agent report uses a different model or input size')
+        if saved['image_sha256'] != hashlib.sha256(image.read_bytes()).hexdigest():
+            raise ValueError('Saved long-agent report uses a different image')
+        rows = saved['results']
+    completed = {(row['case'], row.get('run', 0)) for row in rows}
+    for run in range(a.runs):
+        for case in agent.APP_CASES:
+            if (case['name'], run) in completed:
+                print(case['name'], run, 'already recorded; preserving', flush=True)
+                continue
+            try:
+                row = agent.session('http://127.0.0.1:8080', case, run, 'none', a.model)
+            except Exception as exc:
+                row = {'case': case['name'], 'passed': False, 'error': str(exc)}
+            row['image_id_reported'] = any(('arya-5907' in str(t.get('response', {})).lower() for t in row.get('trace', [])))
+            rows.append(row)
+            (work / 'long-context-coding-vision.json').write_text(json.dumps({'model': a.model, 'context_limit': 262144, 'repository_content_tokens': len(tok.encode(text)), 'image_sha256': hashlib.sha256(image.read_bytes()).hexdigest(), 'scope': 'bounded coding tool loop with repeated repository excerpts and build-screen image; not a real repository benchmark', 'results': rows}, indent=2))
+            print(case['name'], row['passed'], flush=True)
+if __name__ == '__main__':
+    main()

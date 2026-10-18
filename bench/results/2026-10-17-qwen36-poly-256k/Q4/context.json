@@ -1,0 +1,222 @@
+{
+  "corpus_sha256": "28ba2f42abf56c7c879b4aa1497ad9cac88c917d552f6c15e6d820ff287bad67",
+  "sources": [
+    "serve/frontend.py",
+    "serve/runconfig.py",
+    "tools/agent_turns_bench.py",
+    "tools/strata_tokenizer.py"
+  ],
+  "tokenizer": "C:\\AI\\Strata-data\\packs\\qwen36s-ud-q4_k_xl\\tokenizer",
+  "results": [
+    {
+      "target_tokens": 131072,
+      "run": 0,
+      "nonce": 1792294882576416600,
+      "local_content_tokens": 130697,
+      "prompt_sha256": "e26d694d916f08b76f3e75a14dc0104badb1f77a78b2556b6eb5f5e9b2ffa184",
+      "expected": {
+        "ALPHA": "alpha-560642",
+        "BETA": "beta-320501",
+        "GAMMA": "gamma-653280"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 96.359,
+      "total_s": 97.132,
+      "prompt_tokens": 131031,
+      "reused_tokens": 0,
+      "read_tokens": 131031,
+      "generated_tokens": 53,
+      "prompt_tps": 1361.6,
+      "prompt_tps_source": "engine",
+      "decode_tps": 68.2,
+      "decode_tps_source": "engine",
+      "prompt_ms": 96236.6,
+      "decode_ms": 776.9,
+      "drafts_offered": 36,
+      "drafts_accepted": 35,
+      "answer": "{\n  \"ALPHA\": \"alpha-560642\",\n  \"BETA\": \"beta-320501\",\n  \"GAMMA\": \"gamma-653280\"\n}",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    },
+    {
+      "target_tokens": 131072,
+      "run": 1,
+      "nonce": 1792294979752535700,
+      "local_content_tokens": 130697,
+      "prompt_sha256": "70761a649ec9232a065eaf8a466517c419b888495920520ee237bb39b34086ce",
+      "expected": {
+        "ALPHA": "alpha-378131",
+        "BETA": "beta-451960",
+        "GAMMA": "gamma-307311"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 93.393,
+      "total_s": 94.107,
+      "prompt_tokens": 131031,
+      "reused_tokens": 0,
+      "read_tokens": 131031,
+      "generated_tokens": 53,
+      "prompt_tps": 1404.3,
+      "prompt_tps_source": "engine",
+      "decode_tps": 73.8,
+      "decode_tps_source": "engine",
+      "prompt_ms": 93304.7,
+      "decode_ms": 717.7,
+      "drafts_offered": 36,
+      "drafts_accepted": 34,
+      "answer": "{\n  \"ALPHA\": \"alpha-378131\",\n  \"BETA\": \"beta-451960\",\n  \"GAMMA\": \"gamma-307311\"\n}",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    },
+    {
+      "target_tokens": 131072,
+      "run": 2,
+      "nonce": 1792295073904363000,
+      "local_content_tokens": 130697,
+      "prompt_sha256": "e1b185fb692f48d494771d1fa4a84a2372c83e927e3435e1acfe80b9b0ffff3d",
+      "expected": {
+        "ALPHA": "alpha-576573",
+        "BETA": "beta-517328",
+        "GAMMA": "gamma-313311"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 93.16,
+      "total_s": 93.854,
+      "prompt_tokens": 131031,
+      "reused_tokens": 0,
+      "read_tokens": 131031,
+      "generated_tokens": 53,
+      "prompt_tps": 1408.2,
+      "prompt_tps_source": "engine",
+      "decode_tps": 75.8,
+      "decode_tps_source": "engine",
+      "prompt_ms": 93049.7,
+      "decode_ms": 699.2,
+      "drafts_offered": 36,
+      "drafts_accepted": 36,
+      "answer": "{\n  \"ALPHA\": \"alpha-576573\",\n  \"BETA\": \"beta-517328\",\n  \"GAMMA\": \"gamma-313311\"\n}",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    },
+    {
+      "target_tokens": 253952,
+      "run": 0,
+      "nonce": 1792295167823344800,
+      "local_content_tokens": 253576,
+      "prompt_sha256": "e20480bd6c72d507416efcf1b6831b0337294bf4d3aef9a189a6a16907b760da",
+      "expected": {
+        "ALPHA": "alpha-290596",
+        "BETA": "beta-794523",
+        "GAMMA": "gamma-391043"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 261.412,
+      "total_s": 262.592,
+      "prompt_tokens": 254191,
+      "reused_tokens": 0,
+      "read_tokens": 254191,
+      "generated_tokens": 53,
+      "prompt_tps": 973.1,
+      "prompt_tps_source": "engine",
+      "decode_tps": 44.7,
+      "decode_tps_source": "engine",
+      "prompt_ms": 261216.4,
+      "decode_ms": 1185.8,
+      "drafts_offered": 34,
+      "drafts_accepted": 33,
+      "answer": "{\n  \"ALPHA\": \"alpha-290596\",\n  \"BETA\": \"beta-794523\",\n  \"GAMMA\": \"gamma-391043\"\n}",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    },
+    {
+      "target_tokens": 253952,
+      "run": 1,
+      "nonce": 1792295873197215000,
+      "local_content_tokens": 253576,
+      "prompt_sha256": "2dcf14f25a32f6768362a6ac04c4ca960bd7e4ccd291b0dcc41f88f8220167d1",
+      "expected": {
+        "ALPHA": "alpha-633092",
+        "BETA": "beta-814817",
+        "GAMMA": "gamma-748812"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 278.684,
+      "total_s": 279.907,
+      "prompt_tokens": 254191,
+      "reused_tokens": 0,
+      "read_tokens": 254191,
+      "generated_tokens": 53,
+      "prompt_tps": 912.9,
+      "prompt_tps_source": "engine",
+      "decode_tps": 43.1,
+      "decode_tps_source": "engine",
+      "prompt_ms": 278457.3,
+      "decode_ms": 1228.7,
+      "drafts_offered": 39,
+      "drafts_accepted": 39,
+      "answer": "{\n  \"ALPHA\": \"alpha-633092\",\n  \"BETA\": \"beta-814817\",\n  \"GAMMA\": \"gamma-748812\"\n}",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    },
+    {
+      "target_tokens": 253952,
+      "run": 2,
+      "nonce": 1792296153198843700,
+      "local_content_tokens": 253576,
+      "prompt_sha256": "5664f6b6e814e140db9b0cd5f84e8da949ad78eeea7d0aedeaab319a4e5ebb1d",
+      "expected": {
+        "ALPHA": "alpha-927987",
+        "BETA": "beta-871139",
+        "GAMMA": "gamma-993724"
+      },
+      "ok": true,
+      "err": null,
+      "ttft_s": 256.198,
+      "total_s": 257.475,
+      "prompt_tokens": 254191,
+      "reused_tokens": 0,
+      "read_tokens": 254191,
+      "generated_tokens": 53,
+      "prompt_tps": 992.9,
+      "prompt_tps_source": "engine",
+      "decode_tps": 41.3,
+      "decode_tps_source": "engine",
+      "prompt_ms": 256015.8,
+      "decode_ms": 1282.8,
+      "drafts_offered": 31,
+      "drafts_accepted": 30,
+      "answer": "{\n  \"ALPHA\": \"alpha-927987\",\n  \"BETA\": \"beta-871139\",\n  \"GAMMA\": \"gamma-993724\"\n}",
+      "facts_found": {
+        "ALPHA": true,
+        "BETA": true,
+        "GAMMA": true
+      },
+      "recall_passed": true
+    }
+  ]
+}
