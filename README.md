@@ -37,7 +37,7 @@ The linked guides retain upstream measurements, hardware requirements and limita
 | **DeepSeek V4 Flash** | `strata-poly`; NVIDIA/Linux primary path | No | Not validated here; substantial RAM requirements | [DeepSeek](docs/DEEPSEEK.md) |
 | **LFM2.5-24B-A2B** | `strata-poly`; NVIDIA/Windows/Linux | No | Not validated here | [LFM](docs/LFM.md) |
 | **Qwen3.6-35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux; Strata path for selected sizes | Yes | **Q4 and Q8: 262K context with GPU vision; coding, image and recall checks passed** | [Measured host results](docs/QWEN36_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
-| **Ornith 1.5** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Old llama.cpp downloads removed; fresh setup and validation pending | [Backends](docs/BACKENDS.md) |
+| **Ornith 1.5** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **APEX-I-QUALITY: 262K GPU vision; low reasoning passed 18/18 bounded coding and 3/3 long coding/image sessions** | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **Gemma 4 26B-A4B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
 | **Tiel Coder 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
 | **MiniCPM-V 4.7 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **Q4: 262K GPU vision; low reasoning passed 18/18 bounded coding sessions and 3/3 long coding/image sessions** | [Measured host results](docs/MINICPMV_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
@@ -102,6 +102,8 @@ Additional full-context host results: [Qwen3.6 Q4 versus Q8](docs/QWEN36_HOST_RE
 and [MiniCPM-V 4.7 Q4 with vision](docs/MINICPMV_HOST_RESULTS.md). The MiniCPM
 report uses corrected coding-validator results and retains the original records
 for audit; its speed, image and recall results are separate measurements.
+The [additional-model comparison](docs/MODEL_ROSTER_HOST_RESULTS.md) now includes
+Ornith APEX-I-QUALITY, with exact model IDs, cold/cached agent timings and resource observations.
 
 ### Current vision and agent configuration
 

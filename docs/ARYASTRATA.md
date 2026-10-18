@@ -50,6 +50,16 @@ passed. The longest text input was 254,191 tokens; the first combined
 coding/image input was 230,715 tokens. The original restricted-validator runs
 remain archived and are not the published coding scores.
 
+[Ornith 1.5 APEX-I-QUALITY](MODEL_ROSTER_HOST_RESULTS.md) is installed on the
+same host at 262,144-token capacity with GPU vision and Q8_0 KV. Low reasoning
+passed 18/18 bounded coding sessions, versus 16/18 off. All 12 image checks,
+6 recall trials, 3 combined coding/image sessions with their image IDs, and
+3 development DSH adapter checks passed. Retained settings are 15 CPU threads
+and window 8; the paired speed difference was below the selection threshold.
+Near-full text recall took a median 246.4 seconds to first token. The first
+cold coding/image fixture took 528.1 seconds for its complete tool loop;
+later fixtures reused the source prefix. These are different workloads.
+
 1. Target confirmed: this Windows PC, for coding and local coding agents.
 2. Choose one model and quantization using [AI_SETUP.md](AI_SETUP.md) and
    [BACKENDS.md](BACKENDS.md). Confirm the download size and destination before setup.

@@ -29,7 +29,7 @@ try {
     apiKeyEnv: 'ARYA_BENCH_LOCAL_KEY', api: 'openai-completions', outputBudgetMode: 'gateway',
     baseURL: args.url || 'http://127.0.0.1:8080/v1',
     models: [{ id: model, contextWindow: Number(args.context || 262144), maxTokens: 8192, input: args.input === 'text' ? ['text'] : ['text', 'image'],
-      reasoningEfforts: { off: 'none', low: 'low', medium: 'medium', high: 'high' } }],
+      reasoningEfforts: args.input === 'text' ? false : { off: 'none', low: 'low', medium: 'medium', high: 'high' } }],
   } } });
   const tools = [{ name: 'read_file', description: 'Read a file from the fixture workspace',
     parameters: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } }];

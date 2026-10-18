@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "adapterVersion": "0.2.0-rc.2",
+  "timeoutMs": 1200000,
+  "streamIdleTimeoutMs": 1200000,
+  "scope": "Actual development adapter configuration accepted; no inference or account access performed"
+}

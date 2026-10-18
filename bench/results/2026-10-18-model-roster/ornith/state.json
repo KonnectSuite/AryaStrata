@@ -1,0 +1,377 @@
+[
+  {
+    "phase": "installing",
+    "time": 1792304661.173623,
+    "family": "ornith",
+    "quant": "APEX-I-QUALITY",
+    "context": 262144
+  },
+  {
+    "phase": "setup-running",
+    "time": 1792304661.1759484
+  },
+  {
+    "phase": "setup-finished",
+    "time": 1792304686.3812513,
+    "exit": 0
+  },
+  {
+    "phase": "full-context-gpu-loading",
+    "time": 1792304697.6895962
+  },
+  {
+    "phase": "full-context-gpu-ready",
+    "time": 1792304705.313292,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-loading",
+    "time": 1792304705.3137336
+  },
+  {
+    "phase": "threads-8-ready",
+    "time": 1792304713.5206044,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-8-measured",
+    "time": 1792304734.1386583,
+    "median": 126.8
+  },
+  {
+    "phase": "threads-15-loading",
+    "time": 1792304734.1389258
+  },
+  {
+    "phase": "threads-15-ready",
+    "time": 1792304742.398503,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-15-measured",
+    "time": 1792304762.2930386,
+    "median": 126.25
+  },
+  {
+    "phase": "threads-20-loading",
+    "time": 1792304762.2933261
+  },
+  {
+    "phase": "threads-20-ready",
+    "time": 1792304769.4851866,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "threads-20-measured",
+    "time": 1792304789.6488907,
+    "median": 125.2
+  },
+  {
+    "phase": "window-1-loading",
+    "time": 1792304789.6492314
+  },
+  {
+    "phase": "window-1-ready",
+    "time": 1792304796.7705474,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-1-measured",
+    "time": 1792304818.5611618,
+    "median": 115.6
+  },
+  {
+    "phase": "window-4-loading",
+    "time": 1792304818.561492
+  },
+  {
+    "phase": "window-4-ready",
+    "time": 1792304826.7850835,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-4-measured",
+    "time": 1792304846.8574965,
+    "median": 126.8
+  },
+  {
+    "phase": "window-8-loading",
+    "time": 1792304846.8578067
+  },
+  {
+    "phase": "window-8-ready",
+    "time": 1792304853.9663732,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "window-8-measured",
+    "time": 1792304873.9116974,
+    "median": 126.55
+  },
+  {
+    "phase": "baseline-a-loading",
+    "time": 1792304873.912014
+  },
+  {
+    "phase": "baseline-a-ready",
+    "time": 1792304882.15033,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-a-measured",
+    "time": 1792304902.3652742,
+    "median": 125.94999999999999
+  },
+  {
+    "phase": "candidate-a-loading",
+    "time": 1792304902.3655982
+  },
+  {
+    "phase": "candidate-a-ready",
+    "time": 1792304909.594803,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-a-measured",
+    "time": 1792304929.8908162,
+    "median": 125.9
+  },
+  {
+    "phase": "candidate-b-loading",
+    "time": 1792304929.8912475
+  },
+  {
+    "phase": "candidate-b-ready",
+    "time": 1792304938.1007767,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "candidate-b-measured",
+    "time": 1792304958.252291,
+    "median": 125.9
+  },
+  {
+    "phase": "baseline-b-loading",
+    "time": 1792304958.2526028
+  },
+  {
+    "phase": "baseline-b-ready",
+    "time": 1792304966.4731276,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline-b-measured",
+    "time": 1792304986.5661047,
+    "median": 125.65
+  },
+  {
+    "phase": "quality-loading",
+    "time": 1792304986.5675602
+  },
+  {
+    "phase": "quality-ready",
+    "time": 1792304993.690535,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "images": true,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "agent-none-running",
+    "time": 1792304993.6910887
+  },
+  {
+    "phase": "agent-none-finished",
+    "time": 1792305074.046326,
+    "exit": 1
+  },
+  {
+    "phase": "agent-low-running",
+    "time": 1792305074.046795
+  },
+  {
+    "phase": "agent-low-finished",
+    "time": 1792305256.4935346,
+    "exit": 0
+  },
+  {
+    "phase": "vision-running",
+    "time": 1792305256.5112855
+  },
+  {
+    "phase": "vision-finished",
+    "time": 1792305268.6851113,
+    "exit": 0
+  },
+  {
+    "phase": "context-running",
+    "time": 1792305268.6855776
+  },
+  {
+    "phase": "context-finished",
+    "time": 1792306281.1148643,
+    "exit": 0
+  },
+  {
+    "phase": "long-agent-running",
+    "time": 1792306281.1153738
+  },
+  {
+    "phase": "long-agent-finished",
+    "time": 1792306980.2097838,
+    "exit": 0
+  },
+  {
+    "phase": "dsh-adapter-running",
+    "time": 1792306980.2102358
+  },
+  {
+    "phase": "dsh-adapter-finished",
+    "time": 1792306984.2501714,
+    "exit": 0
+  },
+  {
+    "phase": "complete",
+    "time": 1792306984.2519016,
+    "summary": {
+      "family": "ornith",
+      "quant": "APEX-I-QUALITY",
+      "context": 262144,
+      "checks": [
+        {
+          "label": "agent-none",
+          "exit": 1
+        },
+        {
+          "label": "agent-low",
+          "exit": 0
+        },
+        {
+          "label": "vision",
+          "exit": 0
+        },
+        {
+          "label": "context",
+          "exit": 0
+        },
+        {
+          "label": "long-agent",
+          "exit": 0
+        },
+        {
+          "label": "dsh-adapter",
+          "exit": 0
+        }
+      ],
+      "profile": "strata-ornith-apex-i-quality.json",
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "selected_candidate": false,
+      "recommended_think": "low"
+    }
+  }
+]

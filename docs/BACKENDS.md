@@ -10,6 +10,9 @@ AryaStrata host measurements are separate from the inherited comparisons below:
 [MiniCPM-V 4.7 Q4](MINICPMV_HOST_RESULTS.md), both at 262,144-token capacity
 with GPU vision on our Windows host. See each report for actual input counts,
 coding checks, failures and limits.
+The [additional-model host report](MODEL_ROSTER_HOST_RESULTS.md) also records
+completed Ornith APEX-I-QUALITY measurements and will list further families only
+after their validation finishes.
 
 One model is in memory at a time. The measurements below are from one machine: an RTX 5090 (32 GB), 24 threads of
 a Xeon Platinum 8470Q, 120 GiB of RAM, Linux, CUDA 12.8. On that card the three new models fit in VRAM whole.

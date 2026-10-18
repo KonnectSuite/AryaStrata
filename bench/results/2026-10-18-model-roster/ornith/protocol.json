@@ -1,0 +1,87 @@
+{
+  "family": "ornith",
+  "quant": "APEX-I-QUALITY",
+  "source_commit": "7fc91d38023c46b9cd2563f365fcd7c72f4263bc",
+  "model_files": [
+    {
+      "file": "Ornith-1.5-35B-A3B-APEX-MTP-I-Quality.gguf",
+      "bytes": 23718411808,
+      "sha256": "2cedb760ebafb9f4943b4eac92628306110fc04eeea45dae2e1396aad626e691",
+      "url": "https://huggingface.co/mudler/Ornith-1.5-35B-A3B-APEX-MTP-GGUF/resolve/4c326713c52d13fdb40983a2a09a46cca8e88739/Ornith-1.5-35B-A3B-APEX-MTP-I-Quality.gguf"
+    },
+    {
+      "file": "mmproj.gguf",
+      "bytes": 899283200,
+      "sha256": "e277123529451fbcff6d880ad5bd7ada999f9d5e6339ba3639d06c5cef4763b1",
+      "url": "https://huggingface.co/mudler/Ornith-1.5-35B-A3B-APEX-MTP-GGUF/resolve/4c326713c52d13fdb40983a2a09a46cca8e88739/mmproj.gguf"
+    }
+  ],
+  "engine_build": {
+    "source": "release",
+    "version": "0.1.45",
+    "archs": [
+      75,
+      80,
+      86,
+      89,
+      120
+    ],
+    "cuda": "13.0",
+    "src": "72891a8b04dfd4d9",
+    "vision": "gpu",
+    "vision_src": "68eadd07fce1dbf1"
+  },
+  "tools_sha256": {
+    "arya_agent_bench.py": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+    "arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
+    "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82",
+    "arya_dsh_probe.mjs": "fc45b85dfb3bbb7e0a5e89fb6914d58aff11d42a2c99f2e2418bbea086f6d779"
+  },
+  "scope": "bounded fixtures, synthetic images, repeated source excerpts; expert cache remains adaptive across sequential trials",
+  "initial_tool_fingerprints": {
+    "arya_agent_bench.py": "1948feca936458900c1d5bde93d822a53b7a846de1805792f048e5a4d5f74fb4",
+    "arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
+    "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82",
+    "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3"
+  },
+  "tool_archives": {
+    "arya_agent_bench.py": "../tool-snapshots/arya_agent_bench.py.txt",
+    "arya_context_bench.py": "../tool-snapshots/arya_context_bench.py.txt",
+    "arya_vision_bench.py": "../tool-snapshots/arya_vision_bench.py.txt",
+    "arya_long_agent_bench.py": "../tool-snapshots/arya_long_agent_bench.py.txt",
+    "arya_dsh_probe.mjs": "../tool-snapshots/arya_dsh_probe.mjs.txt"
+  },
+  "tool_note": "Per-model fingerprints and archive paths identify the versions actually used. The earlier MiniCPM vision probe is retained separately from the later text-only capability fix; vision request content was unchanged.",
+  "source_commit_note": "Recorded checkout revision; archived tool snapshots identify exact benchmark tool bytes, including uncommitted changes where applicable. Inference backend source was unchanged.",
+  "tuning_protocol": {
+    "prompts": [
+      "Write a Python function that performs a stable merge of two sorted lists. Explain its complexity and include three edge case tests.",
+      "Implement a TypeScript retry helper with bounded exponential backoff, cancellation, and error propagation. Include a usage example.",
+      "Review a Python dictionary-based cache for race conditions and propose a thread-safe implementation with eviction."
+    ],
+    "repeats": 2,
+    "max_output_tokens": 384,
+    "temperature": 0,
+    "reasoning_effort": "none",
+    "nonce_prefix": "[trial <label>-<run>-<prompt-index>-<time_ns>] ",
+    "warmup": "Reply READY.",
+    "warmup_max_output_tokens": 16,
+    "threads": [
+      8,
+      15,
+      20
+    ],
+    "windows": [
+      1,
+      4,
+      8
+    ],
+    "confirmation_order": [
+      "baseline-a",
+      "candidate-a",
+      "candidate-b",
+      "baseline-b"
+    ]
+  }
+}

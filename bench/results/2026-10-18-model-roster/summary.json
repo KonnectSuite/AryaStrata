@@ -79,6 +79,32 @@
         }
       ],
       "long_reasoning": "low",
+      "long_sessions": [
+        {
+          "case": "trim_history",
+          "seconds": 369.5535338999998,
+          "input_tokens": 230715,
+          "cached_tokens": 0,
+          "passed": true,
+          "image_id_reported": true
+        },
+        {
+          "case": "merge_tool_results",
+          "seconds": 80.34040050000112,
+          "input_tokens": 230729,
+          "cached_tokens": 208896,
+          "passed": true,
+          "image_id_reported": true
+        },
+        {
+          "case": "summarize_usage",
+          "seconds": 92.072251399999,
+          "input_tokens": 230712,
+          "cached_tokens": 208896,
+          "passed": true,
+          "image_id_reported": true
+        }
+      ],
       "coding_record_root": "corrected",
       "resources": {
         "peak_ram_used_gib": 55.5351448059082,
@@ -88,7 +114,121 @@
       },
       "prompt_batch": 512,
       "window": null,
-      "kv": "q8_0"
+      "kv": "q8_0",
+      "title": "MiniCPM-V 4.7 35B-A3B",
+      "quant": "Q4_K_M"
+    },
+    {
+      "family": "ornith",
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "context": 262144,
+      "threads": 15,
+      "vision": true,
+      "vision_gpu": true,
+      "baseline_tps": 125.8,
+      "candidate_tps": 125.9,
+      "selected_candidate": false,
+      "checks": {
+        "coding-none": {
+          "passed": 16,
+          "total": 18,
+          "median_seconds": 4.21384610000041,
+          "failed_cases": [
+            "merge_tool_results",
+            "trim_history"
+          ]
+        },
+        "coding-low": {
+          "passed": 18,
+          "total": 18,
+          "median_seconds": 8.197021799999675,
+          "failed_cases": []
+        },
+        "vision": {
+          "passed": 12,
+          "total": 12,
+          "median_seconds": 0.9329766500004553,
+          "failed_cases": []
+        },
+        "recall": {
+          "passed": 6,
+          "total": 6,
+          "median_seconds": null,
+          "failed_cases": []
+        },
+        "long-agent": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": 86.43926570000076,
+          "failed_cases": [],
+          "image_ids": 3
+        },
+        "dsh": {
+          "passed": 3,
+          "total": 3,
+          "median_seconds": null,
+          "failed_cases": []
+        }
+      },
+      "recall_lengths": [
+        {
+          "target": 131072,
+          "actual_tokens": 131031,
+          "prefill_tps": 1476.9,
+          "ttft_seconds": 88.82,
+          "decode_tps": 58.5,
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "target": 253952,
+          "actual_tokens": 254191,
+          "prefill_tps": 1032.5,
+          "ttft_seconds": 246.358,
+          "decode_tps": 42.2,
+          "passed": 3,
+          "total": 3
+        }
+      ],
+      "long_reasoning": "low",
+      "long_sessions": [
+        {
+          "case": "trim_history",
+          "seconds": 528.105929899999,
+          "input_tokens": 230825,
+          "cached_tokens": 0,
+          "passed": true,
+          "image_id_reported": true
+        },
+        {
+          "case": "merge_tool_results",
+          "seconds": 86.43926570000076,
+          "input_tokens": 230839,
+          "cached_tokens": 208896,
+          "passed": true,
+          "image_id_reported": true
+        },
+        {
+          "case": "summarize_usage",
+          "seconds": 83.8312709999991,
+          "input_tokens": 230822,
+          "cached_tokens": 208896,
+          "passed": true,
+          "image_id_reported": true
+        }
+      ],
+      "coding_record_root": ".",
+      "resources": {
+        "peak_ram_used_gib": 45.9339599609375,
+        "least_ram_available_gib": 17.883495330810547,
+        "peak_gpu_mib": 15757.0,
+        "sample_seconds": 5
+      },
+      "prompt_batch": 512,
+      "window": 8,
+      "kv": "q8_0",
+      "title": "Ornith 1.5 35B-A3B",
+      "quant": "APEX-I-QUALITY"
     }
   ],
   "tools_sha256": {
@@ -96,6 +236,10 @@
     "arya_context_bench.py": "e146799d61891e09e87231c8f05bd0c9e3dd6d38a25db1bed8c38f072aa4a614",
     "arya_vision_bench.py": "45784b6c80c1de57c2b507214d4c9022c518b053873509e48092e7b4ba2ea2c3",
     "arya_long_agent_bench.py": "ed3b2b773f23ac300c2587506ff26e0d5771cdb5241b88a6cf4208b50cde6b82",
-    "arya_dsh_probe.mjs": "0a427dc8161354e39f222b372660d96dae0fba1d30b1915d2cfe0ba2400cd0c1"
+    "arya_dsh_probe.mjs": "fc45b85dfb3bbb7e0a5e89fb6914d58aff11d42a2c99f2e2418bbea086f6d779"
+  },
+  "historical_tools_sha256": {
+    "arya_agent_bench_restricted.py": "3ebf569e61536e67a65a41bb8ea3a7ba07d00d30c1ee668799f4e68956a1d50e",
+    "arya_dsh_probe_vision_before_textfix.mjs": "0a427dc8161354e39f222b372660d96dae0fba1d30b1915d2cfe0ba2400cd0c1"
   }
 }

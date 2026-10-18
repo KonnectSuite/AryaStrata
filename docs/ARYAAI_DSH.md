@@ -16,6 +16,13 @@ refresh a model list that was already open.
 
 ## Applied development profile
 
+Ornith APEX-I-QUALITY is configured as `ornith-1.5-35b-a3b-apex-i-quality`,
+with 262,144 total context tokens, 8,192 advertised output tokens within that
+budget, and text/image input. Low reasoning passed all 18 bounded coding
+sessions and all three long coding/image sessions. Three isolated development
+adapter checks passed. See the [model roster report](MODEL_ROSTER_HOST_RESULTS.md)
+for the measured timings and limits.
+
 MiniCPM-V 4.7 Q4_K_M is configured as
 `minicpm-v-4.7-35b-a3b-q4_k_m`, with 262,144 total context tokens,
 8,192 advertised output tokens within that budget, and text/image input.
@@ -26,6 +33,14 @@ sessions and is recommended for these fixtures. See the
 timings, memory observations and the validator correction. Reload the development
 app model list if the new entry is not visible. Existing default-model and
 thinking preferences were preserved.
+
+The local `strata` provider now uses `timeoutMs: 1200000` and
+`streamIdleTimeoutMs: 1200000` (20 minutes). Near-full cold prompts measured
+roughly four minutes before the first token, so the previous five-minute idle
+limit left little headroom for loading and image processing. The actual
+development adapter accepted these settings; this configuration check did not
+simulate a 20-minute stall. Other providers were unchanged. A separate private
+backup is kept at `local-data/aryaai-profile-before-long-context-timeouts.yml.bak`.
 
 The running development app uses `%USERPROFILE%/profiles/desktop/cordis.patch.yml`.
 The initial Qwen3.8 model's label, context, output capability and input modalities
@@ -52,6 +67,8 @@ The relevant configuration is:
         apiKeyEnv: STRATA_API_KEY
         api: openai-completions
         baseURL: http://127.0.0.1:8080/v1
+        timeoutMs: 1200000
+        streamIdleTimeoutMs: 1200000
         outputBudgetMode: gateway
         models:
           - id: qwen3.8-flash-next-iq3_xxs

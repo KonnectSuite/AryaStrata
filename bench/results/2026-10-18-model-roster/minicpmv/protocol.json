@@ -57,7 +57,14 @@
     "arya_long_agent_bench.py": "a7e7b61372f9cd99c9efcc274b60cac6208e977562c0dd0a48f6c296bda44183",
     "arya_dsh_probe.mjs": "1f87756b7d107bc7e1c13730e4cec798b07e8c64a202d039e42199291288a943"
   },
-  "tool_note": "Long-agent modality/context/reasoning options and DSH text-only metadata were added before their measured runs; default request content remains unchanged.",
+  "tool_archives": {
+    "arya_agent_bench.py": "../tool-snapshots/arya_agent_bench.py.txt",
+    "arya_context_bench.py": "../tool-snapshots/arya_context_bench.py.txt",
+    "arya_vision_bench.py": "../tool-snapshots/arya_vision_bench.py.txt",
+    "arya_long_agent_bench.py": "../tool-snapshots/arya_long_agent_bench.py.txt",
+    "arya_dsh_probe.mjs": "../tool-snapshots/arya_dsh_probe_vision_before_textfix.mjs.txt"
+  },
+  "tool_note": "Per-model fingerprints and archive paths identify the versions actually used. The earlier MiniCPM vision probe is retained separately from the later text-only capability fix; vision request content was unchanged.",
   "source_commit_note": "Recorded checkout revision; archived tool snapshots identify exact benchmark tool bytes, including uncommitted changes where applicable. Inference backend source was unchanged.",
   "validation_correction": {
     "original_validator_sha256": "3ebf569e61536e67a65a41bb8ea3a7ba07d00d30c1ee668799f4e68956a1d50e",

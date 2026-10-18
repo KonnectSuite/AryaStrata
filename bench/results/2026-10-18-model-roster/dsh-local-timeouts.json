@@ -1,0 +1,6 @@
+{
+  "provider": "strata",
+  "timeoutMs": 1200000,
+  "streamIdleTimeoutMs": 1200000,
+  "reason": "Allow cold full-context local inference; other providers and preferences preserved"
+}

@@ -9,6 +9,13 @@ version of everything below is [INSTALL.md](INSTALL.md).
 
 Work through the steps in order. Tell the user what you are doing in plain words; they may not be technical.
 
+For the existing AryaStrata i9-14900KF / RTX 4070 Ti SUPER / 64 GB Windows host,
+use the installed profiles documented in [host findings](ARYASTRATA.md),
+[Qwen3.6 Q4/Q8](QWEN36_HOST_RESULTS.md) and
+[the additional-model results](MODEL_ROSTER_HOST_RESULTS.md). Those reports list
+completed measurements and actual context/vision settings. The generic RAM and
+context recommendations below are not a replacement for a validated host profile.
+
 ## 0. Ground rules
 
 - **Never expose the server without an API key.** Keep the default `--host 127.0.0.1`. Only if the user asks for
