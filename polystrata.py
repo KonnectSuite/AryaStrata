@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""PolyStrata from a terminal: which models are installed, a chat with one of them, and a benchmark.
+"""AryaStrata from a terminal: which models are installed, a chat with one of them, and a benchmark.
 
-    python polystrata.py --list-models
-    python polystrata.py --model <name>                chat with it; /model in the chat changes it
-    python polystrata.py benchmark --model <name>      speeds, memory and cache figures, as a table and as JSON
+    python aryastrata.py --list-models
+    python aryastrata.py --model <name>                chat with it; /model in the chat changes it
+    python aryastrata.py benchmark --model <name>      speeds, memory and cache figures, as a table and as JSON
 
 A model is one that setup installed (its run config, strata-<name>.json, is beside this file).  One model is in
 memory at a time.  With a server already running on the port, --model switches that server to the model; without
@@ -39,17 +39,17 @@ class Server:
         if code == 200 and health.get("service") == "strata":
             code, out = terminal.api(self.base, "/api/models/load", {"model": entry["id"]}, key)
             if code != 200:
-                raise SystemExit(f"polystrata: {out.get('error', {}).get('message', 'the server did not load the model')}")
+                raise SystemExit(f"aryastrata: {out.get('error', {}).get('message', 'the server did not load the model')}")
             return
         if code:
-            raise SystemExit(f"polystrata: port {port} answers, but not as PolyStrata; use --port")
+            raise SystemExit(f"aryastrata: port {port} answers, but not as AryaStrata; use --port")
         print(f"starting {entry['id']} on port {port} (a first start takes a minute or two) ...", flush=True)
         out = subprocess.DEVNULL if quiet else None
         self.child = subprocess.Popen([sys.executable, str(ROOT / "serve" / "server.py"), "--engine", "strata",
                                        "--config", entry["config"], "--port", str(port)], stdout=out, cwd=str(ROOT))
         while True:
             if self.child.poll() is not None:
-                raise SystemExit(f"polystrata: the server ended before it was ready (exit code {self.child.returncode})")
+                raise SystemExit(f"aryastrata: the server ended before it was ready (exit code {self.child.returncode})")
             code, health = terminal.api(self.base, "/health", None, key, timeout=5)
             if code == 200 and health.get("loaded"):
                 return
@@ -68,10 +68,10 @@ def entry_of(name: str) -> dict:
     models = registry.discover(ROOT)
     e = registry.find(models, name)
     if e is None:
-        raise SystemExit(f"polystrata: no model named {name!r}.  Installed: " +
+        raise SystemExit(f"aryastrata: no model named {name!r}.  Installed: " +
                          (", ".join(m["id"] for m in models) or "none (run setup first)"))
     if e["status"] == "unavailable":
-        raise SystemExit(f"polystrata: {e['id']} cannot run: {e['problem']}")
+        raise SystemExit(f"aryastrata: {e['id']} cannot run: {e['problem']}")
     return e
 
 

@@ -1,3 +1,5 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+
 # Lend the output head's VRAM to the prompt path (`--prefill-head-alias`, opt-in)
 
 Two large VRAM users never work at the same time. The native output head (417 MiB for the Q5_K head of

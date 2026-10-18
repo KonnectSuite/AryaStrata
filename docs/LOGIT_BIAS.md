@@ -1,3 +1,5 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+
 # Per-request token biases
 
 `POST /v1/chat/completions` accepts `logit_bias` with a supporting CUDA or HIP

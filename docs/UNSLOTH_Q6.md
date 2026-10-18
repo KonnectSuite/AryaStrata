@@ -1,3 +1,5 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+
 # Unsloth UD-Q6_K_XL
 
 **In setup since MODEL-UPDATE Phase 2** (`START-HERE.bat --setup --family unsloth --model UD-Q6_K_XL`, engine 0.1.44 or

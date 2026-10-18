@@ -97,7 +97,7 @@ def sycl_engine():
 
 
 def sycl_path(path) -> str:
-    """A host path as the engine's container sees it: the folder above the PolyStrata checkout (or STRATA_SYCL_ROOT) is
+    """A host path as the engine's container sees it: the folder above the AryaStrata checkout (or STRATA_SYCL_ROOT) is
     mounted at /work."""
     p, root = Path(path).resolve(), MOUNT.resolve()
     try:
@@ -230,7 +230,7 @@ def install(argv) -> None:
         S.fail("no Intel Arc found (an xe or i915 card in /sys/class/drm)", "on an NVIDIA or AMD card, run ./setup.sh")
     exe, why = sycl_engine()
     if exe is None:
-        S.fail(f"PolyStrata's SYCL engine cannot be used: {why}", "docs/INTEL.md: build it, then run this again")
+        S.fail(f"AryaStrata's SYCL engine cannot be used: {why}", "docs/INTEL.md: build it, then run this again")
     for name in ("gpus", "amd_gpus", "amd_problem", "hip_vision", "build_engine_hip", "hipblaslt_table", "ram_gb",
                  "write_run_script", "start", "say", "main"):
         if not callable(getattr(S, name, None)):

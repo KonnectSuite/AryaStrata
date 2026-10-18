@@ -1,6 +1,8 @@
-# Installing PolyStrata
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
 
-Everything about installing, starting, updating and configuring PolyStrata, on Windows and Linux, with an NVIDIA or an
+# Installing AryaStrata
+
+Everything about installing, starting, updating and configuring AryaStrata, on Windows and Linux, with an NVIDIA or an
 AMD graphics card. The short version is in the [README](../README.md#install); an AI coding assistant can do all of
 this for you with [AI_SETUP.md](AI_SETUP.md).
 
@@ -26,28 +28,28 @@ or Windows, one NVIDIA card and less of everything: [BACKENDS.md](BACKENDS.md#in
 
 The driver is the only thing you install yourself. Everything else - Python, the engine, the model - is set up for
 you the first time: Python 3.12 if you have none (for your user account, no admin), a private Python environment in
-`.venv/`, the PolyStrata engine, the model and the MTP draft layer. On NVIDIA it uses the ready-made engine for RTX
+`.venv/`, the AryaStrata engine, the model and the MTP draft layer. On NVIDIA it uses the ready-made engine for RTX
 20/30/40/50 and NVIDIA's CUDA libraries from pip (~0.4 GB); if no ready-made engine fits your PC, it offers to install
 the build tools (Visual Studio Build Tools + CUDA Toolkit on Windows, `build-essential` + CUDA on Ubuntu) and compiles
 the engine for your GPU (asks first; 20-40 minutes once). More: [details](DETAILS.md#before-you-start).
 
 ## Windows
 
-1. [Download this project](https://github.com/VecSzn/PolyStrata/archive/refs/heads/main.zip) and unzip it (or
+1. [Download this project](https://github.com/KonnectSuite/AryaStrata/archive/refs/heads/main.zip) and unzip it (or
    `git clone` it).
 2. Double-click **`START-HERE.bat`**.
 3. Answer a few questions - or just press Enter each time for the recommended choice ([the questions](#setups-questions)).
 
 Then it downloads everything (the model is ~70 GB, so the first time takes a while - you can stop and it picks up
-where it left off) and **starts the model**. Your browser opens the PolyStrata app at `http://127.0.0.1:8080`.
+where it left off) and **starts the model**. Your browser opens the AryaStrata app at `http://127.0.0.1:8080`.
 
-> **While the model starts, your PC can be slow or stop responding for 1-3 minutes** (longest the first time): PolyStrata
+> **While the model starts, your PC can be slow or stop responding for 1-3 minutes** (longest the first time): AryaStrata
 > loads 35-55 GB into your RAM and locks part of it for the graphics card. That's normal - wait, and don't close the
 > window. The window tells you what it is doing.
 
 **Next time**, just double-click `START-HERE.bat` again: it starts right away (30-90 s to load the model), nothing is
 downloaded twice. Close its window to stop the model. `SETUP.bat` (the same as `START-HERE.bat --setup`) installs
-another model or changes the settings. Starting PolyStrata from Task Scheduler at logon needs two task settings, or the
+another model or changes the settings. Starting AryaStrata from Task Scheduler at logon needs two task settings, or the
 start is 24x slower: [Running it at startup](DETAILS.md#running-it-at-startup-task-scheduler).
 
 ## Linux
@@ -70,7 +72,7 @@ nix develop -c ./setup.sh
 ## AMD cards
 
 The steps are the same as with NVIDIA: `START-HERE.bat` on Windows, `./setup.sh` on Linux. Setup finds the Radeon
-card and chooses the AMD (HIP) engine by itself on a PC with no NVIDIA card PolyStrata can use; `--backend hip` chooses
+card and chooses the AMD (HIP) engine by itself on a PC with no NVIDIA card AryaStrata can use; `--backend hip` chooses
 it on a PC that has both. Supported cards: RX 7900 XT / XTX (gfx1100), RX 7800 XT / 7700 XT (gfx1101), RX 9060 XT
 (gfx1200), RX 9070 / 9070 XT and Radeon AI PRO R9700 (gfx1201), and the RX 6800 / 6900 series (gfx1030). Integrated
 Radeon GPUs are listed as not supported.
@@ -85,7 +87,7 @@ build by hand and the tuning tables: [AMD_HIP.md](AMD_HIP.md).
 
 ## Two or three cards
 
-**Two or three NVIDIA cards?** Just run `START-HERE.bat`: it lists your cards, says which ones PolyStrata can use, and
+**Two or three NVIDIA cards?** Just run `START-HERE.bat`: it lists your cards, says which ones AryaStrata can use, and
 asks whether to share the model across them (recommended when two can). An install made on one card asks once at
 its next start. Or choose yourself: `START-HERE.bat --gpus 0,2` (both, remembered), `--gpus all`, or `--gpu 0` (one
 card, this start only). Each card keeps the experts of its own layers, and prompts flow through the cards in a
@@ -125,7 +127,7 @@ The same idea, in a container (NVIDIA cards).
    config file. A link `/opt/strata/strata-<model>.json` that already points into `/data/config/` (made by
    a pod command before the entrypoint runs) is kept. The entrypoint prints one `Config:` line naming the
    file the server starts with.
-   PolyStrata loads 32-62 GB into RAM. `--gpus all` on a host with two usable cards takes both: the
+   AryaStrata loads 32-62 GB into RAM. `--gpus all` on a host with two usable cards takes both: the
    layer split is setup's recommended default ([MULTI_GPU.md](MULTI_GPU.md)), and a volume
    set up for one card switches to the pair on its first start there. Pin one card with `-e GPU=0`,
    or name them with `-e GPUS=0,2` and where the later card's layers start with `-e LAYER_SPLIT=18`.
@@ -148,7 +150,7 @@ The same idea, in a container (NVIDIA cards).
 
 ## Older CPUs (experimental)
 
-PolyStrata's ready-made engine needs AVX2 (Intel Haswell 2013, AMD Zen 2017 or newer). Since 0.1.39 an older CPU - AVX
+AryaStrata's ready-made engine needs AVX2 (Intel Haswell 2013, AMD Zen 2017 or newer). Since 0.1.39 an older CPU - AVX
 only (Sandy Bridge / Ivy Bridge, Xeon E5 v1/v2, AMD Bulldozer) or SSE4.2 only (Nehalem / Westmere, Xeon X5600) - runs
 as an **experimental** build that setup compiles on that PC. Run setup as usual: it says the CPU has no AVX2, warns
 that this is experimental and slow, and compiles the engine (10-20 minutes, once; Windows needs the Visual Studio Build
@@ -158,7 +160,7 @@ a CPU, and says so.
 What differs in that build (`STRATA_ISA_FLOOR=avx` or `none`, chosen from the CPU):
 
 - ggml-cpu is compiled for AVX or SSE4.2 instead of AVX2, and the CPU's share of the experts runs on its kernels.
-  PolyStrata's own AVX2 / AVX-512 kernels stay in the program but are used only on a CPU that has them.
+  AryaStrata's own AVX2 / AVX-512 kernels stay in the program but are used only on a CPU that has them.
 - Only the i-quant models' packs run (every model setup installs on such a CPU); the AVX-512 Q2_0 pack does not.
 - Speed: the GPU part is unchanged and the CPU part is slower, so a GPU with more VRAM (more experts cached there)
   helps most. With the older paths forced on a Ryzen 5 7600 + RTX 5070 and the expert cache held at 1500 slots, greedy
@@ -177,7 +179,7 @@ any PC (to try it). Problems and results on real hardware are welcome as GitHub 
 
 ## Updating
 
-**`UPDATE.bat`** (Linux: `./update.sh`) updates PolyStrata without starting the model - for when the GPU is busy with
+**`UPDATE.bat`** (Linux: `./update.sh`) updates AryaStrata without starting the model - for when the GPU is busy with
 something else, or you just want the new version ready. In a `git clone` it runs `git pull`, then does what
 `START-HERE.bat` does before a start: the engine (a new ready-made one when the new version needs it; on Linux a
 compiled engine is compiled again when its source changed), the Python packages, and each installed model's settings
@@ -187,7 +189,7 @@ usual. In a copy that was downloaded as a zip it says to download the new zip (b
 itself.
 
 Or by hand: download the new version and unzip it anywhere (or `git pull`), then run `START-HERE.bat` (Linux:
-`./setup.sh`) in it. The model files are kept in a `PolyStrata-data` folder next to your PolyStrata folder, so a new copy
+`./setup.sh`) in it. The model files are kept in a `PolyStrata-data` folder next to your AryaStrata folder, so a new copy
 finds them and sets itself up the same way - nothing big is downloaded again. On Linux after a `git pull`, setup
 compiles the engine again when its source changed (a minute or two for the changed files); if that compile fails, it
 says so and starts the engine you had.
@@ -195,20 +197,20 @@ says so and starts the engine you had.
 ## Where things are stored
 
 - **Your chats: only in your browser.** The Chat tab keeps the conversation, its settings and the API key you typed
-  in the browser's local storage (`strata.*` keys) - not on the server and not in the PolyStrata folder. Pictures are not
+  in the browser's local storage (`strata.*` keys) - not on the server and not in the AryaStrata folder. Pictures are not
   kept, only their names. Another browser or a private window starts empty; clearing the site's data deletes them.
-- **How the model starts:** `strata-<model>.json` in the PolyStrata folder (context, GPUs, host, API key, ...), written
+- **How the model starts:** `strata-<model>.json` in the AryaStrata folder (context, GPUs, host, API key, ...), written
   by setup; next to it `run-<model>.bat` / `.sh`, the log `strata-<model>.log` and, when you use "Use for other
   apps too", `strata-<model>.shared-settings.json`. Running setup again for the same model (another context, say)
   rewrites the keys setup writes (`exe`, `args`, `port`, `gpu`, `host`, `api_key`, `vision`, ...) and keeps the
   ones you added (`sampling`, `mcp_servers`, `mcp`, `cors_origins`, ...); the earlier file is kept as
   `strata-<model>.json.bak` (0.1.39). Engine options you added to `"args"` by hand are not carried over: setup names
   them, and you add them again.
-- **The model files** (`models/`, `packs/`, `mtp/`, 70-120 GB): in **`PolyStrata-data` next to the PolyStrata folder**, or
+- **The model files** (`models/`, `packs/`, `mtp/`, 70-120 GB): in **`PolyStrata-data` next to the AryaStrata folder**, or
   wherever `--data-dir` put them.
-- **Where that data folder is:** `%APPDATA%\PolyStrata\settings.json` on Windows, `~/.config/polystrata/settings.json` on
+- **Where that data folder is:** `%APPDATA%\AryaStrata\settings.json` on Windows, `~/.config/polystrata/settings.json` on
   Linux ([details](DETAILS.md#before-you-start)).
-- **The program itself:** `.venv/`, `engine/` and `third_party/` in the PolyStrata folder.
+- **The program itself:** `.venv/`, `engine/` and `third_party/` in the AryaStrata folder.
 - **Where github.com cannot be reached:** a build from source downloads llama.cpp's source (ggml, gguf-py) from
   GitHub at the commit `LLAMA_CPP_COMMIT` in `setup.py` names. Put that commit's tree in `third_party/llama.cpp`
   yourself (from a mirror or another PC) and setup uses it instead (#585).
@@ -246,7 +248,7 @@ START-HERE.bat --setup                          install another model, or change
 SETUP.bat                                       the same (double-click it)
 START-HERE.bat --model IQ2_XS --context 32768 --vision yes --yes     no questions
 START-HERE.bat --gguf-dir D:\models\IQ2_XS       use GGUF files you already have
-START-HERE.bat --inspect D:\models\some.gguf     what a GGUF really holds and whether PolyStrata runs it (no download)
+START-HERE.bat --inspect D:\models\some.gguf     what a GGUF really holds and whether AryaStrata runs it (no download)
 START-HERE.bat --data-dir E:\PolyStrata-data         keep the model files somewhere else
 START-HERE.bat --port 8081                      another port
 START-HERE.bat --gpu 1                          another GPU (setup picks the one with the most VRAM)
@@ -260,7 +262,7 @@ START-HERE.bat --calibrate                      tune the engine for this PC (abo
 START-HERE.bat --check                          only check this PC
 ```
 
-**Leaving VRAM for other programs (#493):** PolyStrata fills the graphics card's free VRAM with experts (the expert cache)
+**Leaving VRAM for other programs (#493):** AryaStrata fills the graphics card's free VRAM with experts (the expert cache)
 and leaves `--vram-reserve-mib` MiB free: 700 by default. For a game, a 3D program or another model beside it, leave
 more: `START-HERE.bat --vram-reserve-mib 2048` (Linux: `./setup.sh --vram-reserve-mib 2048`) writes it into the
 model's `strata-<model>.json` and starts it; at setup (`--setup --vram-reserve-mib 2048`) it goes into the new config.
@@ -284,8 +286,8 @@ free the most.
 point setup at them with `--gguf-dir`. To see what a file really holds before using or downloading it, `--inspect`
 reads only its headers (a few MB, also over the network: a file, a folder, a URL, `ms:owner/repo` for ModelScope or
 `hf:owner/repo`): every weight group's real bits per weight and storage types, and whether it is one of the files setup
-installs (under any name), stored like one of them, or not one PolyStrata runs (another architecture, or experts in a
-format no PolyStrata kernel reads). A name says little: Unsloth's `UD-IQ3_XXS` stores its routed experts at 3.22 bits per
+installs (under any name), stored like one of them, or not one AryaStrata runs (another architecture, or experts in a
+format no AryaStrata kernel reads). A name says little: Unsloth's `UD-IQ3_XXS` stores its routed experts at 3.22 bits per
 weight, `UD-Q4_K_XL` at 5.10, the original `Q2_0` at 2.25 and `IQ3_S` at 3.33. To let setup download from a Hugging Face mirror itself, set `HF_ENDPOINT`
 first (Windows: `set HF_ENDPOINT=https://hf-mirror.com`, Linux: `export HF_ENDPOINT=https://hf-mirror.com`): the same
 pinned revisions and checks apply, and the MTP draft layer comes from there too.

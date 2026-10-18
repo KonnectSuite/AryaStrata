@@ -1,4 +1,25 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+
 # Community benchmark results
+
+## Measured on the AryaStrata host, October 17, 2026
+
+On the **i9-14900KF / RTX 4070 Ti SUPER 16 GB / 64 GB RAM / Windows 11** host,
+Qwen3.8 Flash Next **IQ3_XXS**, engine **0.1.45**, measured **86.1 tokens/s** for
+short chat and **95.6 tokens/s** for agent-style generation after tuning. The
+262K-ceiling new-install baseline measured 76.4 and 86.8 respectively. These are
+small-suite medians; prompt speed and follow-up latency were largely unchanged.
+
+The configured ceiling is **262,144 tokens**, with **3/3 three-fact recall trials
+at 258,300 actual input tokens** (median first token 101.6 s). **18/18 bounded
+coding-agent sessions** and **3/3 development DSH adapter replay trials** passed.
+These are not general repository-level coding or native desktop acceptance scores.
+
+[Exact profile, raw records, ranges and limitations](../bench/results/2026-10-17-aryastrata-qwen38-iq3xxs/README.md) ·
+[Host setup](ARYASTRATA.md) · [AryaAI development DSH](ARYAAI_DSH.md).
+
+The measurements below remain attributed upstream reference results unless
+explicitly marked as this host's findings.
 
 Share measurements from your own hardware so other users can judge how Strata
 might run on a similar machine. This guide suggests a report format and a pull
@@ -11,9 +32,9 @@ includes hardware, settings, and per-run JSON. The
 [technical details](DETAILS.md#speed-measured) explain the published measurements
 and their limits. Report what you actually measured and label estimates separately.
 
-## The models PolyStrata adds
+## The models AryaStrata inherits
 
-Qwen3.6-35B-A3B, Ornith 1.5, Gemma 4 26B-A4B and GLM 5.3 Flash run on PolyStrata's own engine, `strata-poly`, so
+Qwen3.6-35B-A3B, Ornith 1.5, Gemma 4 26B-A4B and GLM 5.3 Flash run on the engine inherited from PolyStrata, `strata-poly`, so
 their reports are listed here, apart from Strata's. The three below were posted on Reddit by people who ran the
 engine of v0.1.41-poly.1 or an earlier one. The numbers are the posters' own, and "not stated" marks what a post
 leaves out.
@@ -32,33 +53,33 @@ leaves out.
 Setup offers Tiel Coder now (`--family tiel`), and not the HauhauCS file. How to give setup such a file is in the
 [FAQ](FAQ.md#can-i-run-a-fine-tune-or-another-model-with-the-same-architecture).
 
-To add yours, open an issue at [VecSzn/PolyStrata](https://github.com/VecSzn/PolyStrata/issues) with what
-[What to record](#what-to-record) lists. `python polystrata.py benchmark --model <name> --prompt-tokens 24000`
+To add yours, open an issue at [VecSzn/AryaStrata](https://github.com/KonnectSuite/AryaStrata/issues) with what
+[What to record](#what-to-record) lists. `python aryastrata.py benchmark --model <name> --prompt-tokens 24000`
 gives the two speeds the README uses ([what it sends and prints](BACKENDS.md#benchmark)).
 
 ### Comparing with llama.cpp
 
 `bench/bench_vs_llama.py` is the script Strata used for
-[its own comparison](../bench/results/2026-10-06-llamacpp-0.6.0/README.md). It starts PolyStrata and llama.cpp's
+[its own comparison](../bench/results/2026-10-06-llamacpp-0.6.0/README.md). It starts AryaStrata and llama.cpp's
 `llama-server` in turns on the same GGUF, one engine on the card at a time, sends both the same prompts and prints
 the medians. With a size that setup has installed:
 
-1. Stop PolyStrata and anything else that uses the card.
+1. Stop AryaStrata and anything else that uses the card.
 2. Download `llama-server` from llama.cpp's [releases](https://github.com/ggml-org/llama.cpp/releases), the CUDA
    build for an NVIDIA card. Qwen3.6's draft block needs `--spec-type draft-mtp`, which b11540 has.
 3. Make a folder for the run and copy `prompt-4k.txt` and `prompt-32k.txt` into it from
    `bench/results/2026-10-06-llamacpp-0.6.0/`: the first 4,000 and 32,000 tokens of Strata's docs.
-4. Save a file like this one as `machine.json` in the PolyStrata folder, with your paths: the size's GGUF,
-   `llama-server`, the run config setup wrote for the size (`strata-<size>.json` in the PolyStrata folder), the
-   PolyStrata folder's `serve` folder and the PolyStrata folder.
+4. Save a file like this one as `machine.json` in the AryaStrata folder, with your paths: the size's GGUF,
+   `llama-server`, the run config setup wrote for the size (`strata-<size>.json` in the AryaStrata folder), the
+   AryaStrata folder's `serve` folder and the AryaStrata folder.
 
    ```json
    {
     "gguf": "D:/PolyStrata-data/models/qwen36-UD-Q3_K_M/Qwen3.6-35B-A3B-UD-Q3_K_M.gguf",
     "llama_server": "D:/llama.cpp/llama-server.exe",
-    "strata_cfg": "D:/PolyStrata/strata-qwen36-ud-q3_k_m.json",
-    "serve": "D:/PolyStrata/serve",
-    "cwd": "D:/PolyStrata",
+    "strata_cfg": "D:/AryaStrata/strata-qwen36-ud-q3_k_m.json",
+    "serve": "D:/AryaStrata/serve",
+    "cwd": "D:/AryaStrata",
     "configs": [
      {"name": "polystrata", "kind": "strata", "args": [], "override": {"--max-context": "36864"}},
      {"name": "llama-mtp", "kind": "llama", "args": ["--fit", "on", "-c", "36864", "-fa", "on",
@@ -69,7 +90,7 @@ the medians. With a size that setup has installed:
    }
    ```
 
-5. Run it from the PolyStrata folder with setup's Python (`.venv/bin/python` on Linux), then print the table:
+5. Run it from the AryaStrata folder with setup's Python (`.venv/bin/python` on Linux), then print the table:
 
    ```
    .venv\Scripts\python.exe bench\bench_vs_llama.py run --machine machine.json --out <run folder> --rounds 3
@@ -90,7 +111,7 @@ how Strata's comparison ran llama.cpp. The example is for Qwen3.6 UD-Q3_K_M.
 The README's laptop ran it on 2026-10-11 with the engine of 2ba29a383baf and llama.cpp b11540, for
 [Qwen3.6 UD-Q3_K_M](../bench/results/2026-10-11-laptop-qwen36-llamacpp-b11540/README.md) and
 [Tiel Coder UD-Q3_K_XL](../bench/results/2026-10-11-laptop-tiel-llamacpp-b11540/README.md). Against llama.cpp's
-fastest setting in each cell, PolyStrata read the prompts 2.7 to 3.5 times as fast and wrote 1.5 to 1.8 times as
+fastest setting in each cell, AryaStrata read the prompts 2.7 to 3.5 times as fast and wrote 1.5 to 1.8 times as
 fast.
 
 ## Community reports

@@ -1,3 +1,5 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+
 # Optional checkpoint near the prompt tail
 
 `--prompt-cache-tail` saves at most one extra mid-prompt checkpoint near the end
@@ -27,7 +29,7 @@ at 30720 can reuse more of that prefix,
 without changing how the original prompt was computed. The benefit depends
 on the request and the branch position; it is not a universal speed increase.
 
-This is a separate conservative alternative to the PolyStrata-2080Ti Daily's
+This is a separate conservative alternative to the AryaStrata-2080Ti Daily's
 checkpoint-grid patch. The grid changes chunk boundaries to reach exact
 checkpoint intervals and failed its local paired numerical gate. This option
 does not claim that the original grid patch has been fixed or validated.

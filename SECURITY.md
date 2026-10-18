@@ -4,19 +4,19 @@
 
 Please report anything that should not be public until it is fixed **privately**, through GitHub's private
 vulnerability reporting: the repository's **Security** tab, **Report a vulnerability**
-([direct link](https://github.com/VecSzn/PolyStrata/security/advisories/new)). Say what you found, how to reproduce it
-(the request, the config keys involved, the PolyStrata version), and what an attacker gains. We answer there, fix it in
+([direct link](https://github.com/KonnectSuite/AryaStrata/security/advisories/new)). Say what you found, how to reproduce it
+(the request, the config keys involved, the AryaStrata version), and what an attacker gains. We answer there, fix it in
 a release, and credit you in the advisory unless you ask us not to.
 
 Ordinary hardening ideas and findings that are safe to discuss in public are welcome as an
-[issue](https://github.com/VecSzn/PolyStrata/issues) (#544 collects audit findings) or as a pull request, which we
+[issue](https://github.com/KonnectSuite/AryaStrata/issues) (#544 collects audit findings) or as a pull request, which we
 review like our own code.
 
 Supported: the latest release. Fixes go into the next release, not into older ones.
 
 ## What the server exposes
 
-PolyStrata runs a model on your PC and serves it over HTTP (`serve/server.py`). Out of the box it is reachable from
+AryaStrata runs a model on your PC and serves it over HTTP (`serve/server.py`). Out of the box it is reachable from
 this PC only. The details and every setting are in [docs/DETAILS.md](docs/DETAILS.md) ("From other devices",
 "Host names", "Web pages without an API key", "Tools from MCP servers").
 
@@ -30,17 +30,17 @@ this PC only. The details and every setting are in [docs/DETAILS.md](docs/DETAIL
   it knows (`localhost`, an IP address, the address it listens on and, when it listens beyond this PC, this PC's
   name). Others get 403. `"allowed_hosts"` adds names; with an API key the key decides.
 - **Origin check (0.1.38).** Without an API key, a browser `POST` to `/v1/*` from another web site's page (it carries
-  an `Origin` header) gets 403 unless that origin is PolyStrata's own page, `localhost`, an allowed host, or listed in
+  an `Origin` header) gets 403 unless that origin is AryaStrata's own page, `localhost`, an allowed host, or listed in
   `"trusted_origins"` / `"cors_origins"`. Changing settings (`/settings`, and `/config`: the few run config keys the
   page's Model settings may change - never the network, key, MCP or program keys), `/load` and `/unload` and the
-  MCP tools are accepted only as JSON from PolyStrata's own page (or `"trusted_origins"`), so a page elsewhere cannot
+  MCP tools are accepted only as JSON from AryaStrata's own page (or `"trusted_origins"`), so a page elsewhere cannot
   change settings or run tools.
 - **CORS** is off unless `"cors_origins"` lists origins, and then only for `/v1/*`.
-- **MCP tools** are opt-in: only the servers you put in the run config, only for requests from PolyStrata's own page
+- **MCP tools** are opt-in: only the servers you put in the run config, only for requests from AryaStrata's own page
   that ask for them. They run with your user's rights, and the model decides when to call them.
 - **The request monitor** (`/api-monitor`, which keeps the last prompts and answers in memory) is off unless
   `"api_monitor": true` is set. Apart from it, the server keeps in its process memory the text and tokens of its
   last few prompts, whatever `"api_monitor"` says, to encode the next turn faster; no endpoint shows them, and they
   are gone when the server stops.
 
-PolyStrata has not had an outside security audit yet.
+AryaStrata has not had an outside security audit yet.

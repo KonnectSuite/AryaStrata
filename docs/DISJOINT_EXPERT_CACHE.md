@@ -1,3 +1,5 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+
 # Avoid duplicate expert slots across helper and primary GPUs
 
 ## Why this helps
@@ -28,7 +30,7 @@ change (#854) for `holds`.
 - Medium thinking: 2,048-token reasoning cap, 8,192-token output cap.
 - Physical GPU power limits stayed at 250 W and 280 W. No power increase.
 - Historical performance tests used an isolated engine based on official
-  v0.1.38 plus reviewed architectds/PolyStrata changes (best, 05c0f36).
+  v0.1.38 plus reviewed architectds/AryaStrata changes (best, 05c0f36).
   This PR contains only our change, ported to official main (99f3dbd).
   The historical timings are NOT a measured speedup of this pure-upstream port.
 

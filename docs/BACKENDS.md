@@ -1,6 +1,8 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+
 # Models and backends
 
-PolyStrata runs more than one model family. This page says which, how the engine is put together so that it can,
+AryaStrata runs more than one model family. This page says which, how the engine is put together so that it can,
 how a model is recognized, how to add one, and how to change the model that answers.
 
 One model is in memory at a time. The measurements below are from one machine: an RTX 5090 (32 GB), 24 threads of
@@ -244,11 +246,11 @@ The estimates are rough. `least` leaves out the attention caches, which grow wit
 From a terminal:
 
 ```bash
-python polystrata.py --list-models
+python aryastrata.py --list-models
 ```
 
 ```bash
-python polystrata.py --model qwen3.6
+python aryastrata.py --model qwen3.6
 ```
 
 `--model` chats with a model. If a server is already running on the port it is switched to the model; if none is,
@@ -296,7 +298,7 @@ after the old engine ended and with the new one:
 ## Benchmark
 
 ```bash
-python polystrata.py benchmark --model qwen3.6 --json qwen36.json
+python aryastrata.py benchmark --model qwen3.6 --json qwen36.json
 ```
 
 It sends a short prompt and two long ones (2000 and 8000 tokens, roughly; `--prompt-tokens` changes them), 256
@@ -1134,7 +1136,7 @@ one check that expected reasoning where GLM gave none.
 The tokenizers give llama.cpp's ids on the same prompts (27 to 8001 tokens) for Qwen3.6, Ornith and Gemma 4.
 
 Pictures were checked the same way, greedy and up to 64 tokens, on three prompts: one picture; two pictures of
-different shapes with text between and after them; a picture, an answer and a second question. PolyStrata's
+different shapes with text between and after them; a picture, an answer and a second question. AryaStrata's
 server code rendered each prompt. llama.cpp's server got it as text with its media marker where a picture goes
 and encoded the pictures itself; the engine got the ids and `strata-vision`'s rows. Both read the same number of
 prompt tokens.
@@ -1938,7 +1940,7 @@ Setup knows the files in the table above. Another file of one of these architect
    {"exe": "engine/strata-poly", "args": ["--model", "/path/model.gguf", "--max-context", "32768"],
     "cwd": ".", "tokenizer": "packs/<name>/tokenizer", "model_name": "<name>", "port": 8080}
    ```
-4. `python polystrata.py --list-models` should list it as available, and `python polystrata.py --model <name>`
+4. `python aryastrata.py --list-models` should list it as available, and `python aryastrata.py --model <name>`
    should answer.
 5. Check it against llama.cpp before trusting it: the same prompt's token ids into both, greedy, and compare the
    tokens that come out.

@@ -1,6 +1,8 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](ARYASTRATA.md).
+
 # Questions people ask
 
-Answers to what people asked about PolyStrata when it was first posted. The numbers are measured on the machines
+Inherited questions and answers from PolyStrata, retained as upstream context. The numbers are measured on the machines
 named next to them; how is in [BACKENDS.md](BACKENDS.md).
 
 ### Why not contribute this to Strata instead of a separate repo?
@@ -39,15 +41,15 @@ the repo, so you can run it on your own PC.
 
 The README's numbers are from two machines: a laptop with an 8 GB RTX 4070 and a workstation with an RTX 5090.
 What people measured on their own cards is in the
-[community results](COMMUNITY_BENCHMARKS.md#the-models-polystrata-adds): so far an RTX 4070 SUPER and an
+[community results](COMMUNITY_BENCHMARKS.md#the-models-aryastrata-inherits): so far an RTX 4070 SUPER and an
 RTX 4070 Ti with 12 GB, and a laptop's RTX 5060 with 8 GB. Yours can go there too; the page says what to send.
 
 ### How can I compare it with llama.cpp myself?
 
-With `bench/bench_vs_llama.py`, the script Strata used for its own comparison. It runs PolyStrata and llama.cpp's
+With `bench/bench_vs_llama.py`, the script Strata used for its own comparison. It runs AryaStrata and llama.cpp's
 `llama-server` in turns on the same GGUF and the same prompts and prints the medians of both
 ([how to run it](COMMUNITY_BENCHMARKS.md#comparing-with-llamacpp)). On the README's 8 GB laptop, with Qwen3.6
-and with Tiel Coder, PolyStrata read the prompts 2.7 to 3.5 times as fast as llama.cpp b11540 and wrote 1.5 to 1.8
+and with Tiel Coder, AryaStrata read the prompts 2.7 to 3.5 times as fast as llama.cpp b11540 and wrote 1.5 to 1.8
 times as fast (the two runs are linked there).
 
 ### Does it run on Radeon / AMD?
@@ -89,7 +91,7 @@ first.
 People have, on their own PCs. On Reddit, one ran HauhauCS's uncensored Qwen3.6-35B-A3B at Q4_K_M, which was not
 tried here, and another Tiel Coder 35B-A3B, a quantization of Ornith 1.5 that setup now installs (`--family tiel`).
 Their numbers are in the
-[community results](COMMUNITY_BENCHMARKS.md#the-models-polystrata-adds). The engine reads the architecture and the
+[community results](COMMUNITY_BENCHMARKS.md#the-models-aryastrata-inherits). The engine reads the architecture and the
 weights from the GGUF, so a fine-tune that keeps the architecture of Qwen3.6, Ornith 1.5 or Gemma 4 should run.
 Setup only knows the files it offers. To give it another, put the file in a folder under the name of the size
 closest to it, `Qwen3.6-35B-A3B-UD-Q4_K_M.gguf` for a Q4_K_M of Qwen3.6, and run setup with
@@ -115,7 +117,7 @@ model, Q3 and Q4 run at about the same speed, so take Q4 if you have the memory.
 
 ### What about NVFP4?
 
-PolyStrata reads GGUF weight types only, so no NVFP4 for now. For GLM, NVFP4 would make the model around 204 GB,
+AryaStrata reads GGUF weight types only, so no NVFP4 for now. For GLM, NVFP4 would make the model around 204 GB,
 which doesn't fit in RAM on a normal PC; the 2- and 3-bit GGUFs (79 to 114 GB) are what lets the experts stay in RAM.
 
 ### Does it work on Windows?

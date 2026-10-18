@@ -516,7 +516,7 @@ def main(argv=None) -> int:
     # with the same unreachable host (#2363).
     if a.source:
         os.environ["STRATA_SOURCE"] = a.source
-    S.say("PolyStrata on a Mac (Apple Silicon, Metal)")
+    S.say("AryaStrata on a Mac (Apple Silicon, Metal)")
     data, elsewhere = S.data_folder(a.data_dir)
     roots = [data, *elsewhere]
     models_root = Path(a.models_dir) if a.models_dir else data / "models"
@@ -576,7 +576,7 @@ def main(argv=None) -> int:
     S.pip_install(S.requirement_lines() if S.REQUIREMENTS.exists() else S.PY_PACKAGES, "numpy, jinja2, ..., cmake, ninja")
 
     # ---- 4. the engine
-    S.step(4, "the PolyStrata engine (Metal)")
+    S.step(4, "the AryaStrata engine (Metal)")
     llama = S.get_llama_cpp()
     S.ok(f"llama.cpp {S.LLAMA_CPP_COMMIT[:7]} (ggml, gguf-py)")
     if a.build:
@@ -612,7 +612,7 @@ def main(argv=None) -> int:
         vexe = build_vision(llama)
 
     # ---- 6. the pack and the MTP draft layer
-    S.step(6, "preparing the model for PolyStrata")
+    S.step(6, "preparing the model for AryaStrata")
     pack = S.find_in(roots, f"packs/{tag.lower()}") or data / "packs" / tag.lower()
     env = dict(os.environ, STRATA_GGUF_PY=str(llama / "gguf-py"))
     # The repack and the pack move 100+ GB through the disk and the pack's python holds up to 20 GB: no engine may run beside
@@ -626,7 +626,7 @@ def main(argv=None) -> int:
     if work:
         running = engine_pids()
         if running:
-            S.fail(f"a PolyStrata engine is running (pid {running[0]}): preparing a model beside it can freeze this Mac",
+            S.fail(f"a AryaStrata engine is running (pid {running[0]}): preparing a model beside it can freeze this Mac",
                    "stop the server (close its window), then run ./setup.sh --setup again")
         lock_dir.mkdir(parents=True, exist_ok=True)
         prep_lock.write_text(str(os.getpid()))

@@ -1,0 +1,206 @@
+{
+  "measurement_date": "2026-10-17",
+  "timezone": "America/New_York",
+  "source_revision": "dc2080ba16d7f9f644cd01c3d5ff3237b2ae0f85",
+  "source_tree_dirty": true,
+  "tracked_diff_sha256": "977d92cfa42b463ef3271a74f9ea3c3b4871c4b5e0b8c35624b83a70ca6d9314",
+  "engine": {
+    "version": "0.1.45",
+    "source": "release",
+    "archs": [
+      75,
+      86,
+      89,
+      120
+    ],
+    "ptx": true,
+    "cuda": "13.0",
+    "vision": "gpu",
+    "portable": true
+  },
+  "python": "3.13.15",
+  "node_for_dsh_probe": "v26.1.0",
+  "models": [
+    {
+      "name": "Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf",
+      "bytes": 47039860096,
+      "sha256": "219ea929900dfa9ef091f3aa473fdba6874b65fcb36526d7d851ac9e95856d15"
+    },
+    {
+      "name": "Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00002-of-00002.gguf",
+      "bytes": 28800138432,
+      "sha256": "316b46f3a2dbd68c900f43136ab9449f9dcc3725dfd8c794847c204bc161e113"
+    }
+  ],
+  "model_origin": "ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF, existing local IQ3_XXS files; original download revision not independently confirmed",
+  "software_files": {
+    "engine/strata.exe": {
+      "bytes": 214625280,
+      "sha256": "06c23a8dc8c1217848c5d10b705ac8f53f0b20e5ffcfdb29f7cee83c0963d15c"
+    },
+    "engine/strata_kq.dll": {
+      "bytes": 34449920,
+      "sha256": "74c56d5045cd392db4757ffbfe40e4fdf660864e118743943ec4e2ec67dfe04f"
+    },
+    "engine/BUILD.json": {
+      "bytes": 154,
+      "sha256": "e3601dbc048419f427e3eab0b9f1689e10148eb054e89fb9c572b1889961c7d8"
+    },
+    "serve/server.py": {
+      "bytes": 479745,
+      "sha256": "e8e1643a16dd05a849dd10cea06a1a7c6ddfeaf379c45ac8e6388d4b0febce3f"
+    },
+    "serve/frontend.py": {
+      "bytes": 96887,
+      "sha256": "afeeed45a3ef39d22bc1307a77e5adc76d9965d02cf2bb08a3b8e0e643084173"
+    },
+    "serve/runconfig.py": {
+      "bytes": 9437,
+      "sha256": "4a120f773f26fa5beacb01629d8ce218beba26bcbcdd56513a855a9fc501616f"
+    },
+    "tools/calibrate.py": {
+      "bytes": 24724,
+      "sha256": "7008865e2e43f9ddeb94a161f0a6254a54c341a3e5a83f342a9a407016e03f5b"
+    },
+    "tools/strata_bench.py": {
+      "bytes": 55410,
+      "sha256": "e240febc17cb144b50cf6f0e88a3a04b50d2420ef38da4fb37b9973e35c4b439"
+    },
+    "tools/agent_turns_bench.py": {
+      "bytes": 12884,
+      "sha256": "fe523c5e379fb0b20bd5419c1f2e4c19f8c69f3c8c934d8ba658094a0cd7fe4f"
+    },
+    "tools/strata_tokenizer.py": {
+      "bytes": 33941,
+      "sha256": "d19e43965a2b9ab7b6ee5d1167c4d6f9eb96d01996923e983bd77b933817b7c7"
+    },
+    "tools/arya_agent_bench.py": {
+      "bytes": 8637,
+      "sha256": "e203646ffe1b8cc3be66d5dcac679d417b37fdcf3648932e2501c635ec26d40d"
+    },
+    "tools/arya_context_bench.py": {
+      "bytes": 4307,
+      "sha256": "a2cd397b0cdf307e53dfe5ab61a652665d1e45303decde475dc95c310c55fc52"
+    },
+    "tools/arya_dsh_probe.mjs": {
+      "bytes": 4226,
+      "sha256": "eed0747972e9bc1ddd13363b0bd1ad652554a0d4e1539b325c2ce231fe83b557"
+    }
+  },
+  "auxiliary_model_files": {
+    "packs/iq3_xxs/conversions.json": {
+      "bytes": 326,
+      "sha256": "0b5fd7f418b9a01029067e51b1d2cc36f70fc85c17d0c889fff2273006a4fff5"
+    },
+    "packs/iq3_xxs/dense.bin": {
+      "bytes": 1538035200,
+      "sha256": "d2af3d8331e5c7a1985d1d589747230f9d56719a6d33c7cddc9ee6b81cde6b13"
+    },
+    "packs/iq3_xxs/index.txt": {
+      "bytes": 93687,
+      "sha256": "1afe12b36cd2d13bf122b741fa0e81e1f751319cc3c451e54ba75524d825f148"
+    },
+    "packs/iq3_xxs/native_experts.txt": {
+      "bytes": 3296,
+      "sha256": "ae28cf7a2a1c9063c4b55d6c8cf86d4d079dcddcf597f9e8697c9157d462c0ee"
+    },
+    "packs/iq3_xxs/tokenizer/chat_template.jinja": {
+      "bytes": 9993,
+      "sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce"
+    },
+    "packs/iq3_xxs/tokenizer/merges.txt": {
+      "bytes": 3600844,
+      "sha256": "080cf95432173729d160346b7882bd2a644b07f7a3813a3eb73f4e66787bfde9"
+    },
+    "packs/iq3_xxs/tokenizer/tokenizer.json": {
+      "bytes": 554,
+      "sha256": "87be2ac47d8bc7393b7435df6ccd276740019a393941a2585d5edce59f450c54"
+    },
+    "packs/iq3_xxs/tokenizer/token_type.json": {
+      "bytes": 744960,
+      "sha256": "5088c8c298fc06af8382ddb3b76c888703ac2634e82263b97eedcc2ad202738b"
+    },
+    "packs/iq3_xxs/tokenizer/vocab.json": {
+      "bytes": 5737005,
+      "sha256": "4ba64f0332abcfb0b600b7df1537d1e836e68009d5fb7cdb77339738dc6365c4"
+    },
+    "mtp/rt/dense.bin": {
+      "bytes": 116099072,
+      "sha256": "c724dc0b0822ada5d2977bf5bde821605feabaa64ea2e0045b67ca656329070a"
+    },
+    "mtp/rt/dense.txt": {
+      "bytes": 1880,
+      "sha256": "8773c81ebb0986e37fe94a8a9933e87be48b1fabc6889a0106bcdab179d1c2ac"
+    },
+    "mtp/rt/draft_vocab.bin": {
+      "bytes": 425196,
+      "sha256": "b1e1d3a7a9e4bf862dcd5923ce661fb59bbd07907e594df5cf86a62ac235cb91"
+    },
+    "mtp/rt/experts.bin": {
+      "bytes": 707788800,
+      "sha256": "09398406be61f1f54c93861f449e48b8df0bfccbc9ec9b2b7636775a6ea9244f"
+    }
+  },
+  "development_dsh_files": {
+    "@deepseek-ai/dsh-llm-pi-ai/lib/index.js": {
+      "bytes": 114939,
+      "sha256": "18c2bd45b980b89f6d9cdd0c4dbc149e11daed53a4109b5791416823861425bc"
+    },
+    "@deepseek-ai/dsh-llm/lib/index.js": {
+      "bytes": 105068,
+      "sha256": "190c21e68ffae2922df4404a41fd5d73412123c1ebdddca35883268260fea3a2"
+    }
+  },
+  "model_hash_note": "Locally computed full SHA-256 identifies the exact files tested; no claim of independent comparison to the publishers hashes.",
+  "dsh_profile": {
+    "target": "development desktop",
+    "provider": "strata",
+    "model": "qwen3.8-flash-next-iq3_xxs",
+    "baseURL": "http://127.0.0.1:8080/v1",
+    "contextWindow": 262144,
+    "maxTokens": 8192,
+    "input": [
+      "text"
+    ],
+    "outputBudgetMode": "gateway",
+    "reasoning_preference": "low (preserved)"
+  },
+  "validation_limits": [
+    "No old-engine binary comparison",
+    "No vision evaluation",
+    "No native desktop end-to-end session or compaction/recovery qualification",
+    "No production soak or other quantization"
+  ],
+  "hardware_details_at_end": {
+    "MemoryModules": [
+      {
+        "Manufacturer": "Team Group Inc",
+        "PartNumber": "UD5-6000            ",
+        "Capacity": 34359738368,
+        "Speed": 6000,
+        "ConfiguredClockSpeed": 6000,
+        "DeviceLocator": "Controller0-DIMM1"
+      },
+      {
+        "Manufacturer": "Team Group Inc",
+        "PartNumber": "UD5-6000            ",
+        "Capacity": 34359738368,
+        "Speed": 6000,
+        "ConfiguredClockSpeed": 6000,
+        "DeviceLocator": "Controller1-DIMM1"
+      }
+    ],
+    "Baseboard": {
+      "Manufacturer": "ASUSTeK COMPUTER INC.",
+      "Product": "PRIME Z790-V WIFI"
+    },
+    "PageFile": [
+      {
+        "AllocatedBaseSize": 34816,
+        "CurrentUsage": 2223,
+        "PeakUsage": 8491
+      }
+    ]
+  },
+  "hardware_details_note": "CIM reports collected after benchmark requests. Page-file PeakUsage is not isolated to this benchmark. Speed/ConfiguredClockSpeed retain raw Windows property values."
+}

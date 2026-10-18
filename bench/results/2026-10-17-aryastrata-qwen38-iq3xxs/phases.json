@@ -1,0 +1,88 @@
+[
+  {
+    "phase": "baseline262-ready",
+    "time": 1792287963.9490387,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "qwen3.8-flash-next-iq3_xxs",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "baseline262-suite-running",
+    "time": 1792287963.949465
+  },
+  {
+    "phase": "baseline262-suite-finished",
+    "time": 1792288103.0030732,
+    "returncode": 0
+  },
+  {
+    "phase": "tuned262-ready",
+    "time": 1792288130.3369951,
+    "health": {
+      "status": "ok",
+      "max_context": 262144,
+      "model": "qwen3.8-flash-next-iq3_xxs",
+      "images": false,
+      "api_key": false,
+      "image_generation": false,
+      "loaded": true,
+      "service": "strata"
+    }
+  },
+  {
+    "phase": "tuned262-suite-running",
+    "time": 1792288130.337549
+  },
+  {
+    "phase": "tuned262-suite-finished",
+    "time": 1792288265.8274486,
+    "returncode": 0
+  },
+  {
+    "phase": "agent-none-running",
+    "time": 1792288265.8281112
+  },
+  {
+    "phase": "agent-none-finished",
+    "time": 1792288319.9496663,
+    "returncode": 0
+  },
+  {
+    "phase": "agent-low-running",
+    "time": 1792288319.9500866
+  },
+  {
+    "phase": "agent-low-finished",
+    "time": 1792288387.2034192,
+    "returncode": 0
+  },
+  {
+    "phase": "dsh-adapter-running",
+    "time": 1792288387.2037978
+  },
+  {
+    "phase": "dsh-adapter-finished",
+    "time": 1792288394.450305,
+    "returncode": 0
+  },
+  {
+    "phase": "context-ladder-running",
+    "time": 1792288394.570542
+  },
+  {
+    "phase": "context-ladder-finished",
+    "time": 1792288951.8060875,
+    "returncode": 0
+  },
+  {
+    "phase": "all-phases-finished",
+    "time": 1792288951.9128706
+  }
+]

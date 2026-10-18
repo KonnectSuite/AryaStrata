@@ -1,0 +1,279 @@
+{
+  "adapterVersion": "0.2.0-rc.2",
+  "scope": "DSH pi-ai adapter, streaming assembly and tool-result replay",
+  "results": [
+    {
+      "run": 0,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_02480e31693a449a8d139dab",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "qwen3.8-flash-next-iq3_xxs",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "qwen3.8-flash-next-iq3_xxs",
+                "responseId": "chatcmpl-0d89c68b8e334609aec0ca39",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "d07e696c-f41d-46f4-b807-058426ed86b2"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 290,
+          "outputTokens": 27,
+          "totalTokens": 317
+        },
+        "seconds": 1.6520661999999997
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The exact build label returned by the tool is: **ARYA-QWEN-262K-0**"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "qwen3.8-flash-next-iq3_xxs",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "qwen3.8-flash-next-iq3_xxs",
+                "responseId": "chatcmpl-3da101704bd844a8b10a09f6",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "e6ef7daf-6aa8-49b5-8fc0-77f6e847accb"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 33,
+          "outputTokens": 25,
+          "totalTokens": 374,
+          "cacheReadTokens": 316
+        },
+        "seconds": 0.5177094000000002
+      }
+    },
+    {
+      "run": 1,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_9de0298b93b94617a366f31c",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "qwen3.8-flash-next-iq3_xxs",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "qwen3.8-flash-next-iq3_xxs",
+                "responseId": "chatcmpl-97bd9f3d30464da58f0d78dd",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "584fe184-40be-42c8-a481-31ba588aa43c"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 290,
+          "outputTokens": 27,
+          "totalTokens": 317
+        },
+        "seconds": 0.9624343000000003
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The exact build label returned by the tool is: **ARYA-QWEN-262K-1**"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "qwen3.8-flash-next-iq3_xxs",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "qwen3.8-flash-next-iq3_xxs",
+                "responseId": "chatcmpl-d84d8ee5c76847b9a719f9d7",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "cdfb60b0-af11-4249-99fc-d592b9367561"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 33,
+          "outputTokens": 25,
+          "totalTokens": 374,
+          "cacheReadTokens": 316
+        },
+        "seconds": 0.43252480000000015
+      }
+    },
+    {
+      "run": 2,
+      "passed": true,
+      "first": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool-call",
+              "id": "call_daa162cee4e04e408a202612",
+              "name": "read_file",
+              "arguments": "{\"path\":\"build-info.txt\"}"
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "qwen3.8-flash-next-iq3_xxs",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "qwen3.8-flash-next-iq3_xxs",
+                "responseId": "chatcmpl-21e47055778b4b13b0f7d28c",
+                "stopReason": "toolUse"
+              },
+              "blocks": [
+                {
+                  "type": "tool-call"
+                }
+              ]
+            }
+          },
+          "id": "d668a8a7-7193-4a36-88cf-c2c67bae44dd"
+        },
+        "finish": {
+          "kind": "tool-calls"
+        },
+        "usage": {
+          "inputTokens": 290,
+          "outputTokens": 27,
+          "totalTokens": 317
+        },
+        "seconds": 1.0264767000000001
+      },
+      "second": {
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "The exact build label returned by the tool is **ARYA-QWEN-262K-2**."
+            }
+          ],
+          "source": {
+            "kind": "model",
+            "provider": "strata",
+            "model": "qwen3.8-flash-next-iq3_xxs",
+            "replayState": {
+              "response": {
+                "kind": "pi-ai",
+                "version": 2,
+                "api": "openai-completions",
+                "provider": "strata",
+                "model": "qwen3.8-flash-next-iq3_xxs",
+                "responseId": "chatcmpl-496fa7821b194035b06bdbc3",
+                "stopReason": "stop"
+              },
+              "blocks": [
+                {
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "id": "61723655-bc5e-4d2b-b1b7-657ecdc35c41"
+        },
+        "finish": {
+          "kind": "stop"
+        },
+        "usage": {
+          "inputTokens": 33,
+          "outputTokens": 24,
+          "totalTokens": 373,
+          "cacheReadTokens": 316
+        },
+        "seconds": 0.9357631000000001
+      }
+    }
+  ]
+}
