@@ -10,6 +10,14 @@ The October 18 five-model batch remains intact below; earlier Qwen measurements
 are included with links to their original records. No inference was rerun for
 this documentation update.
 
+**Later that day, five of those profiles were replaced.** The 4-bit Ornith 1.5,
+Tiel Coder, MiniCPM-V 4.7, Gemma 4 and LFM2.5 files were uninstalled and 8-bit
+files of the same families installed in their place, so the `Installed` column
+below is the state as of this batch, not of this checkout. Qwen3.8 IQ3_XXS and
+both Qwen3.6 profiles are unchanged. The 8-bit measurements, the one family with
+a 4-bit and an 8-bit number on this host, and the tuning that came out of it are
+in the [8-bit host report](Q8_HOST_RESULTS.md).
+
 | Family / profile | Quant | Installed | Host evidence |
 |---|---|---|---|
 | Qwen3.8 Flash Next | IQ3_XXS | yes | [Text/coding, tuning, 12 recall trials](../bench/results/2026-10-17-aryastrata-qwen38-iq3xxs/README.md); [separate GPU vision smoke check](../bench/results/2026-10-17-aryastrata-qwen38-vision/README.md) |

@@ -209,3 +209,6 @@ benchmark twice and keep the second. Every row above is a warm run, and the raw 
   notes](BACKENDS.md#benchmark) keep the older comparison, which was not measured here.
 - Context capacity is a configuration, not a measurement: every family except LFM2.5 is configured for 262,144
   tokens, and the recall rows record the tokens actually sent.
+- The installer cannot reproduce this set. `setup.py` offers 4-bit, 3-bit, APEX or 6-bit files for four of these
+  five families, so these run configs, packs and downloads were assembled by hand; a setup on another PC installs
+  what [AI_SETUP.md](AI_SETUP.md) describes, not what is measured here.

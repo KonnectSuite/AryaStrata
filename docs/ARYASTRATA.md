@@ -50,7 +50,7 @@ passed. The longest text input was 254,191 tokens; the first combined
 coding/image input was 230,715 tokens. The original restricted-validator runs
 remain archived and are not the published coding scores.
 
-[Ornith 1.5 APEX-I-QUALITY](MODEL_ROSTER_HOST_RESULTS.md) is installed on the
+[Ornith 1.5 APEX-I-QUALITY](MODEL_ROSTER_HOST_RESULTS.md) was installed on the
 same host at 262,144-token capacity with GPU vision and Q8_0 KV. Low reasoning
 passed 18/18 bounded coding sessions, versus 16/18 off. All 12 image checks,
 6 recall trials, 3 combined coding/image sessions with their image IDs, and
@@ -58,7 +58,8 @@ passed 18/18 bounded coding sessions, versus 16/18 off. All 12 image checks,
 and window 8; the paired speed difference was below the selection threshold.
 Near-full text recall took a median 246.4 seconds to first token. The first
 cold coding/image fixture took 528.1 seconds for its complete tool loop;
-later fixtures reused the source prefix. These are different workloads.
+later fixtures reused the source prefix. These are different workloads. This
+file has since been replaced by its 8-bit version, below.
 
 **Gemma 4 26B-A4B UD-Q4_K_M** was measured at 262,144-token capacity with GPU vision. Coding off passed 16/18 and low passed 13/18; recall passed 6/6 and the development adapter passed 3/3. Long coding passed 2/3. Image checks passed 12/12; exact image-ID results are separate in the report.
 
@@ -90,6 +91,30 @@ useful diagnostics, but do not establish long-context coding-agent performance.
 Keep vision enabled during validation for image-capable profiles. Treat untested
 settings as an experiment plan, not a measured optimum.
 Follow [COMMUNITY_BENCHMARKS.md](COMMUNITY_BENCHMARKS.md) for reporting conventions.
+
+## The 8-bit model set, October 18, 2026
+
+The 4-bit files for Ornith 1.5, Tiel Coder, MiniCPM-V 4.7, Gemma 4 and LFM2.5 were replaced with 8-bit files of the
+same families, and the 4-bit profiles were uninstalled: 104.1 GB of model folders, packs and run configs removed.
+Qwen3.6-35B-A3B UD-Q4_K_XL was kept for further testing and the native Qwen3.8 IQ3_XXS because it runs the first
+engine. The measurements above stay as the record for the files that are no longer installed; the
+[8-bit host report](Q8_HOST_RESULTS.md) carries what is installed now.
+
+- Ornith 1.5 Q8_0 is the faster file on this card, not the slower one: 107.8 against 92.4 tok/s for short-chat
+  decoding, first token 0.278 against 0.324 s, 4K prompt 1,358 against 1,279 tok/s, 16K prompt 2,615 against 2,429,
+  at the same 68.2 % expert cache hit. It is the only family with a 4-bit and an 8-bit measurement on this host.
+- The other four 8-bit files measure 96.8 tok/s (LFM2.5), 83.2 (MiniCPM-V 4.7), 82.6 (Tiel Coder, tuned) and 68.0
+  (Gemma 4) on the same suite. Tiel Coder is the only family whose settings changed: `--tail-skip 6` took it from
+  66.3 to 82.6 tok/s decode, reproduced in three runs, and the same knob was measured and declined on the other
+  four because their gains did not survive a re-run.
+- Bounded checks on the installed 8-bit set: coding 9/9 on the four families that ran the fixed suite, images 12/12
+  on three with Tiel at 8/12 on its known build-ID miss, and recall passing at 65,536 and 131,072 sent tokens on
+  four. LFM2.5 answers 18/18 coding sessions only with its native-thinking settings and a 4,096-token budget, and
+  finds 1 of 6 recall facts against the 4-bit file's 2 of 6: six prompts cannot rank those two files.
+- These 8-bit files were downloaded by hand. [setup.py](../setup.py) still offers 4-bit, 3-bit, APEX and 6-bit sizes
+  for four of the five families, so a fresh setup on another PC will not install the set described here.
+- MiniCPM-V 4.7 does use its draft block on this host, at 41 of 79 guesses accepted; the backend table's older
+  "answers one token at a time" row was wrong for the 8-bit file.
 
 ## Additional model deployment
 

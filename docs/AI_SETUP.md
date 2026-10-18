@@ -11,10 +11,15 @@ Work through the steps in order. Tell the user what you are doing in plain words
 
 For the existing AryaStrata i9-14900KF / RTX 4070 Ti SUPER / 64 GB Windows host,
 use the installed profiles documented in [host findings](ARYASTRATA.md),
-[Qwen3.6 Q4/Q8](QWEN36_HOST_RESULTS.md) and
-[the additional-model results](MODEL_ROSTER_HOST_RESULTS.md). Those reports list
-completed measurements and actual context/vision settings. The generic RAM and
-context recommendations below are not a replacement for a validated host profile.
+[Qwen3.6 Q4/Q8](QWEN36_HOST_RESULTS.md), [the additional-model
+results](MODEL_ROSTER_HOST_RESULTS.md) and [the 8-bit model set](Q8_HOST_RESULTS.md).
+Those reports list completed measurements and actual context/vision settings. The
+generic RAM and context recommendations below are not a replacement for a
+validated host profile.
+
+The 8-bit files in that last report were installed by hand, because setup offers
+4-bit and 3-bit sizes for four of those five families. A setup on another PC
+installs what the sections below describe, not the set on this host.
 
 ## 0. Ground rules
 
