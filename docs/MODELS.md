@@ -23,11 +23,21 @@ explicitly marked as this host's findings.
 
 This page is about [Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next), which AryaStrata runs in
 several **sizes** (the same model, compressed more or less) and several **versions** (the original, a coding
-version, a fine-tune). The installer recommends one for your PC; this page explains the choice. The other model,
-GLM 5.3 Flash, has a page of its own: [GLM.md](GLM.md). Back to the [README](../README.md).
+version, a fine-tune). The installer recommends one for your PC; this page explains the choice. The full nine-family [support table](../README.md#supported-models) covers GLM,
+DeepSeek, LFM, Qwen3.6, Ornith, Gemma, Tiel and MiniCPM-V, with links to their
+model guides and separate host validation status. Back to the [README](../README.md).
 
 > **On this page:** [Pick by RAM](#pick-by-ram) · [Speed](#how-fast-is-each-size) · [The sizes](#the-sizes) ·
 > [Will it fit?](#will-it-fit) · [The versions](#the-versions) · [Adding another model](#adding-or-switching-models)
+
+## Current image-input support
+
+Qwen3.8 IQ3_XXS now runs with GPU vision enabled on this host, up to 1,024
+image tokens per picture, with a 262,144-token total context ceiling. The
+AryaAI development profile accepts text and images. A shapes-and-text image
+passed a single [API smoke check](../bench/results/2026-10-17-aryastrata-qwen38-vision/README.md)
+in 2.11 seconds. The speed and coding results above were collected with vision
+off; they have not been remeasured with the encoder loaded.
 
 ## Pick by RAM
 
