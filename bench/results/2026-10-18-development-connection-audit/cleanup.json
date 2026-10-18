@@ -1,0 +1,60 @@
+{
+  "removed_providers": [
+    "openai",
+    "llamacpp",
+    "freetoken"
+  ],
+  "disabled_legacy_launcher": true,
+  "preserved_ninfer_provider_and_settings": true,
+  "default_model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+  "model_modes": {
+    "qwen3.8-flash-next-iq3_xxs": {
+      "off": "none",
+      "low": "low",
+      "medium": "medium",
+      "high": "high"
+    },
+    "qwen3.6-35b-a3b-ud-q4_k_xl": {
+      "off": "none",
+      "low": "high",
+      "medium": "high",
+      "high": "high"
+    },
+    "qwen3.6-35b-a3b-q8_0": {
+      "off": "none",
+      "low": "high",
+      "medium": "high",
+      "high": "high"
+    },
+    "minicpm-v-4.7-35b-a3b-q4_k_m": {
+      "off": "none",
+      "low": "high",
+      "medium": "high",
+      "high": "high"
+    },
+    "gemma-4-26b-a4b-ud-q4_k_m": {
+      "off": "none",
+      "low": "high",
+      "medium": "high",
+      "high": "high"
+    },
+    "lfm2.5-24b-a2b-ud-q4_k_xl": {
+      "low": "high",
+      "medium": "high",
+      "high": "high"
+    },
+    "ornith-1.5-35b-a3b-apex-i-quality": {
+      "off": "none",
+      "low": "high",
+      "medium": "high",
+      "high": "high"
+    },
+    "tiel-coder-35b-a3b-ud-q4_k_xl": {
+      "off": "none",
+      "low": "low",
+      "medium": "medium",
+      "high": "high"
+    }
+  },
+  "unrelated_settings_unchanged": true
+}

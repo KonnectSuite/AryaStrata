@@ -1,0 +1,168 @@
+{
+  "timeoutMs": "1200000",
+  "api": "openai-completions",
+  "baseURL": "http://127.0.0.1:8080/v1",
+  "models": [
+    {
+      "id": "qwen3.8-flash-next-iq3_xxs",
+      "name": "AryaStrata Qwen3.8 Flash Next IQ3_XXS - 256K",
+      "contextWindow": "262144",
+      "maxTokens": "65536",
+      "input": [
+        "text",
+        "image"
+      ],
+      "reasoningEfforts": {
+        "off": "none",
+        "low": "low",
+        "medium": "medium",
+        "high": "high"
+      },
+      "compat": {
+        "chatTemplateKwargs": {},
+        "chatTemplateArgs": {}
+      }
+    },
+    {
+      "id": "qwen3.6-35b-a3b-ud-q4_k_xl",
+      "name": "AryaStrata Qwen3.6 35B-A3B UD-Q4_K_XL - 256K Vision",
+      "contextWindow": "262144",
+      "maxTokens": "65536",
+      "input": [
+        "text",
+        "image"
+      ],
+      "reasoningEfforts": {
+        "off": "none",
+        "low": "high",
+        "medium": "high",
+        "high": "high"
+      },
+      "compat": {
+        "chatTemplateKwargs": {},
+        "chatTemplateArgs": {}
+      }
+    },
+    {
+      "id": "qwen3.6-35b-a3b-q8_0",
+      "name": "AryaStrata Qwen3.6 35B-A3B Q8_0 - 256K Vision",
+      "contextWindow": "262144",
+      "maxTokens": "65536",
+      "input": [
+        "text",
+        "image"
+      ],
+      "reasoningEfforts": {
+        "off": "none",
+        "low": "high",
+        "medium": "high",
+        "high": "high"
+      },
+      "compat": {
+        "chatTemplateKwargs": {},
+        "chatTemplateArgs": {}
+      }
+    },
+    {
+      "id": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "name": "AryaStrata MiniCPM-V 4.7 35B-A3B Q4_K_M - 256K Vision",
+      "contextWindow": "262144",
+      "maxTokens": "65536",
+      "input": [
+        "text",
+        "image"
+      ],
+      "reasoningEfforts": {
+        "off": "none",
+        "low": "high",
+        "medium": "high",
+        "high": "high"
+      },
+      "compat": {
+        "chatTemplateKwargs": {},
+        "chatTemplateArgs": {}
+      }
+    },
+    {
+      "id": "gemma-4-26b-a4b-ud-q4_k_m",
+      "name": "AryaStrata Gemma 4 26B-A4B UD-Q4_K_M - 256K Vision",
+      "contextWindow": "262144",
+      "maxTokens": "65536",
+      "input": [
+        "text",
+        "image"
+      ],
+      "reasoningEfforts": {
+        "off": "none",
+        "low": "high",
+        "medium": "high",
+        "high": "high"
+      },
+      "compat": {
+        "chatTemplateKwargs": {},
+        "chatTemplateArgs": {}
+      }
+    },
+    {
+      "id": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "name": "AryaStrata LFM2.5-24B-A2B UD-Q4_K_XL - 128K Text",
+      "contextWindow": "131072",
+      "maxTokens": "65536",
+      "input": [
+        "text"
+      ],
+      "reasoningEfforts": {
+        "low": "high",
+        "medium": "high",
+        "high": "high"
+      },
+      "compat": {
+        "chatTemplateKwargs": {},
+        "chatTemplateArgs": {}
+      }
+    },
+    {
+      "id": "ornith-1.5-35b-a3b-apex-i-quality",
+      "name": "AryaStrata Ornith 1.5 35B-A3B APEX-I-QUALITY - 256K Vision",
+      "contextWindow": "262144",
+      "maxTokens": "65536",
+      "input": [
+        "text",
+        "image"
+      ],
+      "reasoningEfforts": {
+        "off": "none",
+        "low": "high",
+        "medium": "high",
+        "high": "high"
+      },
+      "compat": {
+        "chatTemplateKwargs": {},
+        "chatTemplateArgs": {}
+      }
+    },
+    {
+      "id": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "name": "AryaStrata Tiel Coder 35B-A3B UD-Q4_K_XL - 256K Vision",
+      "contextWindow": "262144",
+      "maxTokens": "65536",
+      "input": [
+        "text",
+        "image"
+      ],
+      "reasoningEfforts": {
+        "off": "none",
+        "low": "low",
+        "medium": "medium",
+        "high": "high"
+      },
+      "compat": {
+        "chatTemplateKwargs": {},
+        "chatTemplateArgs": {}
+      }
+    }
+  ],
+  "reasoning": "low",
+  "streamIdleTimeoutMs": "1200000",
+  "outputBudgetMode": "gateway"
+}

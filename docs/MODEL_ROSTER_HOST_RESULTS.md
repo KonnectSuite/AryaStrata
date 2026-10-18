@@ -29,6 +29,11 @@ additional host measurements in this report.
 
 ## Coding and integration checks
 
+The subsequent [AryaAI connection and thinking audit](ARYAAI_CONNECTION_AUDIT.md)
+verifies all eight profiles' real mode controls. In historical rows, `low`
+means native thinking On for the binary-control models; it is not a distinct
+low-strength mode. Qwen3.8 and Tiel support different effort prompts.
+
 Counts are bounded fixtures, not a general coding-quality score. The October 18 batch and Qwen3.6 use six Python fixtures repeated three times per reasoning mode; the earlier Qwen3.8 run used three fixtures repeated three times. Vision uses four synthetic fixtures repeated three times. Recall uses three deployment facts in repeated source excerpts. Long-agent uses three different coding fixtures with a shared long prefix; later tasks may reuse it. DSH checks cover streaming assembly and tool-result replay through the development adapter, not full desktop acceptance.
 
 October 18 standard coding requests allowed **1,400 output tokens per call, including reasoning**, and up to nine model turns per session. Larger-budget probes are reported separately.

@@ -111,6 +111,11 @@ listed explicitly without host benchmark results.
 
 ### Current vision and agent configuration
 
+The [AryaAI connection and thinking audit](docs/ARYAAI_CONNECTION_AUDIT.md)
+documents removal of obsolete Ollama, llama.cpp and FreeToken connections and
+the actual thinking controls for every installed model. Generic effort labels
+are native-On aliases where the installed model only supports Off/On.
+
 Qwen now accepts **text and images** through the chat API, with the GPU image
 encoder enabled and up to **1,024 image tokens per picture**. The context ceiling
 remains 262,144 tokens. A synthetic image check correctly identified two shapes,

@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "mode_checks": 31,
+  "adapter_requests": 62,
+  "off_checks_without_reasoning": 7,
+  "renderer_models": 8,
+  "renderer_contexts": 16,
+  "restored_active_model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+  "health": {
+    "status": "ok",
+    "max_context": 262144,
+    "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+    "images": true,
+    "api_key": false,
+    "image_generation": false,
+    "loaded": true,
+    "service": "strata"
+  },
+  "tools_sha256": {
+    "arya_thinking_audit.py": "1723e87a1e34cb9a58b6f8e0f3ed074c3e25a2dc071f7f350dc6b31d63232bb8",
+    "arya_dsh_connection_audit.mjs": "7bfff5e89467990bd715e6baea36c5c4830bee63fc8c830b5b3a717c39c9ac05"
+  }
+}

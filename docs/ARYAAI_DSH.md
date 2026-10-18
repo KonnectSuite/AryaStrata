@@ -1,5 +1,17 @@
 # AryaAI development DSH with AryaStrata
 
+## Current connection and thinking audit
+
+The [October 18 connection audit](ARYAAI_CONNECTION_AUDIT.md) removes the old
+Ollama, llama.cpp and FreeToken connections and documents the actual thinking
+controls for all eight installed profiles. Qwen3.8 and Tiel support distinct
+effort levels; Qwen3.6, MiniCPM, Ornith and Gemma use Off/On aliases; LFM uses
+native thinking without Off. Current output caps and the MiniCPM default were
+preserved. The earlier 8,192-token declarations below describe benchmark-time
+configuration; the current saved caps are 65,536 within total context.
+
+## Original setup and benchmark history
+
 This host's Qwen3.8-Flash-Next IQ3_XXS profile was measured on October 17, 2026.
 See the [host benchmark](../bench/results/2026-10-17-aryastrata-qwen38-iq3xxs/README.md)
 for exact measurements, source/build identities and raw records.

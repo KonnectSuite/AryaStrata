@@ -1,0 +1,324 @@
+{
+  "passed": true,
+  "scope": "Actual installed tokenizers/templates and Service.render_prompt, with and without tools. This verifies controls and aliasing, not model quality or a guarantee of visible reasoning on every reply.",
+  "results": [
+    {
+      "model": "gemma-4-26b-a4b-ud-q4_k_m",
+      "template_sha256": "845f1ee48e39fc942fe190da9df6a1c5db229e17a96ea08966ad1c9274e73d1b",
+      "capability": "thinking off/on; effort labels alias on",
+      "cases": [
+        {
+          "tools": false,
+          "raw_wire_prompt_sha256": {
+            "none": "e37d92f31b2515b7bbc4e4c04d0576569d815e056451a764ab453a3a26e7194d",
+            "low": "a479ad6c1348827ed4e894444a0ab181f6fdc21e12ca6edd8ed25bd6accde1b2",
+            "medium": "a479ad6c1348827ed4e894444a0ab181f6fdc21e12ca6edd8ed25bd6accde1b2",
+            "high": "a479ad6c1348827ed4e894444a0ab181f6fdc21e12ca6edd8ed25bd6accde1b2"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        },
+        {
+          "tools": true,
+          "raw_wire_prompt_sha256": {
+            "none": "e8626f5062c6007bfe93645abbdc6ec0ec5179fdf104790dc024da70f485c81c",
+            "low": "07c212b4674b400c1d919294ff407771241ad01008fbbd4fafd1c11eb650f6fc",
+            "medium": "07c212b4674b400c1d919294ff407771241ad01008fbbd4fafd1c11eb650f6fc",
+            "high": "07c212b4674b400c1d919294ff407771241ad01008fbbd4fafd1c11eb650f6fc"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "model": "qwen3.8-flash-next-iq3_xxs",
+      "template_sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce",
+      "capability": "distinct efforts",
+      "cases": [
+        {
+          "tools": false,
+          "raw_wire_prompt_sha256": {
+            "none": "322020c7a72c6c2c51247c408ef0009b3683c88f59ca83624b9d24d09765138f",
+            "low": "8b70f4e3e6051b7330a2140f994762bd1065be12d20932dd68712dc4d854958d",
+            "medium": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "high": "37b204f3000af4fdaa1d09553d8501c6a48661e1319edd565faea4b23555fbed"
+          },
+          "on_modes_distinct": true,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "low",
+            "medium": "medium",
+            "high": "high"
+          }
+        },
+        {
+          "tools": true,
+          "raw_wire_prompt_sha256": {
+            "none": "9d72822e94391bc5c6ee90c096c8973d656c167b4f22d02564026d7a7e2cf434",
+            "low": "2d8d8a77fa60ea4eebd70253f5a1d37877c452bf174b7c2cb47153b80e8b868f",
+            "medium": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "high": "816e14a37faf47c3b9908e2b37afcd0fe28af8660f251acd9ae5a9d46d1c281d"
+          },
+          "on_modes_distinct": true,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "low",
+            "medium": "medium",
+            "high": "high"
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "model": "lfm2.5-24b-a2b-ud-q4_k_xl",
+      "template_sha256": "ea663864491de7ade391839479860ca95541f892f72665c73251fbd4643b1bef",
+      "capability": "native thinking only",
+      "cases": [
+        {
+          "tools": false,
+          "raw_wire_prompt_sha256": {
+            "none": "96873cc2f69e136e114f82e225e6fba410be07a0228ebc8f102f2b28cd98084e",
+            "low": "e616bf9d38f5e74591c29f9aff4d1b4ebf2af05b9a1056aacbc6c74429cebced",
+            "medium": "e616bf9d38f5e74591c29f9aff4d1b4ebf2af05b9a1056aacbc6c74429cebced",
+            "high": "e616bf9d38f5e74591c29f9aff4d1b4ebf2af05b9a1056aacbc6c74429cebced"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        },
+        {
+          "tools": true,
+          "raw_wire_prompt_sha256": {
+            "none": "00ff067b91d5f622e879a086f6362ecb03a4b3dbabf423417cde367372d468c0",
+            "low": "57442e9624bde701182ca537fb0135fd41e1d0b5d66fb4d40b4761a9340c7216",
+            "medium": "57442e9624bde701182ca537fb0135fd41e1d0b5d66fb4d40b4761a9340c7216",
+            "high": "57442e9624bde701182ca537fb0135fd41e1d0b5d66fb4d40b4761a9340c7216"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "model": "minicpm-v-4.7-35b-a3b-q4_k_m",
+      "template_sha256": "c4531cacbf2a0ab65170433d7a4f371d11b7599cf96c04b192e6372432636c70",
+      "capability": "thinking off/on; effort labels alias on",
+      "cases": [
+        {
+          "tools": false,
+          "raw_wire_prompt_sha256": {
+            "none": "322020c7a72c6c2c51247c408ef0009b3683c88f59ca83624b9d24d09765138f",
+            "low": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "medium": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "high": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        },
+        {
+          "tools": true,
+          "raw_wire_prompt_sha256": {
+            "none": "9d72822e94391bc5c6ee90c096c8973d656c167b4f22d02564026d7a7e2cf434",
+            "low": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "medium": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "high": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "model": "ornith-1.5-35b-a3b-apex-i-quality",
+      "template_sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+      "capability": "thinking off/on; effort labels alias on",
+      "cases": [
+        {
+          "tools": false,
+          "raw_wire_prompt_sha256": {
+            "none": "322020c7a72c6c2c51247c408ef0009b3683c88f59ca83624b9d24d09765138f",
+            "low": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "medium": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "high": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        },
+        {
+          "tools": true,
+          "raw_wire_prompt_sha256": {
+            "none": "9d72822e94391bc5c6ee90c096c8973d656c167b4f22d02564026d7a7e2cf434",
+            "low": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "medium": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "high": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "model": "qwen3.6-35b-a3b-q8_0",
+      "template_sha256": "55d4931433fe502b794226ee7f4d206a6bdd436ac9f80eb7d8ebb4c639f9ea0c",
+      "capability": "thinking off/on; effort labels alias on",
+      "cases": [
+        {
+          "tools": false,
+          "raw_wire_prompt_sha256": {
+            "none": "322020c7a72c6c2c51247c408ef0009b3683c88f59ca83624b9d24d09765138f",
+            "low": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "medium": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "high": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        },
+        {
+          "tools": true,
+          "raw_wire_prompt_sha256": {
+            "none": "9d72822e94391bc5c6ee90c096c8973d656c167b4f22d02564026d7a7e2cf434",
+            "low": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "medium": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "high": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+      "template_sha256": "55d4931433fe502b794226ee7f4d206a6bdd436ac9f80eb7d8ebb4c639f9ea0c",
+      "capability": "thinking off/on; effort labels alias on",
+      "cases": [
+        {
+          "tools": false,
+          "raw_wire_prompt_sha256": {
+            "none": "322020c7a72c6c2c51247c408ef0009b3683c88f59ca83624b9d24d09765138f",
+            "low": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "medium": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35",
+            "high": "052fb1e4c86af6505d88a25dc25d70244e13e4e1bc76038f0f0f5cfb896deb35"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        },
+        {
+          "tools": true,
+          "raw_wire_prompt_sha256": {
+            "none": "9d72822e94391bc5c6ee90c096c8973d656c167b4f22d02564026d7a7e2cf434",
+            "low": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "medium": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076",
+            "high": "3293fcd53b88385111e923984bfc0a4a2ba8079f6464f85806986d8d10cbf076"
+          },
+          "on_modes_distinct": false,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "high",
+            "medium": "high",
+            "high": "high"
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "model": "tiel-coder-35b-a3b-ud-q4_k_xl",
+      "template_sha256": "a41d3a6495c7531e85a45b665ae99c0251a68eaef5fada66cfa283827d3f6422",
+      "capability": "distinct efforts",
+      "cases": [
+        {
+          "tools": false,
+          "raw_wire_prompt_sha256": {
+            "none": "98f1b0f8f9f5a82be8be261f12b09451d685b996ed18f7908677255768cf6a6c",
+            "low": "f57616e1e944b2665c22d6c3b2596beb0b4b5e4f17956979d701c350db86801c",
+            "medium": "298dc1cea070aa82af5c126c249d92908fc4df5fc45a70698a99387a0f8b6bff",
+            "high": "4f5ae153a2dd95938213669e217137e167203e4dd06f20535da14aca577aafed"
+          },
+          "on_modes_distinct": true,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "low",
+            "medium": "medium",
+            "high": "high"
+          }
+        },
+        {
+          "tools": true,
+          "raw_wire_prompt_sha256": {
+            "none": "dba54b987c08e82c449405c81ec89b24fda3b8a294a0cf1a119bbf1fa56d2f0a",
+            "low": "24f98c07293299458ffbf78187ee0c83f5559e9d359bd7a86cd7d2479495ae9e",
+            "medium": "334999367a8ac027445751ced00e0adcee0cc4a4f21233ba07a25a683d131bc8",
+            "high": "724c56c7095224d4e50af25f88a28928b510d3ac858d17feddcb5d9b1683151b"
+          },
+          "on_modes_distinct": true,
+          "advertised_mode_to_wire": {
+            "off": "none",
+            "low": "low",
+            "medium": "medium",
+            "high": "high"
+          }
+        }
+      ],
+      "passed": true
+    }
+  ]
+}
