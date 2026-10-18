@@ -37,7 +37,7 @@ The linked guides retain upstream measurements, hardware requirements and limita
 | **DeepSeek V4 Flash** | `strata-poly`; NVIDIA/Linux primary path | No | Not validated here; substantial RAM requirements | [DeepSeek](docs/DEEPSEEK.md) |
 | **LFM2.5-24B-A2B** | `strata-poly`; NVIDIA/Windows/Linux | No | Not validated here | [LFM](docs/LFM.md) |
 | **Qwen3.6-35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux; Strata path for selected sizes | Yes | Not validated here | [Backends](docs/BACKENDS.md) · [Strata path](docs/QWEN36.md) |
-| **Ornith 1.5** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Existing downloads preserved; migration and validation pending | [Backends](docs/BACKENDS.md) |
+| **Ornith 1.5** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Old llama.cpp downloads removed; fresh setup and validation pending | [Backends](docs/BACKENDS.md) |
 | **Gemma 4 26B-A4B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
 | **Tiel Coder 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |
 | **MiniCPM-V 4.7 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | Not validated here | [Backends](docs/BACKENDS.md) |

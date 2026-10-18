@@ -166,3 +166,23 @@ advertises both text and image input. A local synthetic shapes/text image was
 correctly described in 2.11 seconds through the image-input chat API. This is a
 smoke check, not a vision benchmark or a remeasurement of text speed with vision
 loaded. [Vision check and raw response](../bench/results/2026-10-17-aryastrata-qwen38-vision/README.md).
+
+## Legacy engine removal, October 17, 2026
+
+After the earlier migration preserved reusable files, the owner requested clean
+removal of Ollama, standalone llama.cpp and FreeToken **including their models**.
+Ollama 0.40.4 was uninstalled with its registered uninstaller; its user model
+store, update cache and obsolete user PATH entry were removed. The old llama.cpp
+Ornith Q4_K_M weights and vision projector, separate conversion checkout/runtime,
+and FreeToken WSL model store were deleted. Historical reports were retained.
+
+The removed Windows paths contained approximately **31.53 GiB**, and the
+FreeToken directory in Ubuntu approximately **21.85 GiB**, about **53.38 GiB**
+combined. These are file-byte totals; deleting files in WSL does not necessarily
+shrink its Windows virtual disk immediately. No WSL disk compaction was run.
+
+The active AryaStrata Qwen downloads, pack, tokenizer, MTP data and vision
+projector were preserved. Its server remained loaded with image input enabled
+and a 262,144-token context ceiling after cleanup. NInfer and image-generation
+applications were outside this removal. Repository dependencies and historical
+source integrations are not standalone installed inference engines.
