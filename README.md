@@ -102,8 +102,12 @@ Additional full-context host results: [Qwen3.6 Q4 versus Q8](docs/QWEN36_HOST_RE
 and [MiniCPM-V 4.7 Q4 with vision](docs/MINICPMV_HOST_RESULTS.md). The MiniCPM
 report uses corrected coding-validator results and retains the original records
 for audit; its speed, image and recall results are separate measurements.
-The [additional-model comparison](docs/MODEL_ROSTER_HOST_RESULTS.md) now includes
-Ornith APEX-I-QUALITY, Gemma 4 Q4, Tiel Coder Q4 and text-only LFM2.5 Q4, with exact model IDs, cold/cached agent timings, failures and resource observations.
+The [complete host model report](docs/MODEL_ROSTER_HOST_RESULTS.md) includes all
+eight installed profiles: Qwen3.8 IQ3_XXS, Qwen3.6 Q4/Q8, MiniCPM Q4,
+Ornith APEX-I-QUALITY, Gemma 4 Q4, Tiel Coder Q4 and text-only LFM2.5 Q4.
+It records exact model IDs, cold/cached agent timings, failures, resource
+observations and differences between test protocols. GLM and DeepSeek are
+listed explicitly without host benchmark results.
 
 ### Current vision and agent configuration
 
