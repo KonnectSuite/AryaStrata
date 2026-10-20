@@ -1,0 +1,43 @@
+Tune Qwen3.8 Flash Next for this host and record every measurement
+
+Deep dive into the community benchmark archive (bench/results on upstream Strata
+main) and setup.py's own recommendation table, then a full tuning run on the
+AryaStrata host: i9-14900KF (8P+16E), RTX 4070 Ti SUPER 16 GB (sm_89), 64 GB RAM,
+Windows 11, engine 0.1.45, qwen3.8-flash-next-iq3_xxs.
+
+What the measurements found (.tune/SETTINGS-REPORT.md has the tables and sources):
+
+  --vram-reserve-mib 1792 -> 1000   expert cache 2,189 -> 2,703 slots;
+                                    prefill +21.4% at 8K, +24.0% at 32K
+  --spec-min-p 0.70 -> 0.50         tools/calibrate.py pick (tied with 0.70)
+  --adapt-swaps 80 -> 160           tools/calibrate.py pick, +4.3% on its phase
+  --max-context 262144 unchanged    131K read = 60.0 s to first token,
+                                    200K = 35.7 s with the prompt cache
+
+The tuned values live in the per-host strata-iq3_xxs.json, which .gitignore
+keeps out of the repository: this commit is the evidence and the harness, not a
+new default for anyone else's PC.
+
+Also recorded: setup.py would recommend 65,536 context for this host, but 256K
+was measured working, so the recommendation is deliberately overridden for a
+coding agent that reads whole PLC/HMI projects. The remaining limit is the
+Windows commit headroom (1.57 GiB free during a 128K read), which is a page-file
+setting, not a model or VRAM limit.
+
+Rejected, with numbers: --pool-affinity p-cores (the archive's biggest claim,
+-17% to -37% on this hybrid CPU), --pool-affinity measure, STRATA_EXCHANGE_ROTATE,
+STRATA_DISJOINT_ADAPT, dropping --vision, --prefill-head-alias (unavailable in
+this build without --short-read 0).
+
+All four thinking modes verified three ways: rendered wire prompts (four distinct
+hashes), the live engine pipe, and the HTTP API AryaAI uses (reasoning 0/371/396/
+541 characters for none/low/medium/high, correct answer in every mode).
+
+Adds .tune/ (harnesses bench.py, sweep.py, longctx.py, think_audit.py,
+think_live.py, server_verify.py, their arms/results/logs, and the report) and
+.bench-review/ (the model-comparison evidence from the earlier benchmark; the
+generated sites themselves were deleted, so these frames are the only record).
+
+Leaves alone: no engine, server, setup.py, installer or documentation defaults
+are changed; no model weights; no new dependency. Ignores .playwright-mcp/ and
+the local strata-*.json backups.

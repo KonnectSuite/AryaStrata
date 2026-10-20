@@ -1,0 +1,67 @@
+{
+ "port": 8091,
+ "log": "C:\\AryaStrata\\.tune\\logs\\server-verify-1792465931.log",
+ "health": {
+  "status": "ok",
+  "max_context": 262144,
+  "model": "qwen3.8-flash-next-iq3_xxs",
+  "images": true,
+  "api_key": false,
+  "image_generation": false,
+  "loaded": true,
+  "service": "strata"
+ },
+ "waited_s": 28.2,
+ "models": [
+  "qwen3.8-flash-next-iq3_xxs",
+  "ornith-1.5-35b-a3b-q8-0",
+  "qwen3.6-35b-a3b-q8_0",
+  "qwen3.6-35b-a3b-ud-q4_k_xl"
+ ],
+ "modes": {
+  "none": {
+   "status": 200,
+   "wall_s": 5.47,
+   "reasoning_chars": 0,
+   "content_chars": 1346,
+   "completion_tokens": 423,
+   "prompt_tokens": 59,
+   "answer_has_28": true,
+   "reasoning_preview": "",
+   "answer_preview": "To determine how many minutes it takes for the tank to hold exactly 6,000 litres, we need to calculate the net rate at w"
+  },
+  "low": {
+   "status": 200,
+   "wall_s": 3.17,
+   "reasoning_chars": 371,
+   "content_chars": 222,
+   "completion_tokens": 244,
+   "prompt_tokens": 87,
+   "answer_has_28": true,
+   "reasoning_preview": "Let me work through this problem step by step.  The pump adds 240 litres per minute into the tank. The tank drains 90 li",
+   "answer_preview": "## Solution  **Net fill rate:** $$240 - 90 = 150 \\text{ litres per minute}$$  **Water needed to add:** $$6{,}000 - 1{,}8"
+  },
+  "medium": {
+   "status": 200,
+   "wall_s": 2.81,
+   "reasoning_chars": 396,
+   "content_chars": 260,
+   "completion_tokens": 258,
+   "prompt_tokens": 57,
+   "answer_has_28": true,
+   "reasoning_preview": "Let me work through this problem step by step.  The pump moves 240 litres per minute into the tank. The tank drains 90 l",
+   "answer_preview": "## Finding the Time to Reach 6,000 Litres  **Net filling rate:** $$240 - 90 = 150 \\text{ litres per minute}$$  **Additio"
+  },
+  "high": {
+   "status": 200,
+   "wall_s": 3.42,
+   "reasoning_chars": 541,
+   "content_chars": 131,
+   "completion_tokens": 255,
+   "prompt_tokens": 99,
+   "answer_has_28": true,
+   "reasoning_preview": "We need answer simple arithmetic. Need solve: pump moves 240 L/min into tank holding 1800 L; drains 90 L/min. Net gain 1",
+   "answer_preview": "Net gain = 240 \u2212 90 = 150 litres per minute.  Increase needed = 6,000 \u2212 1,800 = 4,200 litres.  Time = 4,200 \u00f7 150 = **28"
+  }
+ }
+}

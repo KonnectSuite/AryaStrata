@@ -1,0 +1,27 @@
+
+=== 2k ===
+arm               decode tok/s   vs base  prefill tok/s  accept  slots
+baseline                 92.89     +0.0%         1009.4    1.00   2189
+vres700                  84.38     -9.2%         1064.9    1.00   2880
+vres1000                100.06     +7.7%         1055.7    1.00   2703
+vres700_ctx128           95.40     +2.7%         1073.9    1.00   2984
+vres1000_ctx128          83.85     -9.7%         1070.2    1.00   2809
+final_candidate          80.06    -13.8%          914.4    1.00   2984
+
+=== 8k ===
+arm               decode tok/s   vs base  prefill tok/s  accept  slots
+baseline                 84.41     +0.0%         1787.6    1.00   2189
+vres700                  76.21     -9.7%         2200.0    1.00   2880
+vres1000                 96.20    +14.0%         2169.4    1.00   2703
+vres700_ctx128           88.63     +5.0%         2812.9    1.00   2984
+vres1000_ctx128          76.14     -9.8%         2781.8    1.00   2809
+final_candidate          72.45    -14.2%         2789.6    1.00   2984
+
+=== 32k ===
+arm               decode tok/s   vs base  prefill tok/s  accept  slots
+baseline                 65.45     +0.0%         2153.0    1.00   2189
+vres700                  92.18    +40.8%         2534.2    1.00   2880
+vres1000                 98.30    +50.2%         2669.8    1.00   2703
+vres700_ctx128           95.66    +46.2%         2845.6    1.00   2984
+vres1000_ctx128          76.64    +17.1%         2819.4    1.00   2809
+final_candidate          97.53    +49.0%         2833.7    1.00   2984

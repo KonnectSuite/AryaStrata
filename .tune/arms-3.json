@@ -1,0 +1,33 @@
+[
+ {
+  "tag": "baseline",
+  "why": "today's config as it ships (reserve 1792, ctx 262144)",
+  "overrides": {}
+ },
+ {
+  "tag": "vres700",
+  "why": "round-2 winner: reserve 700 -> 2880 expert slots, prefill +13.5%/+15.0%",
+  "overrides": {"--vram-reserve-mib": "700"}
+ },
+ {
+  "tag": "vres1000",
+  "why": "half-way reserve: most of the slot win, more headroom for Windows and the browser",
+  "overrides": {"--vram-reserve-mib": "1000"}
+ },
+ {
+  "tag": "vres700_ctx128",
+  "why": "both free VRAM and RAM; the pair expected to give the most slots and the lowest commit",
+  "overrides": {"--vram-reserve-mib": "700", "--max-context": "131072"}
+ },
+ {
+  "tag": "vres1000_ctx128",
+  "why": "the daily-driver compromise: 1 GB left for other GPU users, 128K context",
+  "overrides": {"--vram-reserve-mib": "1000", "--max-context": "131072"}
+ },
+ {
+  "tag": "final_candidate",
+  "why": "vres700_ctx128 plus calibrate's two picks (spec-min-p 0.50, adapt-swaps 160)",
+  "overrides": {"--vram-reserve-mib": "700", "--max-context": "131072",
+                "--spec-min-p": "0.50", "--adapt-swaps": "160"}
+ }
+]
