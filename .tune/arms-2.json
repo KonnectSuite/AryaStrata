@@ -1,0 +1,59 @@
+[
+ {
+  "tag": "baseline",
+  "why": "today's config exactly as it ships",
+  "overrides": {}
+ },
+ {
+  "tag": "calibrated",
+  "why": "the two changes calibrate.py just picked: spec-min-p 0.70->0.50, adapt-swaps 80->160",
+  "overrides": {"--spec-min-p": "0.50", "--adapt-swaps": "160"}
+ },
+ {
+  "tag": "pcores15",
+  "why": "docs put --pool-affinity p-cores at 148 -> 188-191 tok/s on an 8P+8E host",
+  "overrides": {"--pool-affinity": "p-cores"}
+ },
+ {
+  "tag": "pcores7",
+  "why": "the documented shape of the win: p-cores with one worker per physical P-core",
+  "overrides": {"--pool-affinity": "p-cores", "--pool-workers": "7"}
+ },
+ {
+  "tag": "affin_measure",
+  "why": "let the engine A/B all vs p-cores itself at startup",
+  "overrides": {"--pool-affinity": "measure"}
+ },
+ {
+  "tag": "ctx128k",
+  "why": "setup's ceiling for 64 GB is 128K; 256K is ~0.1 GB short of the commit limit",
+  "overrides": {"--max-context": "131072"}
+ },
+ {
+  "tag": "novision",
+  "why": "setup puts the encoder on the CPU under 23.5 GB VRAM; --vision may hold VRAM",
+  "overrides": {"--vision": null}
+ },
+ {
+  "tag": "vres700",
+  "why": "setup's default reserve is 700 MiB; 1792 may be giving away expert slots",
+  "overrides": {"--vram-reserve-mib": "700"}
+ },
+ {
+  "tag": "pf_alias",
+  "why": "docs: --prefill-head-alias, +125% prefill on a small card",
+  "overrides": {"--prefill-head-alias": true}
+ },
+ {
+  "tag": "env_rotate",
+  "why": "STRATA_EXCHANGE_ROTATE=1: +5.2%/+8.1% in docs, bitwise-identical ids",
+  "overrides": {},
+  "env": {"STRATA_EXCHANGE_ROTATE": "1"}
+ },
+ {
+  "tag": "env_disjoint",
+  "why": "STRATA_DISJOINT_ADAPT=1: +15.5% generation in docs",
+  "overrides": {},
+  "env": {"STRATA_DISJOINT_ADAPT": "1"}
+ }
+]

@@ -1,0 +1,182 @@
+{
+ "strata-iq3_xxs.json": {
+  "model": "qwen3.8-flash-next-iq3_xxs",
+  "template": "C:\\AI\\Strata-data\\packs\\iq3_xxs\\tokenizer\\chat_template.jinja",
+  "template_sha256": "12827f24b742ea4e",
+  "levels": [
+   "none",
+   "low",
+   "medium",
+   "high"
+  ],
+  "cases": [
+   {
+    "tools": false,
+    "sha": {
+     "none": "322020c7a72c6c2c",
+     "low": "8b70f4e3e6051b73",
+     "medium": "052fb1e4c86af650",
+     "high": "37b204f3000af4fd"
+    },
+    "distinct_all": true,
+    "tails": {
+     "none": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n",
+     "low": "boration.<|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "medium": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "high": "l answer.<|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n"
+    }
+   },
+   {
+    "tools": true,
+    "sha": {
+     "none": "9d72822e94391bc5",
+     "low": "2d8d8a77fa60ea4e",
+     "medium": "3293fcd53b883851",
+     "high": "816e14a37faf47c3"
+    },
+    "distinct_all": true,
+    "tails": {
+     "none": "im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n",
+     "low": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "medium": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "high": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n"
+    }
+   }
+  ]
+ },
+ "strata-ornith-q8_0.json": {
+  "model": "ornith-1.5-35b-a3b-q8-0",
+  "template": "C:\\AI\\Strata-data\\packs\\ornith-q8_0\\tokenizer\\chat_template.jinja",
+  "template_sha256": "e84f32a23fdda276",
+  "levels": [
+   "none",
+   "low",
+   "medium",
+   "high"
+  ],
+  "cases": [
+   {
+    "tools": false,
+    "sha": {
+     "none": "322020c7a72c6c2c",
+     "low": "052fb1e4c86af650",
+     "medium": "052fb1e4c86af650",
+     "high": "052fb1e4c86af650"
+    },
+    "distinct_all": false,
+    "tails": {
+     "none": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n",
+     "low": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "medium": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "high": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n"
+    }
+   },
+   {
+    "tools": true,
+    "sha": {
+     "none": "9d72822e94391bc5",
+     "low": "3293fcd53b883851",
+     "medium": "3293fcd53b883851",
+     "high": "3293fcd53b883851"
+    },
+    "distinct_all": false,
+    "tails": {
+     "none": "im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n",
+     "low": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "medium": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "high": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n"
+    }
+   }
+  ]
+ },
+ "strata-qwen36s-q8_0.json": {
+  "model": "qwen3.6-35b-a3b-q8_0",
+  "template": "C:\\AI\\Strata-data\\packs\\qwen36s-ud-q4_k_xl\\tokenizer\\chat_template.jinja",
+  "template_sha256": "55d4931433fe502b",
+  "levels": [
+   "none",
+   "low",
+   "medium",
+   "high"
+  ],
+  "cases": [
+   {
+    "tools": false,
+    "sha": {
+     "none": "322020c7a72c6c2c",
+     "low": "052fb1e4c86af650",
+     "medium": "052fb1e4c86af650",
+     "high": "052fb1e4c86af650"
+    },
+    "distinct_all": false,
+    "tails": {
+     "none": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n",
+     "low": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "medium": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "high": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n"
+    }
+   },
+   {
+    "tools": true,
+    "sha": {
+     "none": "9d72822e94391bc5",
+     "low": "3293fcd53b883851",
+     "medium": "3293fcd53b883851",
+     "high": "3293fcd53b883851"
+    },
+    "distinct_all": false,
+    "tails": {
+     "none": "im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n",
+     "low": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "medium": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "high": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n"
+    }
+   }
+  ]
+ },
+ "strata-qwen36s-ud-q4_k_xl.json": {
+  "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+  "template": "C:\\AI\\Strata-data\\packs\\qwen36s-ud-q4_k_xl\\tokenizer\\chat_template.jinja",
+  "template_sha256": "55d4931433fe502b",
+  "levels": [
+   "none",
+   "low",
+   "medium",
+   "high"
+  ],
+  "cases": [
+   {
+    "tools": false,
+    "sha": {
+     "none": "322020c7a72c6c2c",
+     "low": "052fb1e4c86af650",
+     "medium": "052fb1e4c86af650",
+     "high": "052fb1e4c86af650"
+    },
+    "distinct_all": false,
+    "tails": {
+     "none": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n",
+     "low": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "medium": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "high": "<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n"
+    }
+   },
+   {
+    "tools": true,
+    "sha": {
+     "none": "9d72822e94391bc5",
+     "low": "3293fcd53b883851",
+     "medium": "3293fcd53b883851",
+     "high": "3293fcd53b883851"
+    },
+    "distinct_all": false,
+    "tails": {
+     "none": "im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n",
+     "low": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "medium": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n",
+     "high": "MPORTANT><|im_end|>\\n<|im_start|>user\\nReply READY.<|im_end|>\\n<|im_start|>assistant\\n<think>\\n"
+    }
+   }
+  ]
+ }
+}

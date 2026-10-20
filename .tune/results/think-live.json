@@ -1,0 +1,58 @@
+{
+ "model": "qwen3.8-flash-next-iq3_xxs",
+ "question": "A pump moves 240 litres per minute into a tank that already holds 1,800 litres. The tank drains at 90 litres per minute while filling. After how many minutes is the tank at exactly 6,000 litres? Show the arithmetic and give the final number.",
+ "modes": {
+  "none": {
+   "reasoning_chars": 0,
+   "answer_chars": 1370,
+   "reasoning_preview": "",
+   "answer_preview": "To determine how many minutes it takes for the tank to reach 6,000 litres, we need to calculate the **net rate** at which the tank is filling and then determine",
+   "prompt_tokens": 75,
+   "generated": 424,
+   "reasoning_tokens_est": 0,
+   "decode_tok_s": 85.889,
+   "wall_s": 5.4,
+   "finish": "stop",
+   "answer_tail": "t Rate}} $$ $$ \\text{Time} = \\frac{4,200}{150} $$  Performing the division: $$ 4,200 \\div 150 = 28 $$  ### Conclusion  It will take **28** minutes for the tank to reach exactly 6,000 litres.<|im_end|>"
+  },
+  "low": {
+   "reasoning_chars": 347,
+   "answer_chars": 283,
+   "reasoning_preview": "Let me solve this step by step.  The tank starts with 1,800 litres. The pump adds 240 litres per minute. The tank drains at 90 litres per minute.  Net rate of f",
+   "answer_preview": "## Solution  **Net filling rate:**  $$240 - 90 = 150 \\text{ litres per minute}$$  **Litres still needed:**  $$6{,}000 - 1{,}800 = 4{,}200 \\text{ litres}$$  **Ti",
+   "prompt_tokens": 103,
+   "generated": 256,
+   "reasoning_tokens_est": 96,
+   "decode_tok_s": 100.566,
+   "wall_s": 3.0,
+   "finish": "stop",
+   "answer_tail": "*Litres still needed:**  $$6{,}000 - 1{,}800 = 4{,}200 \\text{ litres}$$  **Time required:**  $$\\frac{4{,}200}{150} = 28 \\text{ minutes}$$  **The tank reaches 6,000 litres after 28 minutes.**<|im_end|>"
+  },
+  "medium": {
+   "reasoning_chars": 432,
+   "answer_chars": 415,
+   "reasoning_preview": "The user wants me to solve a straightforward rate problem. Let me work through it carefully.  Given: - Pump fills at 240 litres per minute - Tank drains at 90 l",
+   "answer_preview": "## Setting Up the Problem  **Net fill rate:**  $$240 - 90 = 150 \\text{ litres per minute}$$  **Volume that must be added:**  $$6{,}000 - 1{,}800 = 4{,}200 \\text",
+   "prompt_tokens": 73,
+   "generated": 369,
+   "reasoning_tokens_est": 120,
+   "decode_tok_s": 107.945,
+   "wall_s": 3.8,
+   "finish": "stop",
+   "answer_tail": "50} = 28 \\text{ minutes}$$  ## Quick Check  After 28 minutes the tank holds:  $$1{,}800 + 28 \\times 150 = 1{,}800 + 4{,}200 = 6{,}000 \\text{ litres} \\;\\checkmark$$  ## Answer  **28 minutes**<|im_end|>"
+  },
+  "high": {
+   "reasoning_chars": 402,
+   "answer_chars": 226,
+   "reasoning_preview": "We need answer simple arithmetic. Need solve: pump moves 240 L/min into tank already 1800. Tank drains 90 L/min while filling. Net gain 150 L/min. Need reach 60",
+   "answer_preview": "Net filling rate:  \\[ 240 - 90 = 150 \\text{ litres per minute} \\]  Amount needed to reach 6,000 litres:  \\[ 6000 - 1800 = 4200 \\text{ litres} \\]  Time required:",
+   "prompt_tokens": 115,
+   "generated": 268,
+   "reasoning_tokens_est": 112,
+   "decode_tok_s": 98.577,
+   "wall_s": 3.2,
+   "finish": "stop",
+   "answer_tail": "- 90 = 150 \\text{ litres per minute} \\]  Amount needed to reach 6,000 litres:  \\[ 6000 - 1800 = 4200 \\text{ litres} \\]  Time required:  \\[ 4200 \\div 150 = 28 \\]  **Final answer: 28 minutes**<|im_end|>"
+  }
+ }
+}

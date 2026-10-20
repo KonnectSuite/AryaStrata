@@ -1,0 +1,49 @@
+[
+ {
+  "tag": "baseline",
+  "why": "today's config, unchanged",
+  "overrides": {}
+ },
+ {
+  "tag": "pcores15",
+  "why": "docs: --pool-affinity p-cores, measured 148 -> 188-191 tok/s on an 8P+8E host",
+  "overrides": {"--pool-affinity": "p-cores"}
+ },
+ {
+  "tag": "pcores7",
+  "why": "p-cores only, one worker per physical P-core (P-1 = 7), the shape of the documented win",
+  "overrides": {"--pool-affinity": "p-cores", "--pool-workers": "7"}
+ },
+ {
+  "tag": "ctx128k",
+  "why": "setup.py:7580 + ram_ctx: my host is recommended 64K/128K, not 256K; frees RAM and VRAM",
+  "overrides": {"--max-context": "131072"}
+ },
+ {
+  "tag": "novision",
+  "why": "setup.py:2256-2268 puts the encoder on the CPU under 23.5 GB VRAM; --vision may hold VRAM",
+  "overrides": {"--vision": null}
+ },
+ {
+  "tag": "vres700",
+  "why": "setup's default reserve is 700 MiB; 1792 may be giving away expert slots",
+  "overrides": {"--vram-reserve-mib": "700"}
+ },
+ {
+  "tag": "pf_alias",
+  "why": "docs: --prefill-head-alias lends the output head to prompt buffers, +125% prefill on a small card",
+  "overrides": {"--prefill-head-alias": true}
+ },
+ {
+  "tag": "env_rotate",
+  "why": "STRATA_EXCHANGE_ROTATE=1: +5.2% (3060 IQ3_XXS) / +8.1% (Q2_0), bitwise identical output",
+  "overrides": {},
+  "env": {"STRATA_EXCHANGE_ROTATE": "1"}
+ },
+ {
+  "tag": "env_disjoint",
+  "why": "STRATA_DISJOINT_ADAPT=1: +15.5% generation in the docs",
+  "overrides": {},
+  "env": {"STRATA_DISJOINT_ADAPT": "1"}
+ }
+]

@@ -1,0 +1,32 @@
+{
+ "tag": "longctx",
+ "overrides": {},
+ "load_s": 22.1,
+ "slots": 2189,
+ "max_context": 262144,
+ "cases": {
+  "128k": {
+   "prompt_tokens": 131096,
+   "prompt_ms": 59967.8,
+   "ttft_s": 60.0,
+   "wall_s": 60.1,
+   "prefill_tok_s": 2186.107,
+   "decode_tok_s": 34.602,
+   "finish": "stop",
+   "offloaded": 33,
+   "file_mb": 0.0
+  },
+  "195k": {
+   "prompt_tokens": 200024,
+   "prompt_ms": 35690.8,
+   "ttft_s": 35.7,
+   "wall_s": 36.5,
+   "prefill_tok_s": 1988.832,
+   "decode_tok_s": 39.821,
+   "finish": "length",
+   "offloaded": 320,
+   "file_mb": 0.0
+  }
+ },
+ "commit_min_free_gib": 1.57
+}

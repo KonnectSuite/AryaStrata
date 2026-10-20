@@ -71,3 +71,9 @@ build-vision-cuda12.bat
 
 # local Windows HIP packaging output
 dist-hip/
+
+# playwright tool artefacts (browser automation cache, never source)
+/.playwright-mcp/
+
+# local run-config backups written next to the gitignored strata-*.json
+/strata-*.json.*
