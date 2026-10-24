@@ -47,6 +47,55 @@ LFM passed 0/3 long coding fixtures and 2/6 recall trials with native thinking.
 Keep those entries available for their measured shorter workloads; prefer
 MiniCPM or Ornith for the full-context coding/image workload validated in this batch.
 
+## Flint 40B-A2.5B, October 23, 2026
+
+Flint came in with the PolyStrata 0.1.45-poly.3 merge and is added to the development profile as
+`flint-40b-a2.5b-ud-q4_k_xl` on the `strata` provider: 262,144-total context, text input only.
+
+The `strata` provider was empty before this change (`providers: {}`): the profile had been pointed at
+`deepseek-account` / `deepseek-flash`, and no local server entry existed. The provider block was restored with
+Flint as its only model. The default model, the account provider and the `llamacpp`/ninfer entry were left as
+they were. The previous profile is `local-data/dsh-desktop-profile-before-flint.yml.bak`.
+
+```yaml
+        models:
+          - id: flint-40b-a2.5b-ud-q4_k_xl
+            name: AryaStrata Flint 40B A2.5B UD-Q4_K_XL - 256K
+            contextWindow: 262144
+            maxTokens: 32768
+            input: [text]
+            reasoningEfforts:
+              low: low
+              medium: medium
+              high: high
+```
+
+The provider needs `STRATA_API_KEY` to resolve; it is set for this user to a placeholder, because the loopback
+server does not require a key.
+
+**Output budget.** 32,768 advertised tokens, not the 8,192 the other entries use. Flint's model card asks for at
+least 32,768 including reasoning for hard problems, and its thinking counts toward `max_tokens`. At the 262,144
+ceiling that leaves 229,376 for input. Lower it if compaction starts too early for the workload.
+
+**Sampling.** The run config pins the card's defaults — `temperature 1.0`, `top_p 0.95`, `top_k 20` — in its
+`sampling` block. They apply only to requests that send none; a client's own values win, and an explicit
+`temperature: 0` is still greedy. The block lives in `strata-flint-ud-q4_k_xl.json`, which git does not track, so
+re-running `setup.py` for this family writes a config without it. The pre-change file is
+`local-data/flint-config-before-aryaai-calibration.json.bak`.
+
+**Thinking levels.** Flint opens its own `<think>` block, so there is no off. Measured here, `none` and `low`
+returned the same answer at 58 tokens with 165 characters of reasoning, while `high` reasoned longer (80 tokens).
+The profile therefore offers low, medium and high, as the LFM entry does.
+
+**Checked here.** The profile parses with its other 13 entries unchanged; the server accepts the sampling block
+(it refuses to start on a bad value) and reports 262,144 tokens; streaming, `reasoning_content`, tool calls and
+each effort level answered over the OpenAI-compatible surface the adapter uses.
+
+**Not checked.** The `dsh-llm-pi-ai` 0.2.0-rc.2 adapter probe could not run here: its packages are packed inside
+`resources/app.asar`, and the development checkout the probe expects (`C:\DeepseekAI\AryaAIDSH\deepseek-harness`)
+does not exist. The 3/3 streaming and tool-replay checks recorded for the other models have not been repeated for
+Flint. Reload the development app to see the entry.
+
 ## Applied development profile
 
 Ornith APEX-I-QUALITY is configured as `ornith-1.5-35b-a3b-apex-i-quality`,
