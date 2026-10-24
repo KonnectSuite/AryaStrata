@@ -25,7 +25,9 @@ own network behavior.
 
 ## Supported models
 
-The inherited installer includes nine model families across the original Strata
+It runs ten models, on two engines.
+
+The inherited installer includes ten model families across the original Strata
 engine and PolyStrata’s additional `strata-poly` engine. Support in the codebase
 does not mean every model, quantization or platform has been tested on our PC.
 The linked guides retain upstream measurements, hardware requirements and limitations.
@@ -36,6 +38,7 @@ The linked guides retain upstream measurements, hardware requirements and limita
 | **GLM 5.3 Flash** | `strata-poly`; NVIDIA/Linux | No | Not validated here; substantial RAM requirements | [GLM](docs/GLM.md) |
 | **DeepSeek V4 Flash** | `strata-poly`; NVIDIA/Linux primary path | No | Not validated here; substantial RAM requirements | [DeepSeek](docs/DEEPSEEK.md) |
 | **LFM2.5-24B-A2B** | `strata-poly`; NVIDIA/Windows/Linux | No | **UD-Q4_K_XL: 128K text; short native-thinking coding (4K output) 18/18**; long coding 0/3, recall 2/6: not recommended for large-context agents | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
+| **Flint 40B-A2.5B** | `strata-poly`; NVIDIA/Windows/Linux | No | Not validated here; coding-agent model, file of 18 to 42 GB | [Flint](docs/FLINT.md) · [Backends](docs/BACKENDS.md) |
 | **Qwen3.6-35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux; Strata path for selected sizes | Yes | **Q4 and Q8: 262K context with GPU vision; coding, image and recall checks passed** | [Measured host results](docs/QWEN36_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **Ornith 1.5** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **APEX-I-QUALITY: 262K GPU vision; low reasoning passed 18/18 bounded coding and 3/3 long coding/image sessions** | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **Gemma 4 26B-A4B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **UD-Q4_K_M: 256K GPU vision; short coding low at 4K output 18/18**; long coding/image 2/3, recall 6/6 | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
@@ -600,13 +603,13 @@ The installer finds your card and sets up the right engine for it. It asks you a
 
 - which model and which size,
 - how much context (how much text the model keeps in mind),
-- whether it should read pictures (GLM 5.3 Flash, DeepSeek V4 Flash and LFM2.5 read none).
+- whether it should read pictures (GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5 and Flint read none).
 
 Press Enter each time for the recommended answer. Then it downloads the model (about 70 GB for Qwen3.8-Flash-Next,
-79 to 114 GB for GLM 5.3 Flash, 91 GB for DeepSeek V4 Flash, 11 to 29 GB for the other six) and starts it. If the download stops, run it again:
+79 to 114 GB for GLM 5.3 Flash, 91 GB for DeepSeek V4 Flash, 11 to 42 GB for the other seven) and starts it. If the download stops, run it again:
 it continues where it left off. Your browser opens the AryaStrata app at `http://127.0.0.1:8080`.
 
-All nine are in the installer's list of models. `./setup.sh --family glm`, `deepseek`, `lfm25`, `qwen36`, `ornith`,
+All ten are in the installer's list of models. `./setup.sh --family glm`, `deepseek`, `lfm25`, `flint`, `qwen36`, `ornith`,
 `gemma4`, `tiel` or `minicpmv` goes straight to one ([what it asks and writes](docs/GLM.md#install)).
 
 > **While the model starts, your PC can be slow or stop responding for 1-3 minutes** (longest the first time).
@@ -778,7 +781,7 @@ Q6_K is chosen by name: `--model Q6_K`.
 <p align="center"><img src="docs/media/claude-code-demo.gif" width="820" alt="Upstream Claude Code terminal beside the PolyStrata API Monitor"><br>
 <sub>Original PolyStrata coding-agent demonstration: Qwen3.6-35B-A3B UD-Q3_K_M on an 8 GB laptop GPU, with a warm system prompt. Preserved as an upstream example; our separate agent checks are linked above.</sub></p>
 
-All nine models are used the same way: the same app, the same API.
+All ten models are used the same way: the same app, the same API.
 
 <p align="center"><img src="docs/media/runpagoda.png" width="900" alt="The app's Monitor tab next to a coding agent"><br>
 <sub>The app's <b>Monitor</b> (left) while a coding agent writes the pagoda garden from the video (right). A screenshot from <a href="https://github.com/Niko1221/Strata">Strata</a>.</sub></p>
@@ -803,12 +806,12 @@ to first token.
 
 Where they differ:
 
-| | Qwen3.8-Flash-Next | GLM 5.3 Flash | DeepSeek V4 Flash | LFM2.5-24B-A2B | Qwen3.6-35B-A3B, Ornith 1.5, Gemma 4 26B-A4B, Tiel Coder 35B-A3B, MiniCPM-V 4.7 35B-A3B |
-| --- | --- | --- | --- | --- | --- |
-| **Pictures** | Say yes to "Images?" in setup. Then click **Picture** in the chat, or attach pictures in your app. AMD cards read pictures on Linux through the processor; on Windows they can't yet. | Not yet. | It reads text only. | It reads text only. | Say yes to "Images?" in setup, then as with Qwen3.8-Flash-Next. On a card with less than 16 GB the picture encoder runs on the processor, and a picture takes a few seconds. |
-| **Several requests** | One at a time by default, the others wait. `"parallel": 2` answers several at once ([BATCHING.md](docs/BATCHING.md)); on a 12 GB card each answer gets slower. | One at a time, the others wait. | One at a time, the others wait. | One at a time, the others wait. | One at a time, the others wait. |
-| **Several conversations** | The last one is kept, so follow-up messages start in seconds. Two engine arguments keep several in RAM ([details](docs/DETAILS.md#using-it)). | The last one is kept. Setup asks whether to keep several in RAM, so that an agent and its subagents take turns without their prompts being read again ([how](docs/GLM.md#several-conversations-at-once)). | As GLM 5.3 Flash. | As GLM 5.3 Flash. | As GLM 5.3 Flash. |
-| **Long prompts (upstream reference timings)** | The first message of a chat is read in full, about 1 minute per 30,000 tokens. | The first message is read in full, about 40 seconds per 30,000 tokens. | The first message is read in full, about 29 seconds per 30,000 tokens. | The first message is read in full: 30,000 tokens take 1.3 to 1.5 seconds on the workstation and 8 to 10 seconds on the 8 GB laptop. | The first message is read in full: 30,000 tokens take 4 to 5 seconds on the workstation and 14 to 27 seconds on the 8 GB laptop. |
+| | Qwen3.8-Flash-Next | GLM 5.3 Flash | DeepSeek V4 Flash | LFM2.5-24B-A2B | Flint 40B-A2.5B | Qwen3.6-35B-A3B, Ornith 1.5, Gemma 4 26B-A4B, Tiel Coder 35B-A3B, MiniCPM-V 4.7 35B-A3B |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Pictures** | Say yes to "Images?" in setup. Then click **Picture** in the chat, or attach pictures in your app. AMD cards read pictures on Linux through the processor; on Windows they can't yet. | Not yet. | It reads text only. | It reads text only. | It reads text only. | Say yes to "Images?" in setup, then as with Qwen3.8-Flash-Next. On a card with less than 16 GB the picture encoder runs on the processor, and a picture takes a few seconds. |
+| **Several requests** | One at a time by default, the others wait. `"parallel": 2` answers several at once ([BATCHING.md](docs/BATCHING.md)); on a 12 GB card each answer gets slower. | One at a time, the others wait. | One at a time, the others wait. | One at a time, the others wait. | One at a time, the others wait. | One at a time, the others wait. |
+| **Several conversations** | The last one is kept, so follow-up messages start in seconds. Two engine arguments keep several in RAM ([details](docs/DETAILS.md#using-it)). | The last one is kept. Setup asks whether to keep several in RAM, so that an agent and its subagents take turns without their prompts being read again ([how](docs/GLM.md#several-conversations-at-once)). | As GLM 5.3 Flash. | As GLM 5.3 Flash. | As GLM 5.3 Flash. | As GLM 5.3 Flash. |
+| **Long prompts (upstream reference timings)** | The first message of a chat is read in full, about 1 minute per 30,000 tokens. | The first message is read in full, about 40 seconds per 30,000 tokens. | The first message is read in full, about 29 seconds per 30,000 tokens. | The first message is read in full: 30,000 tokens take 1.3 to 1.5 seconds on the workstation and 8 to 10 seconds on the 8 GB laptop. | The first message is read in full: 30,000 tokens take about 2.3 seconds on the workstation and 15 to 22 seconds on the 8 GB laptop. | The first message is read in full: 30,000 tokens take 4 to 5 seconds on the workstation and 14 to 27 seconds on the 8 GB laptop. |
 
 More: [where your chats are stored](docs/INSTALL.md#where-things-are-stored), [the API](docs/DETAILS.md#using-it).
 

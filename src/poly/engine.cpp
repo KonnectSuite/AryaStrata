@@ -6,6 +6,7 @@
 #include "gemma4.hpp"
 #include "glm5next.hpp"
 #include "lfm2moe.hpp"
+#include "flint.hpp"
 #include "mmq.hpp"
 #include "qwen35.hpp"
 #include "runtime.hpp"
@@ -378,9 +379,14 @@ Engine::~Engine() {
     mmq_.reset();
     for (void* p : dev_allocs_) cudaFree(p);
     for (Kv& k : kv_) vmm_free(k);
-    for (Seq& q : seqs_)
+    for (Seq& q : seqs_) {
         for (Kv& k : q.kv) vmm_free(k);
+        // The fp16 twins of the int8 caches (Gemma 4's --kv int8) are the sequences'.
+        if (q.twin_k.base) vmm_free(q.twin_k);
+        if (q.twin_v.base) vmm_free(q.twin_v);
+    }
     vmm_free(arena_);
+    vmm_free(stage_map_);
     for (void* p : host_allocs_) cudaFreeHost(p);
     for (void* e : {ev_stage_[0], ev_stage_[1], ev_ahead_, ev_free_, ev_in_[0], ev_in_[1], ev_out_[0], ev_out_[1], ev_hr_})
         if (e) cudaEventDestroy((cudaEvent_t) e);
@@ -628,6 +634,10 @@ void Engine::park_bound() {
     for (size_t il = 0; il < layers_.size(); ++il) q.heads[il] = std::exchange(layers_[il].heads, {});
     q.passes = std::exchange(passes_, {});
     q.tail = std::exchange(tail_, nullptr);
+    // The fp16 twin of the int8 caches is the sequence's too (Gemma 4's --kv int8).
+    q.twin_k = std::exchange(twin_k_, {});
+    q.twin_v = std::exchange(twin_v_, {});
+    q.twin_mapped = std::exchange(twin_mapped_, 0);
 }
 
 // Sequence s's members in place of the ones park_bound() put away, and the architecture's pointers into its
@@ -648,6 +658,10 @@ void Engine::take_bound(int s) {
     for (size_t il = 0; il < layers_.size() && il < q.heads.size(); ++il) layers_[il].heads = std::exchange(q.heads[il], {});
     passes_ = std::exchange(q.passes, {});
     tail_ = std::exchange(q.tail, nullptr);
+    // The fp16 twin of the int8 caches (Gemma 4's --kv int8) comes back with the sequence it belongs to.
+    twin_k_ = std::exchange(q.twin_k, {});
+    twin_v_ = std::exchange(q.twin_v, {});
+    twin_mapped_ = std::exchange(q.twin_mapped, 0);
     bound_ = s;
     again_ = 0;
     alloc_caches();
@@ -988,12 +1002,18 @@ std::unique_ptr<Engine> Engine::open(const Options& o) {
     const std::string name = arch ? arch->s : std::string();
     if (o.kv_format == KvFmt::kQ8_0 && name != "qwen35moe")
         throw std::runtime_error("--kv q8_0 is only supported for qwen35moe models in v1; this is a '" + name + "' model");
+    // int8 and int8k are Gemma 4's: their readers are not the arithmetic q8_0's are, so a model takes one
+    // family or the other rather than a choice between them.
+    if (name != "gemma4" && (o.kv_format == KvFmt::kInt8 || o.kv_format == KvFmt::kInt8K))
+        throw std::runtime_error("--kv int8 and --kv int8k are Gemma 4's; for a qwen35moe model use --kv q8_0 "
+                                 "(this is a '" + name + "' model)");
     const auto make = [&]() -> std::unique_ptr<Engine> {
         if (name == "glm5-next" || name == "glm5next") return std::make_unique<Glm5Next>();   // Unsloth: no hyphen
         if (name == "qwen35moe") return std::make_unique<Qwen35>();
         if (name == "gemma4") return std::make_unique<Gemma4>();
         if (name == "deepseek4") return std::make_unique<DeepSeek4>();
         if (name == "lfm2moe") return std::make_unique<Lfm2Moe>();
+        if (name == "flint") return std::make_unique<Flint>();
         throw std::runtime_error(o.model + " is a '" + name + "' model, which this engine does not run");
     };
     int cards = 1, devices = 1;
@@ -1332,6 +1352,51 @@ bool Engine::mind_card_vram() {
     return free >= keep + (int64_t) (kArenaPiece >> 20) && grow_cache(size_t(free - keep) << 20) > 0;
 }
 
+// A read of several calls copies each layer's experts that are not cached through the staging buffer, a round
+// at a time, and again for each call: at 1 GiB, a layer of GLM 5.3 Flash Q2_K (about 2.4 GiB) went through in
+// three rounds a call.  For the read the buffer grows to stage_wide_, which holds the layer, with VRAM the
+// expert cache gives up (its least used experts) when the card has not that much free; narrow_stage() gives it
+// back.  VRAM the card does not give leaves the buffer as it was.
+void Engine::widen_stage() {
+    if (stage_lent_ || stage_wide_ <= stage_narrow_) return;
+    if (up_) ck(cudaStreamSynchronize(cs(up_)), "the expert staging buffer");
+    ck(cudaStreamSynchronize(cs(st_)), "the expert staging buffer");
+    const size_t want = up_to(stage_wide_ + 256 + kTail, grain_) - stage_map_.mapped;
+    size_t free_b = 0, total_b = 0;
+    ck(cudaMemGetInfo(&free_b, &total_b), "cudaMemGetInfo");
+    const size_t quarter = (size_t(std::max(reserve_mib_, 0)) << 20) / 4;
+    stage_cut_ = 0;
+    if (exp_ && free_b < want + quarter) {
+        const size_t had = arena_.mapped;
+        shrink_cache(want + quarter - free_b);
+        held_is_budget();
+        stage_cut_ = had - arena_.mapped;
+    }
+    stage_lent_ = true;   // narrow_stage() gives back what was cut even if the map below fails
+    try {
+        vmm_map(stage_map_, stage_wide_ + 256 + kTail, SIZE_MAX, "the expert staging buffer");
+    } catch (const std::runtime_error&) {
+        narrow_stage();
+        return;
+    }
+    stage_bytes_ = stage_wide_;
+    staged_il_ = -1;
+}
+
+// The read is done: the staging buffer goes back to stage_narrow_, and the expert cache takes back what it gave
+// up for it, the most used experts it lacks.
+void Engine::narrow_stage() {
+    if (!stage_lent_) return;
+    if (up_) ck(cudaStreamSynchronize(cs(up_)), "the expert staging buffer");
+    ck(cudaStreamSynchronize(cs(st_)), "the expert staging buffer");
+    vmm_unmap(stage_map_, stage_narrow_ + 256 + kTail);
+    stage_bytes_ = stage_narrow_;
+    staged_il_ = -1;
+    stage_lent_ = false;
+    if (exp_ && stage_cut_ > 0) grow_cache(stage_cut_);
+    stage_cut_ = 0;
+}
+
 // The cache's VRAM and the attention caches' as they are now become the budget cover() keeps them to.
 void Engine::held_is_budget() {
     budget_ = arena_.mapped + other_rows();
@@ -1592,6 +1657,8 @@ void Engine::load(const Options& o) {
     if (opt_.window < 0 || opt_.window > 8)
         throw std::runtime_error("a window is 1 to 8 tokens, or 0 for the model's own");
     if (opt_.tail_skip < 0) throw std::runtime_error("--tail-skip (STRATA_ROUTE_TAIL_SKIP) cannot be negative");
+    if (!(opt_.skip_weight >= 0.f && opt_.skip_weight < 1.f))
+        throw std::runtime_error("--skip-weight is a share of a token's experts' weight: 0 (off) up to below 1");
     if (opt_.dump || std::min(opt_.prompt_batch, opt_.max_context) == 1) opt_.window = 1;
     gg_ = std::make_unique<Shards>(opt_.model);
     if (!opt_.draft_model.empty() && opt_.draft && opt_.window != 1) dg_ = std::make_unique<Shards>(opt_.draft_model);
@@ -1786,6 +1853,7 @@ void Engine::shared_scratch() {
         gu_ = fbuf(rr * 2 * n_ff_exp_);
         hx_ = fbuf(rr * n_ff_exp_);
         dx_ = fbuf(rr * n_embd_);
+        hf_ = fbuf(rr);
     }
 }
 
@@ -1887,7 +1955,18 @@ void Engine::alloc() {
         // expert cache of a small card does without.
         stage_bytes_ = std::max(std::min((size_t) opt_.stage_mib << 20, (size_t) n_expert_ * one_expert), one_expert);
         chunk_bytes_ = std::max(kChunkBytes, one_expert);
-        stage_ = (uint8_t*) dmalloc(stage_bytes_ + 256 + kTail, "the expert staging buffer");
+        // With stage_read_mib the buffer's addresses are reserved for the larger size, and a read maps the rest.
+        stage_narrow_ = stage_wide_ = stage_bytes_;
+        if (vmm_ && !split_ && opt_.stage_read_mib > 0)
+            stage_wide_ = std::max(stage_bytes_, std::min((size_t) opt_.stage_read_mib << 20,
+                                                          (size_t) n_expert_ * one_expert));
+        if (stage_wide_ > stage_narrow_) {
+            vmm_reserve(stage_map_, stage_wide_ + 256 + kTail);
+            vmm_map(stage_map_, stage_narrow_ + 256 + kTail, SIZE_MAX, "the expert staging buffer");
+            stage_ = (uint8_t*) stage_map_.base;
+        } else {
+            stage_ = (uint8_t*) dmalloc(stage_bytes_ + 256 + kTail, "the expert staging buffer");
+        }
         for (int b = 0; b < 2; ++b) h_stage_[b] = (uint8_t*) hmalloc(chunk_bytes_, "pinned memory");
         for (void** e : {&ev_stage_[0], &ev_stage_[1], &ev_ahead_, &ev_free_}) {
             cudaEvent_t ev = nullptr;
@@ -2088,8 +2167,16 @@ void Engine::lin(const Dev& w, const float* x, float* y, int n, const void* xq, 
     }
     // a prompt batch: llama.cpp's matrix-matrix kernels read the weights once for all the tokens
     if (mmq_ && n >= kStageRows && Mmq::fits((int) w.type, w.n_out, w.n_in)) {
+        // A row too large for the halves its blocks keep their sums in goes in divided by a power of two, and x is
+        // left as it was for whatever reads it next (both exact): its product comes out divided by the same.
+        const bool guard = half_sum_guard_ && Mmq::half_sums((int) w.type);
+        float* xs = const_cast<float*>(x);
+        if (guard) guard_half_sums(xs, w.n_in, w.n_in, n, hf_, st_);
         Mmq::quantize(x, nullptr, mqx_, (int) w.type, w.n_in, w.n_in, n, st_);
-        return mmq_->mul(w.p, (int) w.type, w.n_out, w.n_in, 0, 1, mqx_, nullptr, nullptr, n, n, y, w.n_out, st_);
+        if (guard) scale_rows(xs, w.n_in, w.n_in, n, nullptr, hf_, false, st_);
+        mmq_->mul(w.p, (int) w.type, w.n_out, w.n_in, 0, 1, mqx_, nullptr, nullptr, n, n, y, w.n_out, st_);
+        if (guard) scale_rows(y, w.n_out, w.n_out, n, nullptr, hf_, false, st_);
+        return;
     }
     if (!xq) {
         // the tokens' blocks are back to back, so they quantize as one long vector
@@ -2136,12 +2223,16 @@ bool Engine::moe(Layer& L, int il, int n, const std::function<void()>* first) {
         CpuExpert host[kCpuRows * kMaxUsed];
         Cached cached[kCpuRows * kMaxUsed];
         int32_t host_e[kCpuRows * kMaxUsed], host_k[kCpuRows * kMaxUsed];   // a host entry's expert and its place
+        float host_rel[kCpuRows * kMaxUsed];   // and its weight's share of its token's experts' weight
         int n_host = 0, n_cached = 0;
         for (int t = 0; t < m; ++t) {
             int ids[kMaxUsed];
             float w[kMaxUsed];
             route(il, h_rl_ + (size_t) (at + t) * n_expert_, tok_ ? tok_[at + t] : -1, ids, w, route_tmp_.data());
+            float w_all = 0.f;
+            for (int k = 0; k < n_used_; ++k) w_all += w[k];
             for (int k = 0; k < n_used_; ++k) {
+                host_rel[n_host] = w_all > 0.f ? w[k] / w_all : 1.f;
                 const size_t e = (size_t) ids[k];
                 ++use_[(size_t) il * n_expert_ + e];
                 if (n_swap_ > 0) recent_[(size_t) il * n_expert_ + e] += 1.f;
@@ -2157,7 +2248,19 @@ bool Engine::moe(Layer& L, int il, int n, const std::function<void()>* first) {
         }
         // Strata's STRATA_ROUTE_TAIL_SKIP: an expert outside VRAM that every token here ranks at tail_skip or later
         // adds little to any of them, so it is not computed.  The others keep the weights the router gave them.
-        if (opt_.tail_skip > 0) {
+        // Options::skip_weight in place of the places: one whose weight is under that share of its token's experts'
+        // weight, for every token here.  It keeps an expert the router weighs high at any place, and leaves out one it
+        // weighs low at any place, so for the same change of the answers it leaves out more (docs/BACKENDS.md).
+        if (opt_.skip_weight > 0.f) {
+            int kept = 0;
+            for (int i = 0; i < n_host; ++i) {
+                bool low = true;
+                for (int j = 0; j < n_host && low; ++j) low = host_e[j] != host_e[i] || host_rel[j] < opt_.skip_weight;
+                if (low) ++stats_.tail_experts;
+                else host[kept++] = host[i];
+            }
+            n_host = kept;
+        } else if (opt_.tail_skip > 0) {
             int kept = 0;
             for (int i = 0; i < n_host; ++i) {
                 bool low = true;
@@ -2501,6 +2604,7 @@ void Engine::moe_rows(Layer& L, int il, int n) {
 
     const float limit = clamp_exp_[(size_t) il];
     const int gt = (int) L.gu_type, dt = (int) L.d_type;
+    const bool guard = half_sum_guard_ && Mmq::half_sums(dt);   // the down rows keep their sums in halves
     const int64_t ff = n_ff_exp_, ff2 = 2 * ff;
     int holds = -1;   // the round in the buffer when this call is done
     // The card's part.  With the CPU's beside it, the rows of its experts' places are left at nothing.
@@ -2531,11 +2635,13 @@ void Engine::moe_rows(Layer& L, int il, int n) {
         if (rc > 0) {
             if (gelu_) geglu_rows(gu_, hx_, n_ff_exp_, rc, st_);
             else swiglu_clamp_rows(gu_, hx_, n_ff_exp_, rc, limit, st_);
+            if (guard) guard_half_sums(hx_, ff, n_ff_exp_, rc, hf_, st_);
             Mmq::quantize(hx_, nullptr, mq2_, dt, ff, ff, rc, st_);
         }
         for (const Run& r : runs_)
             mmq_->mul(slot_of(r.j) + gu2, dt, n_embd_, ff, L.slot_bytes, r.m, mq2_, d_cb + (size_t) r.c * cb_row + r.j,
                       d_place, rc, r.most, dx_, n_embd_, st_);
+        if (guard && rc > 0) scale_rows(dx_, n_embd_, n_embd_, rc, d_place, hf_, false, st_);
 
         // The round the buffer holds goes first and is not copied.  If it holds none of this call's, the experts
         // that go ahead are copied last, so the next call finds them.  The order does not change a round's launches.
@@ -2565,9 +2671,11 @@ void Engine::moe_rows(Layer& L, int il, int n) {
             mmq_->mul(stage_, gt, ff2, n_embd_, gu2, m, mq_, d_bounds + g0, iota_, rg, most, gu_, ff2, st_);
             if (gelu_) geglu_rows(gu_ + (size_t) r0 * ff2, hx_ + (size_t) r0 * ff, n_ff_exp_, rows, st_);
             else swiglu_clamp_rows(gu_ + (size_t) r0 * ff2, hx_ + (size_t) r0 * ff, n_ff_exp_, rows, limit, st_);
+            if (guard) guard_half_sums(hx_ + (size_t) r0 * ff, ff, n_ff_exp_, rows, hf_ + r0, st_);
             Mmq::quantize(hx_ + (size_t) r0 * ff, nullptr, mq2_, dt, ff, ff, rows, st_);
             mmq_->mul(stage_ + down_at, dt, n_embd_, ff, L.d_bytes, m, mq2_, d_rel + (g0 - n_cached + r), d_place + r0,
                       rows, most, dx_, n_embd_, st_);
+            if (guard) scale_rows(dx_, n_embd_, n_embd_, rows, d_place + r0, hf_ + r0, false, st_);
         }
         ck(cudaEventRecord((cudaEvent_t) ev_free_, cs(st_)), "expert staging");
     };
@@ -2858,6 +2966,7 @@ void Engine::run(const int32_t* tokens, int n) {
 void Engine::step(const int* seqs, const int32_t* tokens, int n) {
     if (n < 1 || n > std::min(rows_, sequences())) throw std::logic_error("step takes 1 to sequences() tokens");
     OnCard here(device_, split_);
+    end_read();
     const int home = bound_;
     const auto use = [&](int s) { hold(s); };
     std::vector<int64_t> at((size_t) n);
@@ -3155,6 +3264,7 @@ bool Engine::read(const int32_t* tokens, int n, const Mark* marks, int n_marks,
         behind.wait();
         return true;
     }
+    widen_stage();
     turn = share_to(hi_);
     if (pos_ + n > opt_.max_context)
         throw std::runtime_error("the context is full (" + std::to_string(opt_.max_context) + " tokens)");
@@ -3305,6 +3415,7 @@ unsigned Engine::snap_tokens(int t) const {
 void Engine::window(const int32_t* tokens, int t) {
     if (t < 1 || t > opt_.window) throw std::logic_error("a window takes 1 to max_window() tokens");
     OnCard here(device_, split_);
+    end_read();
     // the two ways are a choice only with experts on the CPU; a call that records launches says nothing of them
     const bool timed = t > 1 && !all_cached();
     const bool recorded = std::exchange(recorded_, false);

@@ -36,8 +36,12 @@ namespace strata::poly {
 class Shards;
 struct Likeliest;
 
-/// The attention caches' storing format: fp16 (default) or ggml Q8_0; opt-in via --kv.
-enum class KvFmt { kFp16 = 0, kQ8_0 = 1 };
+/// The attention caches' storing format, opt-in via --kv.  q8_0 is ggml's blocks (one fp16 scale a 32-value
+/// block of int8 codes) and reads them back element by element; int8 is the same rule with the codes and the
+/// deltas in two arrays, which a reader can take four codes to a load, and int8k keeps only the keys' side
+/// quantized.  q8_0 is qwen35moe's; int8 and int8k are Gemma 4's - the two readers are not the same arithmetic,
+/// so a model has one or the other rather than a choice between them.
+enum class KvFmt { kFp16 = 0, kQ8_0 = 1, kInt8 = 2, kInt8K = 3 };
 
 struct Options {
     std::string model;
@@ -53,6 +57,10 @@ struct Options {
     int stage_mib = 2048;         ///< the buffer the experts that are not cached pass through: by default about
                                   ///< what a layer of Q2_K experts leaves out of the cache, and never more than
                                   ///< a layer's experts take
+    int stage_read_mib = 0;       ///< a read of several calls: the staging buffer grows to this, at most what a
+                                  ///< layer's experts take, with VRAM the expert cache lends it until the read is
+                                  ///< done (end_read()), so that each layer's experts are copied once a read, not
+                                  ///< once a call; 0 (or no more than stage_mib): never
     int stage_ahead = 1024;       ///< from this many tokens, a call routes to most of a layer's experts, and the
                                   ///< ones that are not cached start their copy before the layer has routed; in a
                                   ///< read of several calls and this many tokens every call does; 0: never.  Under
@@ -78,6 +86,9 @@ struct Options {
     int tail_skip = 0;            ///< a routed expert outside VRAM that every token of a call ranks this far down or
                                   ///< further (the router's first choice is 0) is left out (--tail-skip,
                                   ///< STRATA_ROUTE_TAIL_SKIP); 0: none is
+    float skip_weight = 0;        ///< in place of tail_skip: a routed expert outside VRAM whose router weight is under
+                                  ///< this share of its token's experts' weight, for every token of the call, is left
+                                  ///< out (--skip-weight); 0: tail_skip decides
     std::string layer_split;      ///< the layers across the CUDA devices this process sees, in their order: "auto"
                                   ///< (by each card's free VRAM) or the first layer of each later card ("20,30");
                                   ///< empty, or one device: the current card alone
@@ -179,6 +190,10 @@ public:
     double numa_share() const { return node_share_; }
     int64_t pos() const { return pos_; }
     int64_t meta_u(const char* key, int64_t fallback) const;
+    /// What --kv asked for, in the two short forms an architecture's code reads: the int8 codes/delta cache
+    /// (both sides, or the keys' side alone under int8k).
+    bool int8() const { return opt_.kv_format == KvFmt::kInt8 || opt_.kv_format == KvFmt::kInt8K; }
+    bool int8k() const { return opt_.kv_format == KvFmt::kInt8K; }
 
     /// Forget the sequence.
     void reset();
@@ -212,6 +227,11 @@ public:
     /// window layer's rows among it.  The caller goes back to a state saved before (load_state()) or resets.
     bool read(const int32_t* tokens, int n, const Mark* marks = nullptr, int n_marks = 0,
               const std::function<bool(int, int)>* turn = nullptr);
+    /// The prompt's reads are done: the expert cache takes back what Options::stage_read_mib lent the staging
+    /// buffer.  window() and step() do it too, if the caller has not.
+    void end_read() {
+        if (stage_lent_) narrow_stage();
+    }
 
     /// Whether the architecture reads pictures.
     virtual bool sees() const { return false; }
@@ -497,6 +517,8 @@ protected:
     void vmm_free(Mapped& m);
     void shrink_cache(size_t bytes);
     int grow_cache(size_t bytes);
+    void widen_stage();
+    void narrow_stage();
     void resize_card_cache(int mib);   ///< resize_cache() and mind_vram() for this engine's card
     bool mind_card_vram();
     size_t trim_card_kv(int64_t end);
@@ -566,6 +588,9 @@ protected:
     float rms_eps_ = 0;
     bool gelu_ = false;       ///< the routed experts' activation: GELU of the gate, else SiLU within the layer's limits
     std::vector<float> clamp_exp_, clamp_shexp_;   ///< a layer's SwiGLU limits: the routed experts', the shared one's
+    /// a prompt batch's products go through guard_half_sums(): the model's activations can sum past a half's range
+    /// in a block.  Off for the models whose sums stay in range: it cost LFM2.5 4% of a 30K prompt's read on a 5090.
+    bool half_sum_guard_ = false;
 
     std::vector<Layer> layers_;   ///< the model's, and after them the draft block
     Dev out_norm_, output_;
@@ -604,11 +629,20 @@ protected:
         std::vector<std::vector<void*>> heads;   ///< Layer::heads, by layer
         std::map<std::vector<int>, void*> passes;
         void* tail = nullptr;
+        // A sequence's own fp16 twin of its int8 caches (Gemma 4's --kv int8), and the halves of it that have
+        // VRAM behind them.  The twin is a sequence's: a batch gives every row its own sequence, and the twin is
+        // where that sequence's prompt batch reads, so the twin belongs with the sequence's other members.
+        Mapped twin_k, twin_v;
+        size_t twin_mapped = 0;
     };
     std::vector<Seq> seqs_;      ///< the bound one's place holds nothing while it is bound
     int bound_ = 0;
     std::vector<Buf> bufs_;      ///< the bound sequence's: what kv_alloc() and seq_alloc() gave it, in that order
     size_t again_ = SIZE_MAX;    ///< while alloc_caches() points at the bound sequence's buffers again: the next one
+    // The bound sequence's fp16 twin of its int8 caches (Gemma 4's --kv int8): the addresses for the whole and
+    // the VRAM behind them.  A sequence's own, since a batch gives every row its own sequence.
+    Mapped twin_k_, twin_v_;
+    size_t twin_mapped_ = 0;
     void park_bound();
     void take_bound(int s);
     void hold(int s);   ///< bind() on this card alone
@@ -665,6 +699,7 @@ protected:
     // A prompt batch's MoE (moe_rows).  A row is a token and one of the experts it routes to.
     std::unique_ptr<Mmq> mmq_;   ///< null when the card has no MMQ tile for the experts' types
     float *gu_ = nullptr, *hx_ = nullptr, *dx_ = nullptr;   ///< the rows' gate|up, hidden and down values
+    float* hf_ = nullptr;   ///< the power of two a row was divided by for its half sums (guard_half_sums())
     void *mq_ = nullptr, *mq2_ = nullptr;                   ///< the rows quantized for the two products
     void* mqx_ = nullptr;                                   ///< lin()'s tokens quantized for a product
     int32_t *tab_ = nullptr, *h_tab_ = nullptr;   ///< a layer's row tables, in VRAM and pinned
@@ -686,6 +721,10 @@ protected:
     double ahead_ms_ = 0, route_ms_ = 0;          ///< what that layer's copy ahead took, and the card to its routing
     bool shared_ahead_ = false;                   ///< read() runs several calls: each copies ahead, whatever its size
     size_t stage_bytes_ = 0, chunk_bytes_ = 0;
+    Mapped stage_map_;                            ///< stage_'s VRAM when it can grow for a read (stage_read_mib)
+    size_t stage_narrow_ = 0, stage_wide_ = 0;    ///< stage_bytes_ outside a read and inside one
+    bool stage_lent_ = false;                     ///< the expert cache has lent the buffer VRAM (widen_stage())
+    size_t stage_cut_ = 0;                        ///< what the cache gave up for it, which it takes back
     int stage_turn_ = 0;
     std::vector<int32_t> ids_, count_, first_, group_, round_;
     std::vector<float> route_tmp_;   ///< route()'s scratch, a share for each host thread

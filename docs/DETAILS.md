@@ -2115,6 +2115,46 @@ model's.
 changes at 10% of positions, mean KL from the stock model 0.063 nats (max 4.1), perplexity +15% on code, +2.3% on
 the document, +0.4% on the chat. Details: `bench/results/2026-09-27-esp/`.
 
+## strata-poly: flash attention for prompt reading (`STRATA_FATTN=1`, off by default)
+
+For strata-poly's Qwen3.6 family (heads of 256 values, 8 heads a group) on an Ampere or later NVIDIA card. With
+`STRATA_FATTN=1` in the environment a prompt batch's attention runs through llama.cpp's flash-attention kernel
+(`src/poly/fattn_mma.cuh`, a copy of `fattn-mma-f16.cuh` with the causal mask computed in the kernel) instead of
+two cuBLAS products and a softmax over scores in memory. Under the q8_0 cache (`--kv int8`) blocks of keys are
+dequantized to fp16 in the attention's existing score scratch; an fp16 cache is read where it lies. No VRAM is added.
+The server logs `STRATA_FATTN: prompt attention through llama.cpp's flash-attention kernel`. Decode, Turing, HIP and
+other models keep the old path, and without the variable nothing changes.
+
+**Measured** on an RTX 3070 8 GB (PCIe 3.0 x16; Ryzen 5 2600X, 32 GB DDR4-3200; Cyber-Tiel-Coder 35B-A3B
+UD-Q4_K_XL, `--max-context 262144`, q8_0 cache), a coding-agent conversation of growing turns: prompt read 1,437 -> 1,824 tokens/s at 32K of context, 749 -> 1,268 at 103K,
+610 -> 1,066 at 143K (+65-85% at 103-143K against the range of earlier control runs); decode the same within 1
+token/s; a 107K recall test 3 of 3. The kernel sums the value products in halves, so its results are further from
+the arithmetic in doubles (up to 7.7e-3 on results up to 2.9) than the old path's (2.3e-3); `poly_fattn_test` checks
+both caches. Greedy answers part from the old path's after a few dozen characters, at near-ties where the old path
+also parts from itself between runs.
+
+## strata-poly: tensor-core decode attention (`STRATA_FDEC=1`, off by default)
+
+The decode side of the same layers: the few tokens of an answer's step (one, or a window of guesses). With
+`STRATA_FDEC=1` they go through a kernel of this project's own (`fdec_q8()` / `fdec_f16()` in `src/poly/fattn.cu`)
+instead of `attend()`'s score, softmax and value kernels, which write every score to memory and read it back twice.
+One CUDA block takes 1,024 keys of a KV head's group for up to 4 tokens as flash attention on the tensor cores, so
+the cache is read once per 4 tokens, and the blocks are merged by their softmax max and sum. q8_0 and fp16 caches,
+heads of 256 values, 8 heads a group, Ampere or later NVIDIA. A token gets the same bits alone or in a window, as
+with `attend()`. No VRAM is added. The server logs `STRATA_FDEC: decode attention through the tensor-core decode
+kernel`, or why not; Turing, HIP and other models keep the old path, and without the variable nothing changes.
+
+**Measured** on the RTX 3070 setup above (q8_0 cache, 256K, with `STRATA_FATTN=1`), the same conversation, two runs
+each: decode 53.8 -> 63.9 tokens/s at 32K of context, 35.1 -> 53.0 at 103K, 29.3 -> 48.7 at 143K, 26.6 -> 45.6 at
+174K; short prompts the same (62-78 tokens/s either way). With an fp16 cache at 128K (one run): 53.0 -> 62.6 at
+32K, 32.5 -> 43.2 at 103K. One layer's attention at 140K of context (`poly_fattn_test dec`): 0.45 ms against 1.94
+for one token with q8_0, 0.72 against 1.82 with fp16; below about 4K of context it is the slower one (0.05 against
+0.02 ms a layer). The scores and values go through the tensor cores as halves, so results are within 1.8e-3 of the
+arithmetic in doubles where `attend()` is within 1e-6. A long-context question set (39K to 196K tokens of this
+repository's source, temperature 0) got the same 11 of 12 checkable answers right with and without it, and its
+answers part from the old path's about as early as two runs of the old path part from each other. The 107K and a
+247K recall test passed.
+
 ---
 
 ## Troubleshooting
@@ -2335,3 +2375,25 @@ CUDA card, where it measured +1..3 % prompt speed on a Tesla P100 at 30-60K toke
 Options that change answers (other summation order) are separate and explicit: `STRATA_SELECT_SIMT=1|2` (FP32 tiled block scorer,
 KL 0.01 against the warp scorer per #2071), `STRATA_PA_V2T=1` (v2 prompt attention, #2092/#2146), `STRATA_PF_FUSED=1
 STRATA_PF_FUSED_SM75=1` (fused int8 prompt experts for the Q2_0 pack, #2145; only on a 7.5 card, sm_80+ is unchanged), `STRATA_BF16_TC=1` with `STRATA_XN_F16` (#2091).
+
+## strata-poly: chunked GDN prefill
+
+`STRATA_GDN_MMA=1` requests the shared CUDA tensor-core GDN kernel for eligible reads in the Qwen35 backend.
+Unset or `0` keeps the stock recurrence. The request is captured at engine initialization; restart to change
+it. The server's existing model `env` map accepts the same setting, and an explicit `"0"` overrides an
+inherited `1`. There is no new API parameter or installer default.
+
+The capability decision is logged once per engine, including fallback on unsupported shapes, devices or
+backends. Eligible calls have 128 values per head, 16 key heads, 16/32/48/64 value heads and at least 64
+contiguous rows from one sequence. Decode, short reads, separate sequence rows, recorded launches and MTP
+intermediate snapshots keep the stock path. No extra persistent GPU buffer is added.
+
+The shared `strata_gdn_mma` library exposes prepared inputs through `include/strata/kernels/gdn_mma.hpp`
+in `strata::kernels`. Qwen35 (`qwen35moe`) is currently the only integrated caller; other compatible models
+can add thin adapters using the same kernel and capability checks. The original `strata` engine is unchanged.
+
+Supported CUDA targets are SM 86/89/120/121, subject to sufficient shared memory; SM100 is not enabled.
+Runtime measurements used SM89. CUDA 13.3 compilation was checked for the SM120/121 kernel and SM120
+adapter, but Blackwell runtime testing is still needed. HIP and SYCL were not built here; the CUDA library
+is excluded on those backends. This experimental opt-in changes floating-point accumulation and can change
+outputs. Prefill gains do not guarantee faster generation; some measured long-response TG runs regressed.
