@@ -26,7 +26,9 @@ found on PATH; this does not establish whether they are installed elsewhere.
 NVIDIA reported about 14,899 MiB of GPU memory occupied during inspection.
 That is an observation of an active desktop, not a benchmark or available-memory target.
 
-Starting source revision: `dc2080ba16d7f9f644cd01c3d5ff3237b2ae0f85`.
+Starting source revision: `dc2080ba16d7f9f644cd01c3d5ff3237b2ae0f85`. On October 23, 2026 the tree merged
+PolyStrata 0.1.45-poly.3 (`f096adb0`) as `986a4fe2`, which brought Flint 40B-A2.5B, the `STRATA_GDN_MMA`
+linear-attention kernel, `--check-batch`, `--kv int8` and the setup fixes.
 
 ## Establish our baseline
 
@@ -91,6 +93,36 @@ useful diagnostics, but do not establish long-context coding-agent performance.
 Keep vision enabled during validation for image-capable profiles. Treat untested
 settings as an experiment plan, not a measured optimum.
 Follow [COMMUNITY_BENCHMARKS.md](COMMUNITY_BENCHMARKS.md) for reporting conventions.
+
+## Flint 40B-A2.5B, October 23, 2026
+
+Flint came in with the PolyStrata 0.1.45-poly.3 merge. It runs here at the full 262,144-token context its GGUF
+declares (`flint.context_length`), not the 131,072 the installer's context menu tops out at; the config was
+written with `--context 262144`.
+
+Hardware and settings: i9-14900KF, RTX 4070 Ti SUPER 16 GB, 63.82 GiB RAM, Windows 11; ready-made `strata-poly`
+0.1.45 (poly.3, CUDA 13.0, `src 38ce288cd08729a0`); `flint-UD-Q4_K_XL.gguf`, 25.1 GB, SHA-256 verified;
+`--prompt-batch 2048`, `--threads 15`, conversation cache 8,192 MiB.
+
+| Prompt read | Time to first token | Prefill | Write |
+| ---: | ---: | ---: | ---: |
+| 8,143 tokens | 2.3 s | 3,707 tok/s | 121 tok/s |
+| 32,311 tokens | 8.1 s | 4,036 tok/s | 93 tok/s |
+| 129,323 tokens | 58.7 s | 2,227 tok/s | 58 tok/s |
+| 242,606 tokens | 170.1 s | 1,430 tok/s | 22 tok/s |
+
+Median of three runs at 8K, 32K and 129K and of two at 243K, greedy, 128 tokens of output. Every request began
+with a unique prefix, so the prompt cache held 0 tokens in all eleven runs and each read is a full prefill.
+Prompt sizes are the engine's own `prompt_n`. The filler is synthetic: these are speed measurements, not a
+coding-quality result.
+
+Writes slow as the prompt grows because the attention cache takes the VRAM the expert cache had: 6,217 of
+12,032 routed experts sat in VRAM at load, about 5,492 (10.18 GiB) at 32K, 3,423 (6.56 GiB) at 129K and 1,457
+(2.94 GiB) at 243K. The engine traded them without an error; no run ran out of memory.
+
+Not tested here: any coding or recall suite, tool loops, quality at 256K, and several requests at once. Flint
+reads text only. Raw numbers and the script that produced them:
+[bench/results/2026-10-23-aryastrata-flint-256k/](../bench/results/2026-10-23-aryastrata-flint-256k/README.md).
 
 ## The 8-bit model set, October 18, 2026
 
