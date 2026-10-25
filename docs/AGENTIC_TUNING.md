@@ -2,6 +2,8 @@
 
 Host: **i9-14900KF, RTX 4070 Ti SUPER 16 GB (driver 610.88), 64 GB RAM, Windows 11**,
 engine **0.1.45** (`strata.exe` for Qwen3.8, `strata-poly.exe` 0.1.45 for the six families).
+Seven models: the six that were installed, plus Qwen3.6 UD-Q2_K_XL, added on this date to
+answer the "2-3x faster" requirement (section 4.4).
 Every number on this page was measured on this PC, on the day named, at the workload named.
 Inherited vendor or community numbers are marked as such.
 
@@ -134,10 +136,31 @@ measured as necessary.
 | Qwen3.6 35B-A3B Q8_0 | `strata-qwen36s-q8_0.json` | same three | same |
 | Ornith 1.5 35B-A3B APEX-I-QUALITY | `strata-ornith-apex-i-quality.json` | added `--kv q8_0`; `--prompt-batch` 1,024 → 2048 | Q8_0 KV is byte-identical for `qwen35moe` (15/15 exact answers in `Q8_KV.md`) and halves the cache; measured +14% prompt read, +8% decode |
 | Flint 40B-A2.5B UD-Q4_K_XL | `strata-flint-ud-q4_k_xl.json` | none | already `--prompt-batch 2048`; `--kv q8_0` does not exist for the `flint` architecture (the engine gates it to `qwen35moe`) |
+| Qwen3.6 35B-A3B UD-Q2_K_XL | `strata-qwen36s-ud-q2_k_xl.json` | **new model file** | the only file whose experts fit in 16 GB: 10.78 GB at 2.61 bits, all 10,496 resident, 2.3-2.7x the Qwen3.8 at 5K-20K prompts (section 4.4) |
 
 The Qwen3.8 vision encoder was measured both ways: GPU 2,895 tok/s prompt / 147.4 decode,
 CPU 2,918 / 154.0 at 43K — inside each other's noise. It stays on the GPU (faster images);
 the installer's CPU rule is a robustness choice, not a speed one here.
+
+### 2.1 Why the smaller MoEs cannot be 2-3x faster at Q4 on this card
+
+The expectation is the right one for a card that holds the whole model: PolyStrata's own
+README measures Qwen3.6 UD-Q4_K_M at **395 tok/s** on a 32 GB RTX 5090, against **62 tok/s**
+for Qwen3.8 IQ3_XXS on a 12 GB card. On this 16 GB card, decode is decided by the routed
+expert bytes a token must read, because a 22.8 GB expert bank does not fit in 16 GB:
+
+| Model | active experts a token | bytes a routed expert | routed-expert bytes a token |
+| --- | ---: | ---: | ---: |
+| Qwen3.8 IQ3_XXS | 48 layers x 10 = 480 | 4.92M params x 2.84 bits = 1.75 MB | **0.84 GB** |
+| Qwen3.6 35B UD-Q4_K_XL | 41 x 8 = 328 | 3.22M x 4.88 bits = 1.97 MB | **0.65 GB** |
+| Qwen3.6 35B UD-Q2_K_XL | 328 | 3.22M x ~2.9 bits = 1.17 MB | **0.38 GB** |
+
+The 35B at Q4 reads only 23% fewer bytes a token than the 126B at IQ3, so it can be about
+1.3x faster — which is what it measures (117 vs 91 tok/s on the same 5,329-token prompt).
+It cannot be 2-3x faster: an expert at Q4 is nearly twice the bytes of one at IQ3, and the
+126B's lower bit width cancels its extra experts. At Q2 both levers move: the bytes fall
+55% below the 126B's, and a 12.6 GB file lets nearly every expert stay in VRAM. See
+section 4.4 for the measurement.
 
 ## 4. Before and after
 
@@ -180,6 +203,40 @@ IQ3_XXS, same 256-token probe, read 69.7 to 100.1 tok/s across runs in this sess
 depending on draft acceptance (55-95%) and expert-cache warmth; the abliterated IQ2_XS
 measured 81.5 to 218.9 on the same kind of request. Absolute decode is therefore a range,
 not a constant, and only the interleaved pairs in 4.1 are used for claims of change.
+
+### 4.4 The 2-3x the user asked for: Qwen3.6 UD-Q2_K_XL
+
+The "the smaller MoEs should be 2-3x faster than the Qwen3.8 Flash, and support max context"
+requirement cannot be met by any Q4-class file on a 16 GB card (section 2.1). It is met by a
+2-bit file that fits:
+
+- Source: Unsloth `Qwen3.6-35B-A3B-MTP-GGUF`, `Qwen3.6-35B-A3B-UD-Q2_K_XL.gguf`,
+  **12.56 GB**, routed experts **10.78 GB at 2.61 bits** (`tools/strata_inspect.py`).
+- Run config `strata-qwen36s-ud-q2_k_xl.json`: 262,144 context, `--kv q8_0`,
+  `--prompt-batch 2048`, `--vram-reserve-mib 512`, `--tail-skip 6`, `--window 8`.
+- The engine holds **all 10,496 routed experts in VRAM (10.1 GiB)**, not 58%.
+
+| Prompt | Qwen3.8 IQ3_XXS | Qwen3.6 Q4_K_XL | **Qwen3.6 Q2_K_XL** | Q2 vs IQ3 |
+| --- | ---: | ---: | ---: | ---: |
+| 5,329 (cold agent turn) | 90.9 tok/s | 117 | **211-247 tok/s** | **2.3-2.7x** |
+| 43,007 | 147.4 (client) | 116.7 | **167.1** | 1.1x (1.65x against the engine's own ~101) |
+| 63,138 | 92.5 | 82.9 | **120.2** | 1.3x |
+| 234,726 | not run (Q4: 122) | 122 | **128.3** | at parity |
+
+The same website task on the Q2 took **3 steps and 123.7 s**: one 26,365-token `write_file`
+produced an **82,066-character page with `</html>`**, where the Q4 needed 6-7 steps and
+316 s, and the 8,192 cap produced nothing.
+
+**Why the advantage narrows with context, and why that is not a tuning miss:** decode at
+63K+ is dominated by attention reads of the KV cache, which both models pay; the expert
+bytes the Q2 saves are a shrinking share of each token's work. At the 5K-20K prompts an
+agent spends most of its turns on, the Q2 is the 2-3x; at 256K "support max context" is
+satisfied (234,726 tokens answered in 183.2 s to first token) but the speed is the same as
+the 126B.
+
+**Quality is a separate trade.** The Q2's experts are 2.61 bits against the Q4's 4.88. It
+completed the tool-use/website task above in one pass, but a 2-bit model is the *speed*
+option; the Q4 stays the quality option on this host. Both now appear in the roster.
 
 ### 4.3 Near-full context still works without `--kv-whole`
 
@@ -225,9 +282,9 @@ Q4 run (973 tok/s, 261.4 s to first token). A request above the ceiling is refus
   prompt after loading (Ornith 6.2 s at 5,329 tokens, Qwen3.6 Q8 13.6-15.4 s; the same
   prompt on the next turn is 0.26 s). This is graph capture plus first-touch expert reads,
   not the configured settings; it is the one remaining "it feels like a laptop" moment.
-- **A 250K-token request through the tuned configs**: measured — 234,726 tokens on the
-  tuned Qwen3.6 Q4 answered in 186.4 s to first token (section 4.3). The other five models
-  were measured at 43K and 63K only.
+- **A 250K-token request through the tuned configs**: measured — 234,726 tokens answered on
+  the tuned Qwen3.6 Q4 in 186.4 s to first token (section 4.3) and on the Q2_K_XL in
+  183.2 s (section 4.4). The remaining five models were measured at 43K and 63K only.
 
 ## 7. How the numbers were taken
 
