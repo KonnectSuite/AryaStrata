@@ -1,3 +1,5 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](../ARYASTRATA.md).
+
 # LFM2.5-24B-A2B
 
 Retour à [README.fr.md](../../README.fr.md)

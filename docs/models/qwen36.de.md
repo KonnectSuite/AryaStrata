@@ -1,3 +1,5 @@
+> **AryaStrata documentation:** forked from [PolyStrata](https://github.com/VecSzn/PolyStrata), a fork of [Niko1221’s original Strata](https://github.com/Niko1221/Strata). Measurements and hardware claims on this page are inherited upstream results unless explicitly marked as measured on the AryaStrata host. See [host findings](../ARYASTRATA.md).
+
 # Qwen3.6-35B-A3B
 
 Zurück zu [README.de.md](../../README.de.md)
