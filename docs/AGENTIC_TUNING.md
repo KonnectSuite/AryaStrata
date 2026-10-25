@@ -293,7 +293,10 @@ option; the Q4 stays the quality option on this host. Both now appear in the ros
   1.5 suppressed the repeated tokens code needs and cost four runs out of twenty; 0.5 keeps a
   mild repetition guard and measured as well as 0.0 with longer code. The five PolyStrata
   configs (Qwen3.6 Q4, Q8, Q2, Ornith; Flint's block has no presence penalty) now set
-  **0.5**, re-measured through the config with no request override: 19/20, no truncations.
+  **0.5**, re-measured through the config with no request override: 19/20 on Qwen3.6 Q4 and
+  9/10 on Ornith, no truncations. The 2-bit Q2 measured 8/10 at 0.5 and 9/10 at 0.0 in one
+  pass each — a single sample does not separate them, and it stays at 0.5; its weaker
+  tool-call rate is the 2-bit trade, not the penalty.
 - **Cold first token after a load.** The PolyStrata engines are 3-10x slower on the first
   prompt after loading (Ornith 6.2 s at 5,329 tokens, Qwen3.6 Q8 13.6-15.4 s; the same
   prompt on the next turn is 0.26 s). This is graph capture plus first-touch expert reads,
