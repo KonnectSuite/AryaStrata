@@ -126,6 +126,26 @@ The attention cache still grows to the same 3.0 GiB when a conversation actually
 `--vram-reserve-mib 512` in the same config covers the CUDA-graph headroom that `Q8_KV.md`
 measured as necessary.
 
+### 2.1 Why the smaller MoEs cannot be 2-3x faster at Q4 on this card
+
+The expectation is the right one for a card that holds the whole model: PolyStrata's own
+README measures Qwen3.6 UD-Q4_K_M at **395 tok/s** on a 32 GB RTX 5090, against **62 tok/s**
+for Qwen3.8 IQ3_XXS on a 12 GB card. On this 16 GB card, decode is decided by the routed
+expert bytes a token must read, because a 22.8 GB expert bank does not fit in 16 GB:
+
+| Model | active experts a token | bytes a routed expert | routed-expert bytes a token |
+| --- | ---: | ---: | ---: |
+| Qwen3.8 IQ3_XXS | 48 layers x 10 = 480 | 4.92M params x 2.84 bits = 1.75 MB | **0.84 GB** |
+| Qwen3.6 35B UD-Q4_K_XL | 41 x 8 = 328 | 3.22M x 4.88 bits = 1.97 MB | **0.65 GB** |
+| Qwen3.6 35B UD-Q2_K_XL | 328 | 3.22M x 2.61 bits = 1.05 MB | **0.34 GB** |
+
+The 35B at Q4 reads only 23% fewer bytes a token than the 126B at IQ3, so it can be about
+1.3x faster — which is what it measures (117 vs 91 tok/s on the same 5,329-token prompt).
+It cannot be 2-3x faster: an expert at Q4 is nearly twice the bytes of one at IQ3, and the
+126B's lower bit width cancels its extra experts. At Q2 both levers move: the bytes fall
+60% below the 126B's, and a 12.6 GB file lets nearly every expert stay in VRAM. See
+section 4.4 for the measurement.
+
 ## 3. What changed, per model
 
 | Model | Config | Change | Why |
@@ -141,26 +161,6 @@ measured as necessary.
 The Qwen3.8 vision encoder was measured both ways: GPU 2,895 tok/s prompt / 147.4 decode,
 CPU 2,918 / 154.0 at 43K — inside each other's noise. It stays on the GPU (faster images);
 the installer's CPU rule is a robustness choice, not a speed one here.
-
-### 2.1 Why the smaller MoEs cannot be 2-3x faster at Q4 on this card
-
-The expectation is the right one for a card that holds the whole model: PolyStrata's own
-README measures Qwen3.6 UD-Q4_K_M at **395 tok/s** on a 32 GB RTX 5090, against **62 tok/s**
-for Qwen3.8 IQ3_XXS on a 12 GB card. On this 16 GB card, decode is decided by the routed
-expert bytes a token must read, because a 22.8 GB expert bank does not fit in 16 GB:
-
-| Model | active experts a token | bytes a routed expert | routed-expert bytes a token |
-| --- | ---: | ---: | ---: |
-| Qwen3.8 IQ3_XXS | 48 layers x 10 = 480 | 4.92M params x 2.84 bits = 1.75 MB | **0.84 GB** |
-| Qwen3.6 35B UD-Q4_K_XL | 41 x 8 = 328 | 3.22M x 4.88 bits = 1.97 MB | **0.65 GB** |
-| Qwen3.6 35B UD-Q2_K_XL | 328 | 3.22M x ~2.9 bits = 1.17 MB | **0.38 GB** |
-
-The 35B at Q4 reads only 23% fewer bytes a token than the 126B at IQ3, so it can be about
-1.3x faster — which is what it measures (117 vs 91 tok/s on the same 5,329-token prompt).
-It cannot be 2-3x faster: an expert at Q4 is nearly twice the bytes of one at IQ3, and the
-126B's lower bit width cancels its extra experts. At Q2 both levers move: the bytes fall
-55% below the 126B's, and a 12.6 GB file lets nearly every expert stay in VRAM. See
-section 4.4 for the measurement.
 
 ## 4. Before and after
 
@@ -204,6 +204,28 @@ depending on draft acceptance (55-95%) and expert-cache warmth; the abliterated 
 measured 81.5 to 218.9 on the same kind of request. Absolute decode is therefore a range,
 not a constant, and only the interleaved pairs in 4.1 are used for claims of change.
 
+### 4.3 Near-full context still works without `--kv-whole`
+
+The reason the Qwen3.6 profiles carried `--kv-whole` was long-context stability, so the
+change was checked at the ceiling: a **234,726-token** prompt (the same reference text
+repeated) on the tuned models, no tools, 64-token answer.
+
+| Prompt | Model | Time to first token | Prompt read | Answer | Result |
+| ---: | --- | ---: | ---: | --- | --- |
+| 234,726 | Qwen3.6 UD-Q4_K_XL | 186.4 s | 1,259 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
+| 234,726 | Qwen3.6 UD-Q2_K_XL | 183.2 s | 1,281 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
+| 234,726 | Ornith 1.5 APEX (now 262,144) | 185.7 s | 1,264 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
+
+The attention cache does grow to its 262K size by then (the expert cache gives the VRAM
+back), and the Qwen3.6 Q4 read is still **29% faster** than the pre-tuning roster's
+254,191-token Qwen3.6 Q4 run (973 tok/s, 261.4 s to first token). A request above the
+ceiling is refused with a 400 that names the prompt size, not truncated.
+
+Ornith's ceiling was raised from 131,072 to **262,144** on this date: without `--kv-whole`
+the attention cache only grows as the conversation does, so the larger ceiling cost nothing
+at the 43,007-token A/B (2,597 vs 2,554 tok/s prompt read, 73.9 vs 71.4 decode) and the
+234,726-token request answered. All three PolyStrata Qwen-family profiles now serve 256K.
+
 ### 4.4 The 2-3x the user asked for: Qwen3.6 UD-Q2_K_XL
 
 The "the smaller MoEs should be 2-3x faster than the Qwen3.8 Flash, and support max context"
@@ -237,28 +259,6 @@ the 126B.
 **Quality is a separate trade.** The Q2's experts are 2.61 bits against the Q4's 4.88. It
 completed the tool-use/website task above in one pass, but a 2-bit model is the *speed*
 option; the Q4 stays the quality option on this host. Both now appear in the roster.
-
-### 4.3 Near-full context still works without `--kv-whole`
-
-The reason the Qwen3.6 profiles carried `--kv-whole` was long-context stability, so the
-change was checked at the ceiling: a **234,726-token** prompt (the same reference text
-repeated) on the tuned Qwen3.6 UD-Q4_K_XL, no tools, 64-token answer.
-
-| Prompt | Model | Time to first token | Prompt read | Answer | Result |
-| ---: | --- | ---: | ---: | --- | --- |
-| 234,726 | Qwen3.6 UD-Q4_K_XL | 186.4 s | 1,259 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
-| 234,726 | Qwen3.6 UD-Q2_K_XL | 183.2 s | 1,281 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
-| 234,726 | Ornith 1.5 APEX (now 262,144) | 185.7 s | 1,264 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
-
-The attention cache does grow to its 262K size by then (the expert cache gives the VRAM
-back), and the Qwen3.6 Q4 read is still **29% faster** than the pre-tuning roster's
-254,191-token Qwen3.6 Q4 run (973 tok/s, 261.4 s to first token). A request above the
-ceiling is refused with a 400 that names the prompt size, not truncated.
-
-Ornith's ceiling was raised from 131,072 to **262,144** on this date: without `--kv-whole`
-the attention cache only grows as the conversation does, so the larger ceiling cost nothing
-at the 43,007-token A/B (2,597 vs 2,554 tok/s prompt read, 73.9 vs 71.4 decode) and the
-234,726-token request answered.
 
 ## 5. Tested and not adopted
 
