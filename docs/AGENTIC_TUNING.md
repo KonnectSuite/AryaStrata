@@ -93,6 +93,11 @@ budget is 131,072 tokens instead of 188,416. If a session needs more live contex
 accepts shorter writes, lower the model's allowance with **AryaStrata → Chat output
 limits**; the editor's range is 1,024 to the window minus 1,024.
 
+At the ceiling the request is not refused: a **234,726-token** prompt with
+`max_tokens: 65536` on Qwen3.8 IQ3_XXS was clamped by the config's `fit_max_tokens: true`
+and answered normally (87.6 s to first token, `finish: stop`). The clamp keeps the new
+default usable in the one place it would otherwise 400.
+
 ## 2. `--kv-whole` cost the PolyStrata models their expert cache
 
 `--kv-whole` gives the attention caches VRAM for the whole configured context at load,
