@@ -295,14 +295,14 @@ All four render distinct prompts on the models that offer four levels; Flint's t
 
 **Live check**, same prompt, 1,400-token allowance, thinking recorded from the stream:
 
-| Level | Qwen3.8 IQ3_XXS | Qwen3.6 UD-Q4_K_XL |
-| --- | --- | --- |
-| off | 0 reasoning chars, 111 out tokens | 0 reasoning, 278 out |
-| low | 228 reasoning, 243 out | 3,002 reasoning, 951 out |
-| medium | 202 reasoning, 290 out | 3,005 reasoning, 952 out |
-| high | 596 reasoning, 260 out | 2,627 reasoning, 1,056 out |
+| Level | Qwen3.8 IQ3_XXS | Qwen3.6 UD-Q4_K_XL | NInfer Qwen3.8 27B |
+| --- | --- | --- | --- |
+| off | 0 reasoning chars, 111 out tokens | 0 reasoning, 278 out | 0 reasoning, 76 out |
+| low | 228 reasoning, 243 out | 3,002 reasoning, 951 out | 370 reasoning, 297 out |
+| medium | 202 reasoning, 290 out | 3,005 reasoning, 952 out | 385 reasoning, 305 out |
+| high | 596 reasoning, 260 out | 2,627 reasoning, 1,056 out | 2,236 reasoning, 735 out |
 
-The requests differ at every level (prompt tokens 78 / 102 / 76 / 114 and 78 / 102 / 98 / 114).
+NInfer's four levels come from its own template (it already received the level before this change, because its adapter used the qwen wire format): off 76 out tokens with no reasoning, low 297 with 370 reasoning chars, medium 305 / 385, high 735 / 2,236. The requests differ at every level (prompt tokens 78 / 102 / 76 / 114 on IQ3, 78 / 102 / 98 / 114 on Qwen3.6, 78 / 102 / 76 / 114 on NInfer).
 How much the model changes its thinking is the model's own behaviour; what the selector guarantees
 is that the request it sends is the level asked for.
 
