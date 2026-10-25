@@ -158,7 +158,16 @@ section 4.4 for the measurement.
 | Qwen3.6 35B-A3B Q8_0 | `strata-qwen36s-q8_0.json` | same three | same |
 | Ornith 1.5 35B-A3B APEX-I-QUALITY | `strata-ornith-apex-i-quality.json` | added `--kv q8_0`; `--prompt-batch` 1,024 → 2048; `--max-context` 131,072 → 262,144; `presence_penalty 1.5 → 0.5` | Q8_0 KV is byte-identical for `qwen35moe` (15/15 exact answers in `Q8_KV.md`) and halves the cache; the larger ceiling costs nothing without `--kv-whole` (section 4.3) |
 | Flint 40B-A2.5B UD-Q4_K_XL | `strata-flint-ud-q4_k_xl.json` | none | already `--prompt-batch 2048`; `--kv q8_0` does not exist for the `flint` architecture (the engine gates it to `qwen35moe`) |
-| Qwen3.6 35B-A3B UD-Q2_K_XL | `strata-qwen36s-ud-q2_k_xl.json` | **new model file** | the only file whose experts fit in 16 GB: 10.78 GB at 2.61 bits, all 10,496 resident, 2.3-2.7x the Qwen3.8 at 5K-20K prompts (section 4.4); `presence_penalty 1.5 → 0.5` |
+| Qwen3.6 35B-A3B UD-Q2_K_XL | `strata-qwen36s-ud-q2_k_xl.json` | **new model file**, vision | the only file whose experts fit in 16 GB: 10.78 GB at 2.61 bits, all 10,496 resident, 2.3-2.7x the Qwen3.8 at 5K-20K prompts (section 4.4); `presence_penalty 1.5 → 0.5` |
+
+The Q2 was installed without vision: its model directory has no `mmproj`, so the config had no
+`vision` section and the app correctly offered it as text. It is the same Qwen3.6 base as the Q4,
+whose `mmproj-F16.gguf` (899 MB) already serves the Q8 too, so the Q2 config now points at that
+encoder with its own weights (`strata-vision.exe`, `gpu: true`). Verified live: the server reports
+`multimodal: true`, and a 512×512 red circle reached the model as a picture — "The image shows a
+red circle" on Q4 and "The image features a red circle" on Q2, both at 281 prompt tokens. Text
+OCR on a synthetic image was poor on *both* models, so that is the model's literacy, not the
+wiring.
 
 The Qwen3.8 vision encoder was measured both ways: GPU 2,895 tok/s prompt / 147.4 decode,
 CPU 2,918 / 154.0 at 43K — inside each other's noise. It stays on the GPU (faster images);
