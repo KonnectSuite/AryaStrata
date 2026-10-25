@@ -152,11 +152,11 @@ section 4.4 for the measurement.
 | --- | --- | --- | --- |
 | Qwen3.8 Flash Next IQ3_XXS | `strata-iq3_xxs.json` | none | already the calibrated config from `.tune/SETTINGS-REPORT.md`; `--vram-reserve-mib 1000`, `--kv-resident 32768`, MTP, 15 workers |
 | Qwen3.8 Flash Next abliterated IQ2_XS | `strata-abliterated-iq2_xs.json` | none | same settings; CPU vision encoder already |
-| Qwen3.6 35B-A3B UD-Q4_K_XL | `strata-qwen36s-ud-q4_k_xl.json` | removed `--kv-whole`; `--prompt-batch 512 → 2048`; `--vram-reserve-mib 768 → 512` | section 2; the wider prompt batch reads long prompts faster |
+| Qwen3.6 35B-A3B UD-Q4_K_XL | `strata-qwen36s-ud-q4_k_xl.json` | removed `--kv-whole`; `--prompt-batch 512 → 2048`; `--vram-reserve-mib 768 → 512`; `presence_penalty 1.5 → 0.5` | section 2; the wider prompt batch reads long prompts faster |
 | Qwen3.6 35B-A3B Q8_0 | `strata-qwen36s-q8_0.json` | same three | same |
-| Ornith 1.5 35B-A3B APEX-I-QUALITY | `strata-ornith-apex-i-quality.json` | added `--kv q8_0`; `--prompt-batch` 1,024 → 2048; `--max-context` 131,072 → 262,144 | Q8_0 KV is byte-identical for `qwen35moe` (15/15 exact answers in `Q8_KV.md`) and halves the cache; the larger ceiling costs nothing without `--kv-whole` (section 4.3) |
+| Ornith 1.5 35B-A3B APEX-I-QUALITY | `strata-ornith-apex-i-quality.json` | added `--kv q8_0`; `--prompt-batch` 1,024 → 2048; `--max-context` 131,072 → 262,144; `presence_penalty 1.5 → 0.5` | Q8_0 KV is byte-identical for `qwen35moe` (15/15 exact answers in `Q8_KV.md`) and halves the cache; the larger ceiling costs nothing without `--kv-whole` (section 4.3) |
 | Flint 40B-A2.5B UD-Q4_K_XL | `strata-flint-ud-q4_k_xl.json` | none | already `--prompt-batch 2048`; `--kv q8_0` does not exist for the `flint` architecture (the engine gates it to `qwen35moe`) |
-| Qwen3.6 35B-A3B UD-Q2_K_XL | `strata-qwen36s-ud-q2_k_xl.json` | **new model file** | the only file whose experts fit in 16 GB: 10.78 GB at 2.61 bits, all 10,496 resident, 2.3-2.7x the Qwen3.8 at 5K-20K prompts (section 4.4) |
+| Qwen3.6 35B-A3B UD-Q2_K_XL | `strata-qwen36s-ud-q2_k_xl.json` | **new model file** | the only file whose experts fit in 16 GB: 10.78 GB at 2.61 bits, all 10,496 resident, 2.3-2.7x the Qwen3.8 at 5K-20K prompts (section 4.4); `presence_penalty 1.5 → 0.5` |
 
 The Qwen3.8 vision encoder was measured both ways: GPU 2,895 tok/s prompt / 147.4 decode,
 CPU 2,918 / 154.0 at 43K — inside each other's noise. It stays on the GPU (faster images);
@@ -280,11 +280,20 @@ option; the Q4 stays the quality option on this host. Both now appear in the ros
   cache from 6,217 to about 4,400 experts. At the 43K-63K sizes measured here it does not
   shrink below the Qwen3.6 tuning, which is why it was left alone. If Flint speed matters
   more than the last 128K of context, `--max-context 131072` is the lever.
-- **Sampling.** `strata-qwen36s-*`, `strata-ornith-*` and `strata-flint-*` carry a sampling
-  block with `temperature 1.0`, `top_p 0.95`, `top_k 20` and `presence_penalty 1.5`. The
-  last is Qwen's long-form writing recommendation; for code and tool calls it is
-  questionable, but changing it is a quality change that this session did not measure.
-  It is the next thing to A/B on tool-argument validity, not a number to change blind.
+- **Sampling: measured and lowered.** The Qwen3.6, Ornith and Q2 configs carried
+  `presence_penalty 1.5` (Qwen's long-form writing recommendation). On ten one-file Python
+  coding tasks, two passes each, thinking off, temperature 1.0 as the configs set it:
+
+  | `presence_penalty` | valid tool call + parses | truncated | median code |
+  | ---: | ---: | ---: | ---: |
+  | 1.5 (shipped) | 16/20 | 3 | 458 chars |
+  | 0.5 | 19/20 | 0 | 841 chars |
+  | 0.0 | 19/20 | 0 | 625 chars |
+
+  1.5 suppressed the repeated tokens code needs and cost four runs out of twenty; 0.5 keeps a
+  mild repetition guard and measured as well as 0.0 with longer code. The five PolyStrata
+  configs (Qwen3.6 Q4, Q8, Q2, Ornith; Flint's block has no presence penalty) now set
+  **0.5**, re-measured through the config with no request override: 19/20, no truncations.
 - **Cold first token after a load.** The PolyStrata engines are 3-10x slower on the first
   prompt after loading (Ornith 6.2 s at 5,329 tokens, Qwen3.6 Q8 13.6-15.4 s; the same
   prompt on the next turn is 0.26 s). This is graph capture plus first-touch expert reads,
