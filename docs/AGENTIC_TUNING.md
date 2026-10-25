@@ -303,6 +303,20 @@ All four render distinct prompts on the models that offer four levels; Flint's t
 | high | 596 reasoning, 260 out | 2,627 reasoning, 1,056 out | 2,236 reasoning, 735 out |
 
 NInfer's four levels come from its own template (it already received the level before this change, because its adapter used the qwen wire format): off 76 out tokens with no reasoning, low 297 with 370 reasoning chars, medium 305 / 385, high 735 / 2,236. The requests differ at every level (prompt tokens 78 / 102 / 76 / 114 on IQ3, 78 / 102 / 98 / 114 on Qwen3.6, 78 / 102 / 76 / 114 on NInfer).
+One sample is not the whole story, so three samples per level at temperature 1.0 on the same
+prompt (a reasoning-and-code task), Qwen3.6 UD-Q4_K_XL:
+
+| Level | reasoning chars, median of 3 | answer chars, median |
+| --- | ---: | ---: |
+| off | 0 | 1,802 |
+| low | 2,040 | 326 |
+| medium | 1,994 | 966 |
+| high | 2,235 | 1,264 |
+
+Off is unambiguous, and High thinks and answers more than Low and Medium; Low and Medium are
+within noise of each other on this model (the instruction differs, the model's floor does not).
+That is the model's obedience, not the selector: each level is a different request, and Off and
+the top of the range are visibly different.
 How much the model changes its thinking is the model's own behaviour; what the selector guarantees
 is that the request it sends is the level asked for.
 
