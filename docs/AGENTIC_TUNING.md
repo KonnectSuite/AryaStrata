@@ -134,7 +134,7 @@ measured as necessary.
 | Qwen3.8 Flash Next abliterated IQ2_XS | `strata-abliterated-iq2_xs.json` | none | same settings; CPU vision encoder already |
 | Qwen3.6 35B-A3B UD-Q4_K_XL | `strata-qwen36s-ud-q4_k_xl.json` | removed `--kv-whole`; `--prompt-batch 512 → 2048`; `--vram-reserve-mib 768 → 512` | section 2; the wider prompt batch reads long prompts faster |
 | Qwen3.6 35B-A3B Q8_0 | `strata-qwen36s-q8_0.json` | same three | same |
-| Ornith 1.5 35B-A3B APEX-I-QUALITY | `strata-ornith-apex-i-quality.json` | added `--kv q8_0`; `--prompt-batch` 1,024 → 2048 | Q8_0 KV is byte-identical for `qwen35moe` (15/15 exact answers in `Q8_KV.md`) and halves the cache; measured +14% prompt read, +8% decode |
+| Ornith 1.5 35B-A3B APEX-I-QUALITY | `strata-ornith-apex-i-quality.json` | added `--kv q8_0`; `--prompt-batch` 1,024 → 2048; `--max-context` 131,072 → 262,144 | Q8_0 KV is byte-identical for `qwen35moe` (15/15 exact answers in `Q8_KV.md`) and halves the cache; the larger ceiling costs nothing without `--kv-whole` (section 4.3) |
 | Flint 40B-A2.5B UD-Q4_K_XL | `strata-flint-ud-q4_k_xl.json` | none | already `--prompt-batch 2048`; `--kv q8_0` does not exist for the `flint` architecture (the engine gates it to `qwen35moe`) |
 | Qwen3.6 35B-A3B UD-Q2_K_XL | `strata-qwen36s-ud-q2_k_xl.json` | **new model file** | the only file whose experts fit in 16 GB: 10.78 GB at 2.61 bits, all 10,496 resident, 2.3-2.7x the Qwen3.8 at 5K-20K prompts (section 4.4) |
 
@@ -244,14 +244,21 @@ The reason the Qwen3.6 profiles carried `--kv-whole` was long-context stability,
 change was checked at the ceiling: a **234,726-token** prompt (the same reference text
 repeated) on the tuned Qwen3.6 UD-Q4_K_XL, no tools, 64-token answer.
 
-| Prompt | Time to first token | Prompt read | Answer | Result |
-| ---: | ---: | ---: | --- | --- |
-| 234,726 | 186.4 s | 1,259 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
+| Prompt | Model | Time to first token | Prompt read | Answer | Result |
+| ---: | --- | ---: | ---: | --- | --- |
+| 234,726 | Qwen3.6 UD-Q4_K_XL | 186.4 s | 1,259 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
+| 234,726 | Qwen3.6 UD-Q2_K_XL | 183.2 s | 1,281 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
+| 234,726 | Ornith 1.5 APEX (now 262,144) | 185.7 s | 1,264 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
 
 The attention cache does grow to its 262K size by then (the expert cache gives the VRAM
-back), and the read is still **29% faster** than the pre-tuning roster's 254,191-token Qwen3.6
-Q4 run (973 tok/s, 261.4 s to first token). A request above the ceiling is refused with a
-400 that names the prompt size, not truncated.
+back), and the Qwen3.6 Q4 read is still **29% faster** than the pre-tuning roster's
+254,191-token Qwen3.6 Q4 run (973 tok/s, 261.4 s to first token). A request above the
+ceiling is refused with a 400 that names the prompt size, not truncated.
+
+Ornith's ceiling was raised from 131,072 to **262,144** on this date: without `--kv-whole`
+the attention cache only grows as the conversation does, so the larger ceiling cost nothing
+at the 43,007-token A/B (2,597 vs 2,554 tok/s prompt read, 73.9 vs 71.4 decode) and the
+234,726-token request answered.
 
 ## 5. Tested and not adopted
 
