@@ -262,6 +262,54 @@ the 126B.
 completed the tool-use/website task above in one pass, but a 2-bit model is the *speed*
 option; the Q4 stays the quality option on this host. Both now appear in the roster.
 
+## 4.5 Thinking effort: what each model can offer, and what the request looks like
+
+Before this change the selector was generic and mostly cosmetic. Every model was published with
+four levels, but the adapter sent only `chat_template_kwargs.enable_thinking`, so Low, Medium and
+High produced the same request everywhere; on Qwen3.8, whose template defaults to `xhigh` when no
+level arrives, all three were in fact the **xhigh** prompt. Flint could not honour Off either: its
+template has neither `enable_thinking` nor `reasoning_effort` and the model always thinks.
+
+The server now answers per model. `ChatTemplate` records whether the template reads
+`reasoning_effort` (graded, its own wording) and `enable_thinking` (Off possible); `/v1/models`
+and `/api/models` publish the resulting levels; a template that does not read the level gets it as
+an instruction in front of its system turn (`with_effort_instruction`), so the three graded levels
+are real requests on every model.
+
+| Model | Levels served | How the level reaches the model |
+| --- | --- | --- |
+| Qwen3.8 IQ3_XXS, abliterated IQ2_XS | off, low, medium, high | the model's own template (`medium` = no instruction, `xhigh` = the careful-think sentence) |
+| Qwen3.6 Q4 / Q8 / Q2, Ornith | off, low, medium, high | Off closes the thinking block; low/medium/high are the injected instruction |
+| Flint 40B-A2.5B | **low, medium, high** (no off) | injected instruction; the model always thinks, so Off is not offered |
+
+Rendered prompts, one SHA-256 each, same conversation and tools (`serve/test_effort_modes.py`
+and the effort matrix cover this):
+
+| Model | off | low | medium | high |
+| --- | --- | --- | --- | --- |
+| Qwen3.8 IQ3_XXS | own prompt | own + low sentence | own (no sentence) | own + xhigh sentence |
+| Qwen3.6 Q4 / Q8 / Q2, Ornith | own prompt | own + low sentence | own + medium sentence | own + xhigh sentence |
+| Flint | — | own + low sentence | own + medium sentence | own + xhigh sentence |
+
+All four render distinct prompts on the models that offer four levels; Flint's three are distinct.
+
+**Live check**, same prompt, 1,400-token allowance, thinking recorded from the stream:
+
+| Level | Qwen3.8 IQ3_XXS | Qwen3.6 UD-Q4_K_XL |
+| --- | --- | --- |
+| off | 0 reasoning chars, 111 out tokens | 0 reasoning, 278 out |
+| low | 228 reasoning, 243 out | 3,002 reasoning, 951 out |
+| medium | 202 reasoning, 290 out | 3,005 reasoning, 952 out |
+| high | 596 reasoning, 260 out | 2,627 reasoning, 1,056 out |
+
+The requests differ at every level (prompt tokens 78 / 102 / 76 / 114 and 78 / 102 / 98 / 114).
+How much the model changes its thinking is the model's own behaviour; what the selector guarantees
+is that the request it sends is the level asked for.
+
+**The wire**, from the adapter's own test (`tests/effort-wire.test.mjs` in the plugin): Off sends
+`enable_thinking: false`; low/medium/high send `reasoning_effort: low|medium|xhigh`. A model that
+offers three levels publishes three; an engine that predates the field still falls back to four.
+
 ## 5. Tested and not adopted
 
 - **`--prompt-batch 1024` without removing `--kv-whole`**: 1,886 tok/s, inside the
