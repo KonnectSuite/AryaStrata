@@ -2,8 +2,11 @@
 
 Run: python -m unittest serve.test_effort_modes -v
 """
+import json
 import unittest
+from pathlib import Path
 
+from serve import models as registry  # noqa: E402
 from serve.frontend import (ChatTemplate, effort_levels, openai_to_messages, with_effort_instruction)  # noqa: E402
 
 
@@ -71,7 +74,6 @@ class Templates(unittest.TestCase):
 
     def _template(self, path):
         return ChatTemplate(path)
-
     def test_qwen38_template_reads_the_level(self):
         template = self._template(r"C:\AI\Strata-data\packs\iq3_xxs\tokenizer\chat_template.jinja")
         self.assertTrue(template.supports_reasoning_effort)
@@ -86,6 +88,40 @@ class Templates(unittest.TestCase):
         template = self._template(r"C:\AI\Strata-data\packs\flint-ud-q4_k_xl\tokenizer\chat_template.jinja")
         self.assertFalse(template.supports_reasoning_effort)
         self.assertFalse(template.supports_enable_thinking)
+
+
+class Registry(unittest.TestCase):
+    """What /api/models and /v1/models publish, per installed model, from the config's own tokenizer."""
+
+    ROOT = Path(r"C:\AryaStrata")
+
+    def _efforts(self, model_id):
+        for path in sorted(self.ROOT.glob("strata-*.json")):
+            cfg = json.loads(path.read_text(encoding="utf-8-sig"))
+            if cfg.get("model_name") == model_id:
+                entry = registry.describe(path)
+                return (entry or {}).get("efforts")
+        return None
+
+    def test_every_installed_model_publishes_its_levels(self):
+        configs = sorted(self.ROOT.glob("strata-*.json"))
+        if not configs:
+            self.skipTest("no installed model configs on this machine")
+        for path in configs:
+            cfg = json.loads(path.read_text(encoding="utf-8-sig"))
+            model_id = cfg.get("model_name") or path.stem
+            efforts = self._efforts(model_id)
+            self.assertTrue(efforts, f"{model_id} publishes no levels")
+            graded = efforts[1:] if efforts[0] == "off" else efforts
+            self.assertEqual(graded, ["low", "medium", "high"], model_id)
+            self.assertIn(efforts[0], ("off", "low"), model_id)
+
+    def test_the_models_that_cannot_stop_thinking_offer_no_off(self):
+        flint = self._efforts("flint-40b-a2.5b-ud-q4_k_xl")
+        if flint is None:
+            self.skipTest("Flint is not installed here")
+        self.assertNotIn("off", flint)
+        self.assertEqual(self._efforts("qwen3.8-flash-next-iq3_xxs"), ["off", "low", "medium", "high"])
 
 
 if __name__ == "__main__":
