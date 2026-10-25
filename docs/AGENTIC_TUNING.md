@@ -81,9 +81,10 @@ read/glob calls):
 | ---: | --- | --- | --- |
 | 8,192 | `finish: length` after 8,192 output tokens | 19,059 characters of arguments, cut mid-JSON | **none** |
 | 65,536 | `finish: tool_calls` after 15,434 output tokens | 51,870 characters, valid JSON | **49,761 characters, has `</html>`** |
+| 65,536, repeat | `finish: tool_calls` after 31,169 output tokens | 97,109 characters, valid JSON | **94,857 characters, 14 sections, has `</html>`** |
 
-The write needs 15,434 tokens, 1.9x the old ceiling. This is the failure and the fix,
-reproduced on this host with the user's task.
+The write needs 15,434-31,169 tokens, 1.9x to 3.8x the old ceiling. This is the failure and
+the fix, reproduced on this host with the user's task.
 
 **The trade-off, stated plainly:** a larger allowance reserves more of the context for the
 answer. `compaction-basic` computes its pressure budget as `window - request maxTokens -
@@ -175,6 +176,21 @@ depending on draft acceptance (55-95%) and expert-cache warmth; the abliterated 
 measured 81.5 to 218.9 on the same kind of request. Absolute decode is therefore a range,
 not a constant, and only the interleaved pairs in 4.1 are used for claims of change.
 
+### 4.3 Near-full context still works without `--kv-whole`
+
+The reason the Qwen3.6 profiles carried `--kv-whole` was long-context stability, so the
+change was checked at the ceiling: a **234,726-token** prompt (the same reference text
+repeated) on the tuned Qwen3.6 UD-Q4_K_XL, no tools, 64-token answer.
+
+| Prompt | Time to first token | Prompt read | Answer | Result |
+| ---: | ---: | ---: | --- | --- |
+| 234,726 | 186.4 s | 1,259 tok/s | "AryaStrata - the details" | `finish: stop`, no OOM |
+
+The attention cache does grow to its 262K size by then (the expert cache gives the VRAM
+back), and the read is still **29% faster** than the pre-tuning roster's 254,191-token Qwen3.6
+Q4 run (973 tok/s, 261.4 s to first token). A request above the ceiling is refused with a
+400 that names the prompt size, not truncated.
+
 ## 5. Tested and not adopted
 
 - **`--prompt-batch 1024` without removing `--kv-whole`**: 1,886 tok/s, inside the
@@ -204,10 +220,9 @@ not a constant, and only the interleaved pairs in 4.1 are used for claims of cha
   prompt after loading (Ornith 6.2 s at 5,329 tokens, Qwen3.6 Q8 13.6-15.4 s; the same
   prompt on the next turn is 0.26 s). This is graph capture plus first-touch expert reads,
   not the configured settings; it is the one remaining "it feels like a laptop" moment.
-- **A 250K-token request through the tuned Qwen3.6 Q4** was not re-run after the change;
-  the 43K and 63K measurements are what is established. The attention cache still grows to
-  the same size at 262K, but a full-depth run is the check to make before promising
-  "256K is as fast as before".
+- **A 250K-token request through the tuned configs**: measured — 234,726 tokens on the
+  tuned Qwen3.6 Q4 answered in 186.4 s to first token (section 4.3). The other five models
+  were measured at 43K and 63K only.
 
 ## 7. How the numbers were taken
 
