@@ -72,8 +72,10 @@ export function outputDefault(context: number, ceiling = Number.POSITIVE_INFINIT
 A per-model override still wins, so anything the Chat output limits editor set explicitly
 does not change. The plugin's suite is 118/118, including three new tests for the window
 fraction, the engine ceiling and the small-window floor. Release identity:
-`@aryacode/dsh-local-llm` 0.8.6 (`3620fb7`), npm tarball sha256
-`4d58072e…b884e659`, published in the Arya catalogue as `cc9ea18`.
+`@aryacode/dsh-local-llm` **0.8.7** (`3620fb7` + `6c35469`), market release asset sha256
+`2cae4a15…17ba8e6a`, catalogue `d69c051`. It was installed into the live profile on 25 October at
+18:31; the installed code returns 65,536 for a 262,144-token window, 32,768 for 131,072 and
+34,133 for NInfer's 102,400.
 
 **Same task, same model, same tools, only the allowance differs** (Qwen3.8 IQ3_XXS, low
 effort, the user's own build prompt, a bounded agent loop that executes the model's
