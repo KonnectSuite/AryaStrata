@@ -5,7 +5,7 @@
 [English](README.md) · [简体中文](README.zh-CN.md) · **日本語** · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md) · [Português](README.pt-BR.md)
 
 <p align="center"><b>大きな AI モデルを、手元の PC で動かす</b><br>
-Qwen3.8-Flash-Next、GLM 5.3 Flash、DeepSeek V4 Flash、LFM2.5、Qwen3.6、Ornith 1.5、Gemma 4、Tiel Coder、MiniCPM-V · 無料のオープンソース</p>
+Qwen3.8-Flash-Next、GLM 5.3 Flash、DeepSeek V4 Flash、LFM2.5、Flint、Qwen3.6、Clover、Ornith 1.5、Gemma 4、Tiel Coder、MiniCPM-V、Kolibri 1 · 無料のオープンソース</p>
 
 <p align="center"><img src="docs/media/speed.svg" width="820" alt="回答を書く速さ（トークン/秒）：8 GB のノート PC で Qwen3.6-35B-A3B は 94〜100、RTX 5090 で 394〜395"></p>
 
@@ -19,26 +19,30 @@ Qwen3.8-Flash-Next、GLM 5.3 Flash、DeepSeek V4 Flash、LFM2.5、Qwen3.6、Orni
 AryaStrata は、ふつうはサーバーが必要な大きな AI モデルを普通の PC で動かします。チャットをしたり、コードを書いたり、
 アプリやコーディングエージェントと連携したりできます。データが PC の外に出ることはありません。
 
-動かせるモデルは 9 つで、エンジンは 2 つです。
+動かせるモデルは 12 つで、エンジンは 2 つです。
 
 - **[Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)**：12 GB 以上の NVIDIA または AMD の
   グラフィックカード、Windows または Linux。画像も読めます。エンジンは
   [Strata](https://github.com/Niko1221/Strata) のものをそのまま使っています。
 
-残りの 8 つは AryaStrata のために書いたエンジンで動きます。NVIDIA カードが 1 枚必要です（[2 枚](docs/MULTI_GPU.md#the-strata-poly-models)でも動きます）。8 つとも Linux で動き、
-小さい 6 つは Windows でも動きます。まだ実験的で、動かしたのは 32 GB のカードを載せた 1 台の PC と、
-小さい 6 つについては 8 GB のカードを載せたノート PC 1 台だけです。
+残りの 11 個は AryaStrata のために書いたエンジンで動きます。NVIDIA カードが 1 枚必要です（[2 枚](docs/MULTI_GPU.md#the-strata-poly-models)でも動きます）。11 個とも Linux で動き、
+GLM 5.3 Flash と DeepSeek V4 Flash 以外は Windows でも動きます。まだ実験的で、動かしたのは 32 GB のカードを載せた 1 台の PC と、
+小さい 8 つについては 8 GB のカードを載せたノート PC 1 台だけです。
 
 - **[GLM 5.3 Flash](docs/GLM.md)**：いちばん大きいモデル。ファイルは 79〜114 GB で、その大部分は RAM に置かれます。
 - **[DeepSeek V4 Flash](docs/DEEPSEEK.md)**：ファイルは 91 GB で、これも大部分は RAM に置かれます。会話を覚えておくための VRAM が少なく、128K のコンテキストでも 32K より 0.7 GB 多いだけです。
 - **[LFM2.5-24B-A2B](docs/LFM.md)**：Liquid AI のモデルで、ファイルは 11〜25 GB。ほとんどの層にアテンションがないので、
   長い会話でも VRAM をあまり使いません。128K のコンテキストでも 32K より 2 GB 多いだけです。ライセンスで商用利用が認められるのは、
   年間売上が 1,000 万ドル未満の会社だけです。
+- **[Flint 40B-A2.5B](docs/models/flint.ja.md)**：Recursive がコーディングエージェント向けに作ったモデルで、ファイルは 18〜42 GB。
+  ほとんどの層は直前の 513 トークンしか見ないので、長い会話でも VRAM をあまり使いません。128K のコンテキストでも 32K より 2.6 GB 多いだけです。
 - **[Qwen3.6-35B-A3B](docs/BACKENDS.md)**：ファイルは 13〜23 GB。画像も読めます。
+- **[Clover-35B-A3B-Preview](docs/models/clover.ja.md)**：DiffuSpace のモデル。Qwen3.6-35B-A3B をさらに学習させ、トークンのまとまりを一度に書けるようにしたもの。ファイルは 13〜21 GB。読めるのはテキストだけです。
 - **[Ornith 1.5](docs/BACKENDS.md)**：構造は Qwen3.6-35B-A3B と同じで、重みが違います。ファイルは 14〜24 GB。画像も読めます。
 - **[Gemma 4 26B-A4B](docs/BACKENDS.md)**：ファイルは 11〜17 GB。画像も読めます。
 - **[Tiel Coder 35B-A3B](docs/BACKENDS.md)**：peculiar-ragdoll がコーディングエージェント向けに量子化した Ornith 1.5。ファイルは 14〜23 GB。画像も読めます。
 - **[MiniCPM-V 4.7 35B-A3B](docs/BACKENDS.md)**：OpenBMB のモデル。Qwen3.6-35B-A3B と同じ構造で、重みは独自のもの。画像を読むために作られています。ファイルは 16〜29 GB。
+- **[Kolibri 1](docs/models/kolibri.ja.md)**：Aleph Alpha のモデル。英語と同じようにドイツ語も書けます。ファイルは 29〜48 GB で、小さいカードではほとんどが RAM に置かれます。
 
 サーバーは動かしたまま、インストール済みのモデルを切り替えられます（[方法](docs/BACKENDS.md#changing-the-model)、英語）。
 
@@ -478,11 +482,11 @@ AryaStrata のインストール、起動、停止もできます。
 
 **Mac（Apple シリコン、M1〜M5、macOS 15 以降）：** まず一度だけ Apple の Command Line Tools をインストールします（ターミナルで `xcode-select --install`。Xcode 本体は不要です）。次に AryaStrata フォルダーでターミナルを開き、**`./setup.sh`** を実行します。Mac 用エンジンをお使いの Mac 上でビルドし（約 7 分）、同じ質問をしてからモデルをダウンロードして起動します。次回からは `./setup.sh` ですぐに起動します。どのサイズが Mac に合うかと速度：[docs/MAC.md](docs/MAC.md)。
 
-毎回 Enter を押せば、おすすめの答えになります。そのあとモデル（Qwen3.8-Flash-Next は約 70 GB、GLM 5.3 Flash は 79〜114 GB、DeepSeek V4 Flash は 91 GB、ほかの 6 つは 11〜29 GB）をダウンロードして起動します。
+毎回 Enter を押せば、おすすめの答えになります。そのあとモデル（Qwen3.8-Flash-Next は約 70 GB、GLM 5.3 Flash は 79〜114 GB、DeepSeek V4 Flash は 91 GB、Kolibri 1 は 29〜48 GB、ほかの 8 つは 11〜42 GB）をダウンロードして起動します。
 ダウンロードが止まったら、もう一度実行してください。続きから再開します。ブラウザーで AryaStrata アプリが
 `http://127.0.0.1:8080` に開きます。
 
-9 つともインストーラーのモデル一覧にあります。`./setup.sh --family glm`（または `deepseek`、`lfm25`、`qwen36`、`ornith`、`gemma4`、`tiel`、`minicpmv`）なら
+12 つともインストーラーのモデル一覧にあります。`./setup.sh --family glm`（または `deepseek`、`lfm25`、`qwen36`、`flint`、`clover`、`ornith`、`gemma4`、`tiel`、`minicpmv`、`kolibri`）なら
 直接そこへ進みます（[何を尋ね、何を書き出すか](docs/GLM.md#install)、英語）。
 
 > **モデルの起動中、1-3 分ほど PC が重くなったり、反応しなくなったりすることがあります**（初回がいちばん長いです）。
@@ -640,7 +644,7 @@ Q8_0 と比べると、256 トークンずつの 5 つのプロンプトで、�
 
 ## 使い方
 
-9 つのモデルの使い方は同じです。同じアプリ、同じ API です。
+12 つのモデルの使い方は同じです。同じアプリ、同じ API です。
 
 <p align="center"><img src="docs/media/runpagoda.png" width="900" alt="AryaStrata アプリの Monitor タブと、その横で動くコーディングエージェント"><br>
 <sub>AryaStrata アプリの <b>Monitor</b>（左）。コーディングエージェントが動画の五重塔の庭を書いているところ（右）。<a href="https://github.com/Niko1221/Strata">Strata</a> のスクリーンショットです。</sub></p>

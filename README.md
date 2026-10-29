@@ -25,9 +25,9 @@ own network behavior.
 
 ## Supported models
 
-It runs ten models, on two engines.
+It runs twelve models, on two engines.
 
-The inherited installer includes ten model families across the original Strata
+The inherited installer includes twelve model families across the original Strata
 engine and PolyStrata’s additional `strata-poly` engine. Support in the codebase
 does not mean every model, quantization or platform has been tested on our PC.
 The linked guides retain upstream measurements, hardware requirements and limitations.
@@ -40,10 +40,12 @@ The linked guides retain upstream measurements, hardware requirements and limita
 | **LFM2.5-24B-A2B** | `strata-poly`; NVIDIA/Windows/Linux | No | **UD-Q4_K_XL: 128K text; short native-thinking coding (4K output) 18/18**; long coding 0/3, recall 2/6: not recommended for large-context agents | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **Flint 40B-A2.5B** | `strata-poly`; NVIDIA/Windows/Linux | No | **UD-Q4_K_XL: 262,144-token context; read 8K/32K/129K/243K-token prompts at 3,707/4,036/2,227/1,430 tok/s and wrote at 121/93/58/22 tok/s**; throughput only, no coding suite run here | [Measured host results](docs/ARYASTRATA.md#flint-40b-a25-october-23-2026) · [Flint](docs/FLINT.md) |
 | **Qwen3.6-35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux; Strata path for selected sizes | Yes | **Q4 and Q8: 262K context with GPU vision; coding, image and recall checks passed** | [Measured host results](docs/QWEN36_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
+| **Clover-35B-A3B-Preview** | `strata-poly`; NVIDIA/Windows/Linux | No | Not validated here; upstream measures 68-76 tok/s writing and 1,560-1,700 tok/s reading a 32K prompt on an 8 GB laptop card | [Clover](docs/models/clover.md) |
 | **Ornith 1.5** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **APEX-I-QUALITY: 262K GPU vision; low reasoning passed 18/18 bounded coding and 3/3 long coding/image sessions** | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **Gemma 4 26B-A4B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **UD-Q4_K_M: 256K GPU vision; short coding low at 4K output 18/18**; long coding/image 2/3, recall 6/6 | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **Tiel Coder 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **UD-Q4_K_XL: 256K GPU vision; bounded coding off 16/18, low 18/18**; image checks 8/12 | [Measured host results](docs/MODEL_ROSTER_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
 | **MiniCPM-V 4.7 35B-A3B** | `strata-poly`; NVIDIA/Windows/Linux | Yes | **Q4: 262K GPU vision; low reasoning passed 18/18 bounded coding sessions and 3/3 long coding/image sessions** | [Measured host results](docs/MINICPMV_HOST_RESULTS.md) · [Backends](docs/BACKENDS.md) |
+| **Kolibri 1** | `strata-poly`; one or two NVIDIA cards, Windows/Linux | No | Not validated here; upstream measures 189-192 tok/s writing and 4,980-5,070 tok/s reading a 31K prompt with Q2_K on a 32 GB card | [Kolibri 1](docs/models/kolibri.md) |
 
 Qwen3.8 variants include **Coder, Swift 1.5, and Unsloth quantizations**. These are
 inherited options; our results apply to the exact IQ3_XXS files in the benchmark
@@ -603,14 +605,14 @@ The installer finds your card and sets up the right engine for it. It asks you a
 
 - which model and which size,
 - how much context (how much text the model keeps in mind),
-- whether it should read pictures (GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5 and Flint read none).
+- whether it should read pictures (GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Flint, Clover and Kolibri 1 read none).
 
 Press Enter each time for the recommended answer. Then it downloads the model (about 70 GB for Qwen3.8-Flash-Next,
-79 to 114 GB for GLM 5.3 Flash, 91 GB for DeepSeek V4 Flash, 11 to 42 GB for the other seven) and starts it. If the download stops, run it again:
+79 to 114 GB for GLM 5.3 Flash, 91 GB for DeepSeek V4 Flash, 29 to 48 GB for Kolibri 1, 11 to 42 GB for the other eight) and starts it. If the download stops, run it again:
 it continues where it left off. Your browser opens the AryaStrata app at `http://127.0.0.1:8080`.
 
-All ten are in the installer's list of models. `./setup.sh --family glm`, `deepseek`, `lfm25`, `flint`, `qwen36`, `ornith`,
-`gemma4`, `tiel` or `minicpmv` goes straight to one ([what it asks and writes](docs/GLM.md#install)).
+All twelve are in the installer's list of models. `./setup.sh --family glm`, `deepseek`, `lfm25`, `flint`, `qwen36`, `clover`, `ornith`,
+`gemma4`, `tiel`, `minicpmv` or `kolibri` goes straight to one ([what it asks and writes](docs/GLM.md#install)).
 
 > **While the model starts, your PC can be slow or stop responding for 1-3 minutes** (longest the first time).
 > AryaStrata loads 35-55 GB into your RAM and locks part of it for the graphics card. This is normal. Wait, and don't
@@ -781,7 +783,7 @@ Q6_K is chosen by name: `--model Q6_K`.
 <p align="center"><img src="docs/media/claude-code-demo.gif" width="820" alt="Upstream Claude Code terminal beside the PolyStrata API Monitor"><br>
 <sub>Original PolyStrata coding-agent demonstration: Qwen3.6-35B-A3B UD-Q3_K_M on an 8 GB laptop GPU, with a warm system prompt. Preserved as an upstream example; our separate agent checks are linked above.</sub></p>
 
-All ten models are used the same way: the same app, the same API.
+All twelve models are used the same way: the same app, the same API.
 
 <p align="center"><img src="docs/media/runpagoda.png" width="900" alt="The app's Monitor tab next to a coding agent"><br>
 <sub>The app's <b>Monitor</b> (left) while a coding agent writes the pagoda garden from the video (right). A screenshot from <a href="https://github.com/Niko1221/Strata">Strata</a>.</sub></p>

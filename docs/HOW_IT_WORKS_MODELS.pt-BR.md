@@ -117,6 +117,25 @@ Cada parte e seus números: [docs/FLINT.md](FLINT.md) (em inglês).
 
 Cada parte e seus números: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works) (em inglês).
 
+## Clover-35B-A3B-Preview
+
+<p align="center"><img src="media/how-it-works-clover.svg" width="860" alt="Os 10,240 experts do modelo: os que uma resposta escolhe sem parar na placa de vídeo, os outros na RAM, o arquivo do modelo no SSD"></p>
+
+- **O Qwen3.6-35B-A3B treinado mais:** uma equipe de 10,240 pequenos experts, 256 em cada uma de 40 camadas, e só 8 de
+  cada camada para cada palavra.
+- **Sua placa de vídeo** guarda quantos couberem: cerca de 2,200 a 4,100 numa placa de 8 GB, mais quanto menor o
+  tamanho, e todos os do Q3_K_M a partir de 24 GB. Na placa de 8 GB os que ela guarda atendem de 60% a 80% do que uma
+  resposta usa. **Sua RAM** guarda os outros, e **seu processador** calcula esses ao mesmo tempo. **Seu SSD** guarda o
+  arquivo do modelo, usado onde está, sem uma segunda cópia.
+- **Sem bloco de rascunho.** O Clover foi treinado para escrever um bloco de palavras de uma vez, preenchendo lacunas
+  juntas, e assim também pode adivinhar as próximas palavras. Mas cada bloco adivinhado roda o modelo inteiro de novo,
+  e isso custou mais do que os acertos economizaram, então está desligado
+  ([medido](BACKENDS.md#clover-35b-a3b-preview), em inglês). O motor só adivinha a partir do texto que a conversa
+  repete.
+- **Textos longos são lidos em grandes pedaços** (1,024 tokens por vez), como no Qwen3.6-35B-A3B.
+
+Cada parte e seus números: [docs/BACKENDS.md](BACKENDS.md#clover-35b-a3b-preview) (em inglês).
+
 ## Ornith 1.5
 
 <p align="center"><img src="media/how-it-works-ornith.svg" width="860" alt="Os 10,240 experts do modelo: os que uma resposta escolhe sem parar na placa de vídeo, os outros na RAM, o arquivo do modelo no SSD"></p>
@@ -195,5 +214,21 @@ Cada parte e seus números: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works) 
   de 1,200 por 398 pixels vira cerca de 300 tokens, um gráfico de 2,520 por 1,620 cerca de 600.
 - **Textos longos são lidos em grandes pedaços** (1,024 tokens por vez). Quando a placa não guarda todos os experts,
   os outros passam por ela uma única vez para o prompt inteiro.
+
+Cada parte e seus números: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works) (em inglês).
+
+## Kolibri 1
+
+<p align="center"><img src="media/how-it-works-kolibri.svg" width="860" alt="Os 19,200 experts do modelo: os que uma resposta escolhe sem parar na placa de vídeo, os outros na RAM, o arquivo do modelo no SSD"></p>
+
+- **O modelo é uma equipe de 19,200 pequenos experts**, 384 em cada uma de 50 camadas. Cada palavra precisa de só 6 de
+  cada camada, e de um expert compartilhado que toda palavra usa.
+- **Quatro de cada cinco camadas olham 513 tokens para trás.** Elas guardam um anel de linhas que não cresce. A
+  quinta lembra a conversa inteira e não usa nenhuma posição das palavras.
+- **Sua placa de vídeo** guarda quantos experts couberem: cerca de um décimo numa placa de 8 GB, todos os do Q2_K numa
+  placa de 32 GB. **Sua RAM** guarda os outros, e **seu processador** calcula esses ao mesmo tempo. **Seu SSD** guarda
+  o arquivo do modelo, usado onde está, sem uma segunda cópia.
+- **Sem bloco de rascunho.** O modelo não tem nada que adivinhe o que vem a seguir, então o motor só adivinha a
+  partir do texto que a conversa repete.
 
 Cada parte e seus números: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works) (em inglês).

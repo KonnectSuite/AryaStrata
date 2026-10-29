@@ -119,6 +119,24 @@ Jeder Teil und seine Zahlen: [docs/FLINT.md](FLINT.md) (englisch).
 
 Jeder Teil und seine Zahlen: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works) (englisch).
 
+## Clover-35B-A3B-Preview
+
+<p align="center"><img src="media/how-it-works-clover.svg" width="860" alt="Die 10,240 Experten des Modells: die, die eine Antwort immer wieder braucht, auf der Grafikkarte, die übrigen im RAM, die Modelldatei auf der SSD"></p>
+
+- **Qwen3.6-35B-A3B, weiter trainiert:** ein Team aus 10,240 kleinen Experten, 256 in jeder von 40 Schichten, und nur
+  8 aus jeder Schicht für jedes Wort.
+- **Deine Grafikkarte** hält so viele, wie passen: etwa 2,200 bis 4,100 auf einer 8-GB-Karte, umso mehr, je kleiner die
+  Größe, und ab 24 GB alle von Q3_K_M. Auf der 8-GB-Karte liefern die Experten der Karte 60 bis 80 % dessen, was eine
+  Antwort braucht. **Dein RAM** hält die übrigen, und **dein Prozessor** rechnet sie gleichzeitig. **Deine SSD** hält
+  die Modelldatei, die dort benutzt wird, wo sie liegt, ohne zweite Kopie.
+- **Kein Entwurfsblock.** Clover wurde darauf trainiert, einen Block von Wörtern auf einmal zu schreiben, indem es
+  Lücken gemeinsam füllt, und kann so auch die nächsten Wörter raten. Dafür läuft für jeden geratenen Block das ganze
+  Modell noch einmal, und das kostete mehr, als die richtigen Treffer sparten, deshalb ist es aus
+  ([gemessen](BACKENDS.md#clover-35b-a3b-preview), englisch). Die Engine rät nur aus Text, den das Gespräch wiederholt.
+- **Lange Texte werden in großen Stücken gelesen** (1,024 Tokens auf einmal), wie bei Qwen3.6-35B-A3B.
+
+Jeder Teil und seine Zahlen: [docs/BACKENDS.md](BACKENDS.md#clover-35b-a3b-preview) (englisch).
+
 ## Ornith 1.5
 
 <p align="center"><img src="media/how-it-works-ornith.svg" width="860" alt="Die 10,240 Experten des Modells: die, die eine Antwort immer wieder braucht, auf der Grafikkarte, die übrigen im RAM, die Modelldatei auf der SSD"></p>
@@ -199,5 +217,21 @@ Jeder Teil und seine Zahlen: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works)
   mal 398 Pixeln wird zu etwa 300 Tokens, ein Diagramm von 2,520 mal 1,620 zu etwa 600.
 - **Lange Texte werden in großen Stücken gelesen** (1,024 Tokens auf einmal). Hält die Karte nicht alle Experten,
   laufen die übrigen für den ganzen Prompt einmal durch sie.
+
+Jeder Teil und seine Zahlen: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works) (englisch).
+
+## Kolibri 1
+
+<p align="center"><img src="media/how-it-works-kolibri.svg" width="860" alt="Die 19,200 Experten des Modells: die, die eine Antwort immer wieder braucht, auf der Grafikkarte, die übrigen im RAM, die Modelldatei auf der SSD"></p>
+
+- **Das Modell ist ein Team aus 19,200 kleinen Experten**, 384 in jeder von 50 Schichten. Jedes Wort braucht nur 6 aus
+  jeder Schicht und einen gemeinsamen Experten, den jedes Wort benutzt.
+- **Vier von fünf Schichten schauen 513 Tokens zurück.** Sie halten einen Ring von Zeilen, der nicht wächst. Die
+  fünfte behält die ganze Unterhaltung und kennt überhaupt keine Wortpositionen.
+- **Deine Grafikkarte** hält so viele Experten, wie passen: etwa ein Zehntel davon auf einer 8-GB-Karte, alle von Q2_K
+  auf einer 32-GB-Karte. **Dein RAM** hält die übrigen, und **dein Prozessor** rechnet sie gleichzeitig. **Deine SSD**
+  hält die Modelldatei, die dort benutzt wird, wo sie liegt, ohne zweite Kopie.
+- **Kein Entwurfsblock.** Das Modell hat nichts, was vorausrät, darum rät die Engine nur aus Text, den die
+  Unterhaltung wiederholt.
 
 Jeder Teil und seine Zahlen: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works) (englisch).

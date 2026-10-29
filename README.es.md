@@ -5,7 +5,7 @@
 [English](README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · **Español** · [Português](README.pt-BR.md)
 
 <p align="center"><b>Ejecuta modelos de IA grandes en tu propio PC</b><br>
-Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Qwen3.6, Ornith 1.5, Gemma 4, Tiel Coder y MiniCPM-V · libre y de código abierto</p>
+Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Flint, Qwen3.6, Clover, Ornith 1.5, Gemma 4, Tiel Coder, MiniCPM-V y Kolibri 1 · libre y de código abierto</p>
 
 <p align="center"><img src="docs/media/speed.svg" width="820" alt="Tokens por segundo al escribir una respuesta: 94 a 100 con Qwen3.6-35B-A3B en un portátil con tarjeta de 8 GB, 394 a 395 en una RTX 5090"></p>
 
@@ -19,14 +19,14 @@ Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Qwen3.6, Ornith 1.
 AryaStrata ejecuta modelos de IA grandes en un PC normal, modelos que normalmente necesitan un servidor.
 Conversan, escriben código y funcionan con tus aplicaciones y agentes de programación. Nada sale de tu PC.
 
-Ejecuta nueve modelos, con dos motores:
+Ejecuta doce modelos, con dos motores:
 
 - **[Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)** en una tarjeta gráfica NVIDIA o AMD de
   12 GB o más, en Windows o Linux. También entiende imágenes. Su motor es el de
   [Strata](https://github.com/Niko1221/Strata), sin cambios.
 
-Los otros ocho usan un motor escrito para AryaStrata, con una tarjeta NVIDIA o [dos](docs/MULTI_GPU.md#the-strata-poly-models): los ocho en Linux, y los seis más
-pequeños también en Windows. Son experimentales: solo han funcionado en un PC con una tarjeta de 32 GB, y los seis más
+Los otros once usan un motor escrito para AryaStrata, con una tarjeta NVIDIA o [dos](docs/MULTI_GPU.md#the-strata-poly-models): los once en Linux, y todos menos GLM 5.3 Flash y
+DeepSeek V4 Flash también en Windows. Son experimentales: solo han funcionado en un PC con una tarjeta de 32 GB, y los ocho más
 pequeños además en un portátil con una tarjeta de 8 GB.
 
 - **[GLM 5.3 Flash](docs/GLM.md)**, el más grande: un archivo de 79 a 114 GB, que en su mayor parte se queda en la RAM.
@@ -35,7 +35,12 @@ pequeños además en un portátil con una tarjeta de 8 GB.
 - **[LFM2.5-24B-A2B](docs/LFM.md)** de Liquid AI, un archivo de 11 a 25 GB. La mayoría de sus capas no tiene
   atención, así que una conversación larga ocupa poca VRAM: un contexto de 128K solo ocupa 2 GB más que 32K. Su
   licencia solo permite el uso comercial a empresas que facturan menos de 10 millones de dólares al año.
+- **[Flint 40B-A2.5B](docs/models/flint.es.md)** de Recursive, hecho para agentes de código: un archivo de 18 a 42 GB. La
+  mayoría de sus capas solo mira 513 tokens atrás, así que una conversación larga ocupa poca VRAM: un contexto de 128K
+  solo ocupa 2,6 GB más que 32K.
 - **[Qwen3.6-35B-A3B](docs/BACKENDS.md)**, un archivo de 13 a 23 GB. También entiende imágenes.
+- **[Clover-35B-A3B-Preview](docs/models/clover.es.md)** de DiffuSpace, Qwen3.6-35B-A3B entrenado más para escribir
+  también un bloque de tokens de una vez: un archivo de 13 a 21 GB. Solo lee texto.
 - **[Ornith 1.5](docs/BACKENDS.md)**, con la arquitectura de Qwen3.6-35B-A3B y otros pesos: un archivo de 14 a 24 GB.
   También entiende imágenes.
 - **[Gemma 4 26B-A4B](docs/BACKENDS.md)**, un archivo de 11 a 17 GB. También entiende imágenes.
@@ -43,6 +48,8 @@ pequeños además en un portátil con una tarjeta de 8 GB.
   programación: un archivo de 14 a 23 GB. También entiende imágenes.
 - **[MiniCPM-V 4.7 35B-A3B](docs/BACKENDS.md)** de OpenBMB, con la arquitectura de Qwen3.6-35B-A3B y pesos propios,
   hecho para leer imágenes: un archivo de 16 a 29 GB.
+- **[Kolibri 1](docs/models/kolibri.es.md)** de Aleph Alpha, que escribe alemán tan bien como inglés: un archivo de 29 a
+  48 GB, que junto a una tarjeta pequeña queda casi todo en la RAM.
 
 El servidor puede cambiar entre los modelos instalados mientras está en marcha
 ([cómo](docs/BACKENDS.md#changing-the-model), en inglés).
@@ -488,12 +495,12 @@ Te hace unas pocas preguntas:
 - si debe entender imágenes (GLM 5.3 Flash, DeepSeek V4 Flash y LFM2.5 no las entienden).
 
 Pulsa Enter cada vez para usar la respuesta recomendada. Después descarga el modelo (unos 70 GB para
-Qwen3.8-Flash-Next, de 79 a 114 GB para GLM 5.3 Flash, 91 GB para DeepSeek V4 Flash, de 11 a 29 GB para los otros seis) y lo arranca. Si la
+Qwen3.8-Flash-Next, de 79 a 114 GB para GLM 5.3 Flash, 91 GB para DeepSeek V4 Flash, de 29 a 48 GB para Kolibri 1, de 11 a 42 GB para los otros ocho) y lo arranca. Si la
 descarga se detiene, vuelve a ejecutarlo: sigue donde lo dejó. Tu navegador abre la aplicación de AryaStrata en
 `http://127.0.0.1:8080`.
 
-Los nueve están en la lista de modelos del instalador. `./setup.sh --family glm`, `deepseek`, `lfm25`, `qwen36`, `ornith`,
-`gemma4`, `tiel` o `minicpmv` va directo a uno ([qué pregunta y qué escribe](docs/GLM.md#install), en inglés).
+Los doce están en la lista de modelos del instalador. `./setup.sh --family glm`, `deepseek`, `lfm25`, `qwen36`, `flint`, `clover`, `ornith`,
+`gemma4`, `tiel`, `minicpmv` o `kolibri` va directo a uno ([qué pregunta y qué escribe](docs/GLM.md#install), en inglés).
 
 > **Mientras el modelo arranca, tu PC puede ir lento o dejar de responder durante 1-3 minutos** (más la primera vez).
 > AryaStrata carga 35-55 GB en tu RAM y reserva una parte para la tarjeta gráfica. Es normal. Espera y no cierres la
@@ -653,7 +660,7 @@ Tres tamaños por ahora, de OpenBMB. El instalador toma Q4_K_M, o mix_q3gud_im e
 
 ## Cómo usarlo
 
-Los nueve modelos se usan igual: la misma aplicación, la misma API.
+Los doce modelos se usan igual: la misma aplicación, la misma API.
 
 <p align="center"><img src="docs/media/runpagoda.png" width="900" alt="La pestaña Monitor de la aplicación de AryaStrata junto a un agente de programación"><br>
 <sub>El <b>Monitor</b> de la aplicación de AryaStrata (izquierda) mientras un agente de programación escribe el jardín de la pagoda del vídeo (derecha). Una captura de <a href="https://github.com/Niko1221/Strata">Strata</a>.</sub></p>

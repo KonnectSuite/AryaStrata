@@ -114,6 +114,24 @@ Every part and its numbers: [docs/FLINT.md](FLINT.md).
 
 Every part and its numbers: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works).
 
+## Clover-35B-A3B-Preview
+
+<p align="center"><img src="media/how-it-works-clover.svg" width="860" alt="The model's 10,240 experts: the ones an answer keeps using on the graphics card, the rest in RAM, the model's file on the SSD"></p>
+
+- **Qwen3.6-35B-A3B trained further:** a team of 10,240 small experts, 256 in each of 40 layers, and only 8 of every
+  layer for each word.
+- **Your graphics card** keeps as many as fit: about 2,200 to 4,100 of them on an 8 GB card, the more the smaller the
+  size, and all of Q3_K_M from 24 GB on. On the 8 GB card the ones it holds serve 60 to 80% of what an answer uses.
+  **Your RAM** holds the rest, and **your processor** runs them at the same time. **Your SSD** holds the model's file,
+  which is used where it is, with no second copy.
+- **No draft block.** Clover was trained to write a block of words at once, filling in blanks together, and it can
+  guess the next words that way. That runs the whole model once more for each block of guesses, which cost more than
+  the right guesses saved, so it is off ([measured](BACKENDS.md#clover-35b-a3b-preview)). The engine guesses only from
+  text the conversation repeats.
+- **Long texts are read in big pieces** (1,024 tokens at a time), as with Qwen3.6-35B-A3B.
+
+Every part and its numbers: [docs/BACKENDS.md](BACKENDS.md#clover-35b-a3b-preview).
+
 ## Ornith 1.5
 
 <p align="center"><img src="media/how-it-works-ornith.svg" width="860" alt="The model's 10,240 experts: the ones an answer keeps using on the graphics card, the rest in RAM, the model's file on the SSD"></p>
@@ -190,5 +208,21 @@ Every part and its numbers: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works).
   398 pixels becomes about 300 tokens, a chart of 2,520 by 1,620 about 600.
 - **Long texts are read in big pieces** (1,024 tokens at a time). When the card does not hold every expert, the others
   pass through it once for the whole prompt.
+
+Every part and its numbers: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works).
+
+## Kolibri 1
+
+<p align="center"><img src="media/how-it-works-kolibri.svg" width="860" alt="The model's 19,200 experts: the ones an answer keeps using on the graphics card, the rest in RAM, the model's file on the SSD"></p>
+
+- **The model is a team of 19,200 small experts**, 384 in each of 50 layers. Each word needs only 6 from every layer,
+  and one shared expert that every word uses.
+- **Four layers in five look back 513 tokens.** They keep a ring of rows that does not grow. The fifth keeps the whole
+  conversation and has no word positions at all.
+- **Your graphics card** keeps as many experts as fit: about a tenth of them on an 8 GB card, all of Q2_K on a 32 GB
+  card. **Your RAM** holds the rest, and **your processor** runs them at the same time. **Your SSD** holds the model's
+  file, which is used where it is, with no second copy.
+- **No draft block.** The model has nothing that guesses ahead, so the engine guesses only from text the
+  conversation repeats.
 
 Every part and its numbers: [docs/BACKENDS.md](BACKENDS.md#how-a-backend-works).

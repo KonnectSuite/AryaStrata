@@ -5,7 +5,7 @@
 [English](README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md) · **Português**
 
 <p align="center"><b>Rode modelos de IA grandes no seu próprio PC</b><br>
-Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Qwen3.6, Ornith 1.5, Gemma 4, Tiel Coder e MiniCPM-V · gratuito e de código aberto</p>
+Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Flint, Qwen3.6, Clover, Ornith 1.5, Gemma 4, Tiel Coder, MiniCPM-V e Kolibri 1 · gratuito e de código aberto</p>
 
 <p align="center"><img src="docs/media/speed.svg" width="820" alt="Tokens por segundo ao escrever uma resposta: 94 a 100 com o Qwen3.6-35B-A3B em um notebook com placa de 8 GB, 394 a 395 em uma RTX 5090"></p>
 
@@ -19,14 +19,14 @@ Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Qwen3.6, Ornith 1.
 O AryaStrata roda modelos de IA grandes num PC comum, modelos que normalmente precisam de um servidor.
 Eles conversam, escrevem código e funcionam com seus apps e agentes de programação. Nada sai do seu PC.
 
-Ele roda nove modelos, com dois motores:
+Ele roda doze modelos, com dois motores:
 
 - **[Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)** numa placa de vídeo NVIDIA ou AMD de
   12 GB ou mais, no Windows ou no Linux. Ele também entende imagens. O motor dele é o do
   [Strata](https://github.com/Niko1221/Strata), sem mudanças.
 
-Os outros oito usam um motor escrito para o AryaStrata, com uma placa NVIDIA ou [duas](docs/MULTI_GPU.md#the-strata-poly-models): os oito no Linux, e os seis menores
-também no Windows. São experimentais: só rodaram em um PC com uma placa de 32 GB, e os seis menores também em um
+Os outros onze usam um motor escrito para o AryaStrata, com uma placa NVIDIA ou [duas](docs/MULTI_GPU.md#the-strata-poly-models): os onze no Linux, e todos menos o GLM 5.3 Flash e o
+DeepSeek V4 Flash também no Windows. São experimentais: só rodaram em um PC com uma placa de 32 GB, e os oito menores também em um
 notebook com uma placa de 8 GB.
 
 - **[GLM 5.3 Flash](docs/GLM.md)**, o maior: um arquivo de 79 a 114 GB, que fica na maior parte na RAM.
@@ -35,7 +35,12 @@ notebook com uma placa de 8 GB.
 - **[LFM2.5-24B-A2B](docs/LFM.md)** da Liquid AI, um arquivo de 11 a 25 GB. A maioria das camadas dele não tem
   atenção, então uma conversa longa ocupa pouca VRAM: um contexto de 128K ocupa só 2 GB a mais que 32K. A licença
   dele só permite o uso comercial a empresas que faturam menos de 10 milhões de dólares por ano.
+- **[Flint 40B-A2.5B](docs/models/flint.pt-BR.md)** da Recursive, feito para agentes de código: um arquivo de 18 a 42 GB. A
+  maioria das camadas dele só olha 513 tokens para trás, então uma conversa longa ocupa pouca VRAM: um contexto de
+  128K ocupa só 2,6 GB a mais que 32K.
 - **[Qwen3.6-35B-A3B](docs/BACKENDS.md)**, um arquivo de 13 a 23 GB. Ele também entende imagens.
+- **[Clover-35B-A3B-Preview](docs/models/clover.pt-BR.md)** da DiffuSpace, o Qwen3.6-35B-A3B treinado mais para
+  escrever também um bloco de tokens de uma vez: um arquivo de 13 a 21 GB. Ele só lê texto.
 - **[Ornith 1.5](docs/BACKENDS.md)**, com a arquitetura do Qwen3.6-35B-A3B e outros pesos: um arquivo de 14 a 24 GB. Ele
   também entende imagens.
 - **[Gemma 4 26B-A4B](docs/BACKENDS.md)**, um arquivo de 11 a 17 GB. Ele também entende imagens.
@@ -43,6 +48,8 @@ notebook com uma placa de 8 GB.
   programação: um arquivo de 14 a 23 GB. Ele também entende imagens.
 - **[MiniCPM-V 4.7 35B-A3B](docs/BACKENDS.md)** da OpenBMB, com a arquitetura do Qwen3.6-35B-A3B e pesos próprios,
   feito para ler imagens: um arquivo de 16 a 29 GB.
+- **[Kolibri 1](docs/models/kolibri.pt-BR.md)** da Aleph Alpha, que escreve alemão tão bem quanto inglês: um arquivo de
+  29 a 48 GB, que fica quase todo na RAM ao lado de uma placa pequena.
 
 O servidor pode trocar entre os modelos instalados enquanto está rodando
 ([como](docs/BACKENDS.md#changing-the-model), em inglês).
@@ -487,12 +494,12 @@ Ele faz algumas perguntas:
 - se ele deve entender imagens (o GLM 5.3 Flash, o DeepSeek V4 Flash e o LFM2.5 não entendem).
 
 Aperte Enter em cada uma para usar a resposta recomendada. Depois ele baixa o modelo (cerca de 70 GB para o
-Qwen3.8-Flash-Next, 79 a 114 GB para o GLM 5.3 Flash, 91 GB para o DeepSeek V4 Flash, 11 a 29 GB para os outros seis) e o inicia.
+Qwen3.8-Flash-Next, 79 a 114 GB para o GLM 5.3 Flash, 91 GB para o DeepSeek V4 Flash, 29 a 48 GB para o Kolibri 1, 11 a 42 GB para os outros oito) e o inicia.
 Se o download parar, rode de novo: ele continua de onde parou. Seu navegador abre o app do AryaStrata em
 `http://127.0.0.1:8080`.
 
-Os nove estão na lista de modelos do instalador. `./setup.sh --family glm`, `deepseek`, `lfm25`, `qwen36`, `ornith`,
-`gemma4`, `tiel` ou `minicpmv` vai direto para um deles ([o que ele pergunta e grava](docs/GLM.md#install), em inglês).
+Os doze estão na lista de modelos do instalador. `./setup.sh --family glm`, `deepseek`, `lfm25`, `qwen36`, `flint`, `clover`, `ornith`,
+`gemma4`, `tiel`, `minicpmv` ou `kolibri` vai direto para um deles ([o que ele pergunta e grava](docs/GLM.md#install), em inglês).
 
 > **Enquanto o modelo inicia, seu PC pode ficar lento ou parar de responder por 1-3 minutos** (mais na primeira vez).
 > O AryaStrata carrega 35-55 GB na sua RAM e reserva parte dela para a placa de vídeo. Isso é normal. Espere e não
@@ -652,7 +659,7 @@ Três tamanhos por enquanto, da OpenBMB. O instalador escolhe Q4_K_M, ou mix_q3g
 
 ## Como usar
 
-Os nove modelos são usados do mesmo jeito: o mesmo app, a mesma API.
+Os doze modelos são usados do mesmo jeito: o mesmo app, a mesma API.
 
 <p align="center"><img src="docs/media/runpagoda.png" width="900" alt="A aba Monitor do app AryaStrata ao lado de um agente de programação"><br>
 <sub>O <b>Monitor</b> do app AryaStrata (à esquerda) enquanto um agente de programação escreve o jardim com pagode do vídeo (à direita). Uma captura de tela do <a href="https://github.com/Niko1221/Strata">Strata</a>.</sub></p>

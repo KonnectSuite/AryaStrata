@@ -5,7 +5,7 @@
 [English](README.md) · **简体中文** · [日本語](README.ja.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md) · [Português](README.pt-BR.md)
 
 <p align="center"><b>在你自己的电脑上运行大型 AI 模型</b><br>
-Qwen3.8-Flash-Next、GLM 5.3 Flash、DeepSeek V4 Flash、LFM2.5、Qwen3.6、Ornith 1.5、Gemma 4、Tiel Coder 和 MiniCPM-V · 免费开源</p>
+Qwen3.8-Flash-Next、GLM 5.3 Flash、DeepSeek V4 Flash、LFM2.5、Flint、Qwen3.6、Clover、Ornith 1.5、Gemma 4、Tiel Coder、MiniCPM-V 和 Kolibri 1 · 免费开源</p>
 
 <p align="center"><img src="docs/media/speed.svg" width="820" alt="写回答时每秒的 token 数：8 GB 显存的笔记本上 Qwen3.6-35B-A3B 为 94 到 100，RTX 5090 上为 394 到 395"></p>
 
@@ -19,23 +19,27 @@ Qwen3.8-Flash-Next、GLM 5.3 Flash、DeepSeek V4 Flash、LFM2.5、Qwen3.6、Orni
 AryaStrata 能在普通电脑上运行通常要用服务器才能跑的大型 AI 模型。它们能聊天、写代码，还能配合你的应用和编程智能体一起工作。
 所有数据都留在你的电脑上。
 
-它能跑九个模型，用两个引擎：
+它能跑十二个模型，用两个引擎：
 
 - **[Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)**：12 GB 及以上的 NVIDIA 或 AMD 显卡，Windows 或
   Linux。它还能看图片。引擎是 Strata 项目的，没有改动。
 
-另外八个用的是为 AryaStrata 写的引擎，需要一张 NVIDIA 显卡，也可以用[两张](docs/MULTI_GPU.md#the-strata-poly-models)：八个都能在 Linux 上跑，六个小的也能在 Windows 上跑。
-目前是实验性的：只在一台 32 GB 显卡的电脑上跑过，六个小的另外在一台 8 GB 显卡的笔记本上跑过。
+另外十一个用的是为 AryaStrata 写的引擎，需要一张 NVIDIA 显卡，也可以用[两张](docs/MULTI_GPU.md#the-strata-poly-models)：十一个都能在 Linux 上跑，除了 GLM 5.3 Flash 和 DeepSeek V4 Flash，其余也都能在 Windows 上跑。
+目前是实验性的：只在一台 32 GB 显卡的电脑上跑过，八个小的另外在一台 8 GB 显卡的笔记本上跑过。
 
 - **[GLM 5.3 Flash](docs/GLM.md)**：最大的一个，文件 79 到 114 GB，大部分留在内存里。
 - **[DeepSeek V4 Flash](docs/DEEPSEEK.md)**：文件 91 GB，大部分也留在内存里。它记对话占的显存很少：128K 上下文只比 32K 多占 0.7 GB。
 - **[LFM2.5-24B-A2B](docs/LFM.md)**：Liquid AI 的模型，文件 11 到 25 GB。它大部分层没有注意力，所以长对话占的显存很少：
   128K 上下文只比 32K 多占 2 GB。它的许可证只允许年收入低于 1,000 万美元的公司商用。
+- **[Flint 40B-A2.5B](docs/models/flint.zh-CN.md)**：Recursive 为编程智能体做的模型，文件 18 到 42 GB。它大部分层只往回看 513 个 token，
+  所以长对话占的显存很少：128K 上下文只比 32K 多占 2.6 GB。
 - **[Qwen3.6-35B-A3B](docs/BACKENDS.md)**：文件 13 到 23 GB。它还能看图片。
+- **[Clover-35B-A3B-Preview](docs/models/clover.zh-CN.md)**：DiffuSpace 的模型，在 Qwen3.6-35B-A3B 上接着训练，还能一次写出一整块 token，文件 13 到 21 GB。只看文字。
 - **[Ornith 1.5](docs/BACKENDS.md)**：结构和 Qwen3.6-35B-A3B 相同，权重不同，文件 14 到 24 GB。它还能看图片。
 - **[Gemma 4 26B-A4B](docs/BACKENDS.md)**：文件 11 到 17 GB。它还能看图片。
 - **[Tiel Coder 35B-A3B](docs/BACKENDS.md)**：peculiar-ragdoll 为编程智能体量化的 Ornith 1.5，文件 14 到 23 GB。它还能看图片。
 - **[MiniCPM-V 4.7 35B-A3B](docs/BACKENDS.md)**：OpenBMB 的模型，结构和 Qwen3.6-35B-A3B 相同，权重是自己训练的，专门做看图，文件 16 到 29 GB。
+- **[Kolibri 1](docs/models/kolibri.zh-CN.md)**：Aleph Alpha 的模型，写德语和写英语一样好，文件 29 到 48 GB，显卡小的时候大部分放在内存里。
 
 服务器运行时可以在已安装的模型之间切换（[做法](docs/BACKENDS.md#changing-the-model)，英文）。
 
@@ -460,10 +464,10 @@ AryaStrata 的 [MCP 服务器](docs/MCP_SERVER.md)来安装、启动和停止 Ar
 - 上下文多大（模型能记住多少文字），
 - 是否要识别图片（GLM 5.3 Flash、DeepSeek V4 Flash 和 LFM2.5 不支持）。
 
-每次直接按回车就是推荐选项。之后它会下载模型（Qwen3.8-Flash-Next 约 70 GB，GLM 5.3 Flash 79 到 114 GB，DeepSeek V4 Flash 91 GB，另外六个 11 到 29 GB）并启动。
+每次直接按回车就是推荐选项。之后它会下载模型（Qwen3.8-Flash-Next 约 70 GB，GLM 5.3 Flash 79 到 114 GB，DeepSeek V4 Flash 91 GB，Kolibri 1 29 到 48 GB，另外八个 11 到 42 GB）并启动。
 如果下载中断了，再运行一次即可：它会从中断的地方继续。浏览器会打开 AryaStrata 应用，地址是 `http://127.0.0.1:8080`。
 
-九个模型都在安装程序的模型列表里。想直接装其中一个，运行 `./setup.sh --family glm`（或 `deepseek`、`lfm25`、`qwen36`、`ornith`、`gemma4`、`tiel`、`minicpmv`）
+十二个模型都在安装程序的模型列表里。想直接装其中一个，运行 `./setup.sh --family glm`（或 `deepseek`、`lfm25`、`qwen36`、`flint`、`clover`、`ornith`、`gemma4`、`tiel`、`minicpmv`、`kolibri`）
 （[它会问什么、写什么](docs/GLM.md#install)）。
 
 > **模型启动时，你的电脑可能会变慢或卡住 1-3 分钟**（第一次最久）。
@@ -617,7 +621,7 @@ UD-Q4_K_XL 95.5%，QAD-Q4_0 92.7%，UD-Q3_K_XL 91.6%。
 
 ## 使用方法
 
-九个模型的用法一样：同一个应用，同一套 API。
+十二个模型的用法一样：同一个应用，同一套 API。
 
 <p align="center"><img src="docs/media/runpagoda.png" width="900" alt="应用的 Monitor 标签页，旁边是一个编程智能体"><br>
 <sub>应用的 <b>Monitor</b>（左），编程智能体正在写视频里的宝塔花园（右）。截图来自 <a href="https://github.com/Niko1221/Strata">Strata</a>。</sub></p>

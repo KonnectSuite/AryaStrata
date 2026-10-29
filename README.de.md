@@ -5,7 +5,7 @@
 [English](README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · **Deutsch** · [Français](README.fr.md) · [Español](README.es.md) · [Português](README.pt-BR.md)
 
 <p align="center"><b>Große KI-Modelle auf deinem eigenen PC</b><br>
-Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Qwen3.6, Ornith 1.5, Gemma 4, Tiel Coder und MiniCPM-V · kostenlos und Open Source</p>
+Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Flint, Qwen3.6, Clover, Ornith 1.5, Gemma 4, Tiel Coder, MiniCPM-V und Kolibri 1 · kostenlos und Open Source</p>
 
 <p align="center"><img src="docs/media/speed.svg" width="820" alt="Tokens pro Sekunde beim Schreiben einer Antwort: 94 bis 100 mit Qwen3.6-35B-A3B auf einem Laptop mit 8-GB-Karte, 394 bis 395 auf einer RTX 5090"></p>
 
@@ -19,15 +19,15 @@ Qwen3.8-Flash-Next, GLM 5.3 Flash, DeepSeek V4 Flash, LFM2.5, Qwen3.6, Ornith 1.
 AryaStrata lässt große KI-Modelle auf einem normalen PC laufen, Modelle, die sonst meist einen Server brauchen.
 Sie chatten, schreiben Code und arbeiten mit deinen Apps und Coding-Agents zusammen. Nichts verlässt deinen PC.
 
-Es lässt neun Modelle laufen, auf zwei Engines:
+Es lässt zwölf Modelle laufen, auf zwei Engines:
 
 - **[Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)** auf einer NVIDIA- oder AMD-Grafikkarte
   ab 12 GB, unter Windows oder Linux. Es versteht auch Bilder. Seine Engine ist die von
   [Strata](https://github.com/Niko1221/Strata), unverändert.
 
-Die anderen acht laufen auf einer Engine, die für AryaStrata geschrieben wurde, mit einer NVIDIA-Karte oder [zwei](docs/MULTI_GPU.md#the-strata-poly-models): alle acht
-unter Linux, die sechs kleineren auch unter Windows. Sie sind experimentell: Sie sind bisher auf einem einzigen PC mit
-einer 32-GB-Karte gelaufen, die sechs kleineren außerdem auf einem Laptop mit einer 8-GB-Karte.
+Die anderen elf laufen auf einer Engine, die für AryaStrata geschrieben wurde, mit einer NVIDIA-Karte oder [zwei](docs/MULTI_GPU.md#the-strata-poly-models): alle elf
+unter Linux, alle außer GLM 5.3 Flash und DeepSeek V4 Flash auch unter Windows. Sie sind experimentell: Sie sind bisher auf einem einzigen PC mit
+einer 32-GB-Karte gelaufen, die acht kleineren außerdem auf einem Laptop mit einer 8-GB-Karte.
 
 - **[GLM 5.3 Flash](docs/GLM.md)**, das größte: eine Datei von 79 bis 114 GB, die zum größten Teil im RAM bleibt.
 - **[DeepSeek V4 Flash](docs/DEEPSEEK.md)**, eine Datei von 91 GB, die ebenfalls zum größten Teil im RAM bleibt. Sein
@@ -35,7 +35,12 @@ einer 32-GB-Karte gelaufen, die sechs kleineren außerdem auf einem Laptop mit e
 - **[LFM2.5-24B-A2B](docs/LFM.md)** von Liquid AI, eine Datei von 11 bis 25 GB. Die meisten seiner Schichten haben
   keine Attention, darum braucht eine lange Unterhaltung wenig VRAM: Ein Kontext von 128K braucht nur 2 GB mehr als
   32K. Seine Lizenz erlaubt die kommerzielle Nutzung nur Firmen mit weniger als 10 Millionen Dollar Jahresumsatz.
+- **[Flint 40B-A2.5B](docs/models/flint.de.md)** von Recursive, gemacht für Coding-Agenten: eine Datei von 18 bis 42 GB. Die
+  meisten seiner Schichten schauen nur 513 Tokens zurück, darum braucht eine lange Unterhaltung wenig VRAM: Ein
+  Kontext von 128K braucht nur 2,6 GB mehr als 32K.
 - **[Qwen3.6-35B-A3B](docs/BACKENDS.md)**, eine Datei von 13 bis 23 GB. Es versteht auch Bilder.
+- **[Clover-35B-A3B-Preview](docs/models/clover.de.md)** von DiffuSpace, Qwen3.6-35B-A3B weiter trainiert, damit es
+  auch einen Block von Tokens auf einmal schreibt: eine Datei von 13 bis 21 GB. Es liest nur Text.
 - **[Ornith 1.5](docs/BACKENDS.md)**, mit der Architektur von Qwen3.6-35B-A3B und anderen Gewichten: eine Datei von
   14 bis 24 GB. Es versteht auch Bilder.
 - **[Gemma 4 26B-A4B](docs/BACKENDS.md)**, eine Datei von 11 bis 17 GB. Es versteht auch Bilder.
@@ -43,6 +48,8 @@ einer 32-GB-Karte gelaufen, die sechs kleineren außerdem auf einem Laptop mit e
   eine Datei von 14 bis 23 GB. Es versteht auch Bilder.
 - **[MiniCPM-V 4.7 35B-A3B](docs/BACKENDS.md)** von OpenBMB, mit der Architektur von Qwen3.6-35B-A3B und eigenen
   Gewichten, gemacht, um Bilder zu lesen: eine Datei von 16 bis 29 GB.
+- **[Kolibri 1](docs/models/kolibri.de.md)** von Aleph Alpha, das Deutsch so gut schreibt wie Englisch: eine Datei von 29 bis
+  48 GB, die neben einer kleinen Karte größtenteils im RAM bleibt.
 
 Der Server kann im laufenden Betrieb zwischen installierten Modellen wechseln
 ([wie](docs/BACKENDS.md#changing-the-model), englisch).
@@ -491,12 +498,12 @@ dafür ein. Er stellt dir ein paar Fragen:
 - ob es Bilder lesen soll (GLM 5.3 Flash, DeepSeek V4 Flash und LFM2.5 lesen keine).
 
 Drück jedes Mal Enter, um die empfohlene Antwort zu nehmen. Dann lädt er das Modell herunter (etwa 70 GB für
-Qwen3.8-Flash-Next, 79 bis 114 GB für GLM 5.3 Flash, 91 GB für DeepSeek V4 Flash, 11 bis 29 GB für die anderen sechs) und
+Qwen3.8-Flash-Next, 79 bis 114 GB für GLM 5.3 Flash, 91 GB für DeepSeek V4 Flash, 29 bis 48 GB für Kolibri 1, 11 bis 42 GB für die anderen acht) und
 startet es. Bricht der Download ab, starte ihn einfach neu: Er macht dort weiter, wo er aufgehört hat. Dein Browser
 öffnet die AryaStrata-App unter `http://127.0.0.1:8080`.
 
-Alle neun stehen in der Modellliste des Installers. `./setup.sh --family glm`, `deepseek`, `lfm25`, `qwen36`, `ornith`,
-`gemma4`, `tiel` oder `minicpmv` führt direkt zu einem davon ([was er fragt und schreibt](docs/GLM.md#install), englisch).
+Alle zwölf stehen in der Modellliste des Installers. `./setup.sh --family glm`, `deepseek`, `lfm25`, `qwen36`, `flint`, `clover`, `ornith`,
+`gemma4`, `tiel`, `minicpmv` oder `kolibri` führt direkt zu einem davon ([was er fragt und schreibt](docs/GLM.md#install), englisch).
 
 > **Während das Modell startet, kann dein PC 1-3 Minuten langsam sein oder nicht reagieren** (beim ersten Mal am
 > längsten). AryaStrata lädt 35-55 GB in deinen RAM und reserviert einen Teil davon für die Grafikkarte. Das ist normal.
@@ -658,7 +665,7 @@ Bisher drei Größen, von OpenBMB. Der Installer nimmt Q4_K_M, auf einem PC mit 
 
 ## So benutzt du es
 
-Alle neun Modelle benutzt du gleich: dieselbe App, dieselbe API.
+Alle zwölf Modelle benutzt du gleich: dieselbe App, dieselbe API.
 
 <p align="center"><img src="docs/media/runpagoda.png" width="900" alt="Der Monitor-Tab der AryaStrata-App neben einem Coding-Agent"><br>
 <sub>Der <b>Monitor</b> der AryaStrata-App (links), während ein Coding-Agent den Pagodengarten aus dem Video schreibt (rechts). Ein Screenshot aus <a href="https://github.com/Niko1221/Strata">Strata</a>.</sub></p>
